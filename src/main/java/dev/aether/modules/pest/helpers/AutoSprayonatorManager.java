@@ -43,7 +43,8 @@ public final class AutoSprayonatorManager {
     private enum SprayResult {
         NONE,
         SUCCESS,
-        NO_MATERIAL
+        NO_MATERIAL,
+        INVALID_PLOT
     }
 
     public static void reset() {
@@ -109,6 +110,10 @@ public final class AutoSprayonatorManager {
 
         if (now - sprayNeededSinceMs < AetherConfig.AUTO_SPRAYONATOR_DETECT_TIME.get() * 1000L) return;
 
+        // Sprayonator sprays the plot we're standing on, and the Barn refuses
+        // sprays. Stay armed and fire once farming moves us off the Barn strip.
+        if ("Barn".equalsIgnoreCase(ClientUtils.getCurrentPlot())) return;
+
         running = true;
         cancelRequested = false;
         lastRunMs = now;
@@ -133,6 +138,14 @@ public final class AutoSprayonatorManager {
         if (lower.startsWith("sprayonator! you sprayed plot")
                 || lower.equals("this plot was sprayed with that item recently! try again soon!")) {
             pendingResult = SprayResult.SUCCESS;
+            return;
+        }
+
+        // e.g. "You cannot spray a Barn plot!" - the server refuses some plots
+        // outright; without recognising this the run times out and re-triggers
+        // every cooldown forever.
+        if (lower.startsWith("you cannot spray")) {
+            pendingResult = SprayResult.INVALID_PLOT;
             return;
         }
 
@@ -209,6 +222,13 @@ public final class AutoSprayonatorManager {
         }
 
         if (pendingResult == SprayResult.SUCCESS) {
+            return true;
+        }
+
+        if (pendingResult == SprayResult.INVALID_PLOT) {
+            // Expected on the Barn strip; farming will carry us onto a sprayable
+            // plot and the armed detector re-fires there.
+            msg(client, "§eThis plot can't be sprayed. Will retry from a farm plot.");
             return true;
         }
 
