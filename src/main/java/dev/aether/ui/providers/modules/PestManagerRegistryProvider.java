@@ -1,6 +1,7 @@
 package dev.aether.ui;
 
 import dev.aether.config.AetherConfig;
+import dev.aether.modules.failsafe.FailsafeSoundManager;
 import dev.aether.notification.NotificationManager;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.ListSetting;
@@ -24,6 +25,7 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
     @Override
     protected ModulesTab.SubTab createSubTab() {
         List<String> sprayMaterials = FarmingSettingsFactory.sprayMaterials();
+        List<String> manualPestSoundOptions = getSoundOptions();
         List<SettingGroup> groups = new ArrayList<>();
 
         groups.add(SettingGroup.of(
@@ -95,6 +97,26 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                         .visibleWhen(() -> AetherConfig.PEST_AOTV_BETWEEN.get()))
                 .add(FarmingSettingsFactory.pestFovRangeSetting())
                 .add(FarmingSettingsFactory.pestAboveAimPitchRangeSetting()));
+
+        groups.add(SettingGroup.of(
+                        "Manual Pest Killing",
+                        "Tabs you in and pauses when pests spawn so you can kill them by hand, then warps to garden and restarts (overrides Pest Destroyer)",
+                        () -> AetherConfig.MANUAL_PEST_MODE.get(),
+                        v -> {
+                            AetherConfig.MANUAL_PEST_MODE.set(v);
+                            AetherConfig.save();
+                        })
+                .add(new DropdownSetting("Manual Pest Sound", manualPestSoundOptions,
+                        () -> getSoundIndex(manualPestSoundOptions, AetherConfig.MANUAL_PEST_SOUND_FILE.get()),
+                        i -> {
+                            if (i < 0 || i >= manualPestSoundOptions.size()) {
+                                return;
+                            }
+                            AetherConfig.MANUAL_PEST_SOUND_FILE.set(manualPestSoundOptions.get(i));
+                            AetherConfig.save();
+                        })
+                        .addIconAction("/assets/aether/icons/folder.svg", FailsafeSoundManager::openSoundFolder)
+                        .addIconAction("/assets/aether/icons/refresh.svg", () -> refreshSoundOptions(manualPestSoundOptions))));
 
         groups.add(SettingGroup.of(
                         "Disco Destination",
@@ -282,6 +304,29 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                     AetherConfig.save();
                 },
                 groups);
+    }
+
+    private static List<String> getSoundOptions() {
+        List<String> sounds = new ArrayList<>(FailsafeSoundManager.getAvailableSounds());
+        if (sounds.isEmpty()) {
+            sounds.add(FailsafeSoundManager.getDefaultSoundFileName());
+        }
+        return sounds;
+    }
+
+    private static void refreshSoundOptions(List<String> options) {
+        options.clear();
+        options.addAll(getSoundOptions());
+    }
+
+    private static int getSoundIndex(List<String> options, String selected) {
+        int selectedIndex = options.indexOf(selected);
+        if (selectedIndex >= 0) {
+            return selectedIndex;
+        }
+
+        int defaultIndex = options.indexOf(FailsafeSoundManager.getDefaultSoundFileName());
+        return defaultIndex >= 0 ? defaultIndex : 0;
     }
 
 }

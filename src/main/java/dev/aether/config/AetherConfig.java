@@ -457,6 +457,11 @@ public final class AetherConfig {
         public static final FloatEntry PEST_ABOVE_TARGET_PITCH_MAX = Config.floatVal("pestAboveTargetPitchMax", 40.0f)
                         .range(10.0f, 90.0f);
 
+        // -- MANUAL PEST MODE ------------------------------------------------------
+
+        public static final BooleanEntry MANUAL_PEST_MODE = Config.bool("manualPestMode", false);
+        public static final StringEntry MANUAL_PEST_SOUND_FILE = Config.string("manualPestSoundFile", "fnaf.mp3");
+
         // -- PEST EXCHANGE ---------------------------------------------------------
 
         public static final BooleanEntry AUTO_PEST_EXCHANGE = Config.bool("autoPestExchange", false);
