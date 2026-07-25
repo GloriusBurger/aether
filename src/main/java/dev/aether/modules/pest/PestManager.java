@@ -77,6 +77,7 @@ public class PestManager {
                 || isCleaningInProgress
                 || isPestReentryCooldownActive()
                 || PestDestroyer.isActive()
+                || ManualPestManager.isActive()
                 || PestReturnManager.isFinishingInProgress
                 || PestReturnManager.isReturnToLocationActive
                 || LoadoutManager.isSwappingLoadout) {
@@ -115,6 +116,19 @@ public class PestManager {
      */
     public static Set<String> getInfestedPlotsFromTab(Minecraft client) {
         return new LinkedHashSet<>(parseTabList(client).infestedPlots);
+    }
+
+    /**
+     * Raw pests-alive count from the current tab list. Returns -1 when the tab
+     * has no pests line (i.e. no pests). Unlike {@link #getEffectiveAliveCountNow}
+     * this is not blended with chat-predicted counts, so it drops back to 0/-1 as
+     * soon as the tab clears - which is what manual pest handling relies on.
+     */
+    public static int getTabAliveCountNow(Minecraft client) {
+        if (client == null || client.getConnection() == null || client.player == null) {
+            return -1;
+        }
+        return parseTabList(client).aliveCount;
     }
 
     private static class TabListData {
@@ -221,12 +235,14 @@ public class PestManager {
         PestBonusManager.resetState();
         AutoPestExchangeManager.reset();
         PestDestroyer.reset();
+        ManualPestManager.reset();
         DynamicPestsManager.reset();
     }
 
     public static void checkTabListForPests(Minecraft client, MacroState.State currentState) {
         if (client.getConnection() == null || client.player == null || !MacroStateManager.isMacroRunning())
             return;
+        boolean manualMode = AetherConfig.MANUAL_PEST_MODE.get();
         if (!isPestDestroyerEnabled())
             return;
 
@@ -301,7 +317,6 @@ public class PestManager {
             return;
         }
 
-        // Check if cleaning should be triggered
         if (isThresholdMet(effectiveAlive)) {
             if (isPestReentryCooldownActive()) {
                 return;
@@ -326,7 +341,10 @@ public class PestManager {
             String targetPlot = PestDiscoDestinationManager.selectPrimaryPlot(data.infestedPlots, "0");
             ClientUtils.sendDebugMessage("[PestManager] Tab threshold met. infestedPlots=" + data.infestedPlots
                             + " targetPlot=" + targetPlot + " currentPlot=" + ClientUtils.getCurrentPlot());
-            if (startCleaningSequence(client, targetPlot)) {
+            boolean started = manualMode
+                    ? startManualPestPause(client, effectiveAlive)
+                    : startCleaningSequence(client, targetPlot);
+            if (started) {
                 consumeRewarpTrigger();
             }
         }
@@ -367,6 +385,9 @@ public class PestManager {
     }
 
     public static boolean startCleaningSequence(Minecraft client, String plot) {
+        if (AetherConfig.MANUAL_PEST_MODE.get()) {
+            return false;
+        }
         if (!claimCleaningTrigger()) {
             return false;
         }
@@ -435,11 +456,24 @@ public class PestManager {
                         + " from tab=" + data.infestedPlots
                         + ", chat=" + normalizedRequestedPlot
                         + ", ordered=" + currentInfestedPlots);
-        boolean started = startCleaningSequence(client, targetPlot);
+        boolean started = AetherConfig.MANUAL_PEST_MODE.get()
+                ? startManualPestPause(client, effectiveAlive)
+                : startCleaningSequence(client, targetPlot);
         if (started) {
             consumeRewarpTrigger();
         }
         return started;
+    }
+
+    private static boolean startManualPestPause(Minecraft client, int count) {
+        if (!claimCleaningTrigger()) {
+            return false;
+        }
+        if (ManualPestManager.startFromPestDestroyerTrigger(client, count)) {
+            return true;
+        }
+        clearCleaningTriggerPending();
+        return false;
     }
 
     public static void decrementPredictedAliveCount(Minecraft client) {
