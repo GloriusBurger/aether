@@ -77,6 +77,7 @@ public class PestManager {
                 || isCleaningInProgress
                 || isPestReentryCooldownActive()
                 || PestDestroyer.isActive()
+                || ManualPestManager.isActive()
                 || PestReturnManager.isFinishingInProgress
                 || PestReturnManager.isReturnToLocationActive
                 || LoadoutManager.isSwappingLoadout) {
@@ -234,18 +235,15 @@ public class PestManager {
         PestBonusManager.resetState();
         AutoPestExchangeManager.reset();
         PestDestroyer.reset();
+        ManualPestManager.reset();
         DynamicPestsManager.reset();
     }
 
     public static void checkTabListForPests(Minecraft client, MacroState.State currentState) {
         if (client.getConnection() == null || client.player == null || !MacroStateManager.isMacroRunning())
             return;
-        // Manual pest mode replaces only the automated navigate-and-kill with a manual
-        // kill; the pre-spawn prep loadout swap below still runs. So allow this method
-        // when either the destroyer or manual mode is on, and gate just the cleaning
-        // trigger on !manualMode further down.
         boolean manualMode = AetherConfig.MANUAL_PEST_MODE.get();
-        if (!isPestDestroyerEnabled() && !manualMode)
+        if (!isPestDestroyerEnabled())
             return;
 
         if (isCleaningInProgress
@@ -319,9 +317,7 @@ public class PestManager {
             return;
         }
 
-        // Check if cleaning should be triggered. Manual mode never auto-cleans -
-        // ManualPestManager pauses for the player instead.
-        if (!manualMode && isThresholdMet(effectiveAlive)) {
+        if (isThresholdMet(effectiveAlive)) {
             if (isPestReentryCooldownActive()) {
                 return;
             }
@@ -345,7 +341,10 @@ public class PestManager {
             String targetPlot = PestDiscoDestinationManager.selectPrimaryPlot(data.infestedPlots, "0");
             ClientUtils.sendDebugMessage("[PestManager] Tab threshold met. infestedPlots=" + data.infestedPlots
                             + " targetPlot=" + targetPlot + " currentPlot=" + ClientUtils.getCurrentPlot());
-            if (startCleaningSequence(client, targetPlot)) {
+            boolean started = manualMode
+                    ? startManualPestPause(client, effectiveAlive)
+                    : startCleaningSequence(client, targetPlot);
+            if (started) {
                 consumeRewarpTrigger();
             }
         }
@@ -404,9 +403,6 @@ public class PestManager {
     }
 
     public static boolean tryStartCleaningSequenceFromChat(Minecraft client, String requestedPlot, int spawnedCount) {
-        if (AetherConfig.MANUAL_PEST_MODE.get()) {
-            return false;
-        }
         if (!isPestDestroyerEnabled()
                 || client == null
                 || client.getConnection() == null
@@ -460,11 +456,24 @@ public class PestManager {
                         + " from tab=" + data.infestedPlots
                         + ", chat=" + normalizedRequestedPlot
                         + ", ordered=" + currentInfestedPlots);
-        boolean started = startCleaningSequence(client, targetPlot);
+        boolean started = AetherConfig.MANUAL_PEST_MODE.get()
+                ? startManualPestPause(client, effectiveAlive)
+                : startCleaningSequence(client, targetPlot);
         if (started) {
             consumeRewarpTrigger();
         }
         return started;
+    }
+
+    private static boolean startManualPestPause(Minecraft client, int count) {
+        if (!claimCleaningTrigger()) {
+            return false;
+        }
+        if (ManualPestManager.startFromPestDestroyerTrigger(client, count)) {
+            return true;
+        }
+        clearCleaningTriggerPending();
+        return false;
     }
 
     public static void decrementPredictedAliveCount(Minecraft client) {
