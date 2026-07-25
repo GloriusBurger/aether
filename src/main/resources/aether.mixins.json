@@ -15,6 +15,7 @@
         "AccessorScreen",
         "AccessorWindow",
         "PlayerTabOverlayAccessor",
+        "MixinEntityTurn",
         "MixinPlayer",
         "MixinPlayerInfo",
         "MixinPlayerTeam",
