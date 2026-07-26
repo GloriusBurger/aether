@@ -389,6 +389,7 @@ final class PestCombatCoordinator {
             ClientUtils.sendDebugMessage("[PestDestroyer] Using AOTV (" + (context.getAotvUseCount() + 1) + "). Distance: "
                             + String.format("%.1f", dist));
             ClientUtils.performUseClick();
+            FailsafeManager.addRotationGracePeriod(AOTV_POST_CLICK_GRACE_MS);
             context.setAotvPostClickGraceUntil(now + AOTV_POST_CLICK_GRACE_MS);
             context.setAotvLastUsePlayerX(client.player.getX());
             context.setAotvLastUsePlayerY(client.player.getY());

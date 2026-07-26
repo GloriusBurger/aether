@@ -9,6 +9,7 @@ import dev.aether.modules.failsafe.FailsafeColourFlashManager;
 import dev.aether.modules.failsafe.FailsafeSoundManager;
 import dev.aether.modules.gear.GearManager;
 import dev.aether.modules.gear.helpers.LoadoutManager;
+import dev.aether.modules.pest.helpers.PestCompletionGuard;
 import dev.aether.util.ClientUtils;
 import dev.aether.util.CommandUtils;
 import dev.aether.util.WindowFocusHelper;
@@ -25,6 +26,8 @@ public final class ManualPestManager {
 
     private static volatile Phase phase = Phase.IDLE;
     private static volatile int pausedFromLoadout = -1;
+    private static volatile long waitingStartedAt = 0L;
+    private static volatile int clearedPestTabTicks = 0;
 
     private ManualPestManager() {
     }
@@ -32,6 +35,8 @@ public final class ManualPestManager {
     public static void reset() {
         phase = Phase.IDLE;
         pausedFromLoadout = -1;
+        waitingStartedAt = 0L;
+        clearedPestTabTicks = 0;
         PestManager.clearCleaningTriggerPending();
     }
 
@@ -78,7 +83,20 @@ public final class ManualPestManager {
         }
 
         if (currentPestCount(client) <= 0) {
-            beginResume(client);
+            if (!PestCompletionGuard.shouldAcceptFinishReading(waitingStartedAt, false)) {
+                if (clearedPestTabTicks == 0) {
+                    ClientUtils.sendDebugMessage("Manual pest: ignoring clear tab reading during startup grace.");
+                }
+                clearedPestTabTicks = 0;
+                return;
+            }
+
+            clearedPestTabTicks++;
+            if (PestCompletionGuard.isConfirmed(clearedPestTabTicks)) {
+                beginResume(client);
+            }
+        } else {
+            clearedPestTabTicks = 0;
         }
     }
 
@@ -95,6 +113,8 @@ public final class ManualPestManager {
             client.execute(() -> {
                 if (phase == Phase.PREPARING && AetherConfig.MANUAL_PEST_MODE.get()) {
                     phase = Phase.WAITING;
+                    waitingStartedAt = System.currentTimeMillis();
+                    clearedPestTabTicks = 0;
                     fireAlert(count);
                 }
             });
@@ -116,16 +136,14 @@ public final class ManualPestManager {
                     }
                     PestManager.clearCleaningTriggerPending();
                     phase = Phase.IDLE;
+                    waitingStartedAt = 0L;
+                    clearedPestTabTicks = 0;
                 });
             }
         });
     }
 
     private static void swapToPestKillLoadout(Minecraft client, int previousLoadout) {
-        if (!AetherConfig.AUTO_LOADOUT_PEST.get()) {
-            return;
-        }
-
         int targetSlot = AetherConfig.LOADOUT_SLOT_PEST_KILL.get();
         if (targetSlot <= 0) {
             return;
@@ -141,10 +159,6 @@ public final class ManualPestManager {
     }
 
     private static void restoreFarmingLoadout(Minecraft client) {
-        if (!AetherConfig.AUTO_LOADOUT_PEST.get()) {
-            return;
-        }
-
         int targetSlot = AetherConfig.LOADOUT_SLOT_FARMING.get();
         if (targetSlot <= 0) {
             return;

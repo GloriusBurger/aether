@@ -394,9 +394,7 @@ public class PestDestroyer {
     private static final long FIREWORK_CAPTURE_DURATION_MS = 1200;
     private static final double FIREWORK_EXTRAPOLATE_DISTANCE = 15.0;
     private static final long PLOT_TP_WAIT_MS = 2500;
-    private static final long STARTUP_FINISH_GRACE_MS = 5000;
     private static final long DISCO_PEST_SPAWN_GRACE_MS = 5000;
-    private static final int ZERO_PEST_TAB_CONFIRM_TICKS = 10;
     private static final int SKULL_MISSING_CONFIRM_TICKS = 3;
     private static final long ROOF_RESCAN_INTERVAL_MS = 1000L;
 
@@ -769,13 +767,13 @@ public class PestDestroyer {
         // Require consecutive confirmations to avoid one-tick tab desync noise.
         boolean lockedOnDiscoDestination = isLockedOnDiscoDestinationPlot(client);
         int aliveNow = lockedOnDiscoDestination ? -1 : PestManager.getEffectiveAliveCountNow(client);
-        boolean inStartupGrace = System.currentTimeMillis() - runtime.activatedAt < STARTUP_FINISH_GRACE_MS;
+        boolean inStartupGrace = PestCompletionGuard.isInStartupGrace(runtime.activatedAt);
 
         if (!lockedOnDiscoDestination
                 && aliveNow >= 0 && shouldFinishForAliveCount(client, aliveNow)
-                && (!inStartupGrace || isDiscoDestinationActive(client))) {
+                && PestCompletionGuard.shouldAcceptFinishReading(runtime.activatedAt, isDiscoDestinationActive(client))) {
             runtime.zeroPestTabTicks++;
-            if (runtime.zeroPestTabTicks >= ZERO_PEST_TAB_CONFIRM_TICKS) {
+            if (PestCompletionGuard.isConfirmed(runtime.zeroPestTabTicks)) {
                 ClientUtils.setKeyMappingState(client.options.keyUse, false);
                 ClientUtils.setKeyMappingState(client.options.keyDown, false);
                 ClientUtils.sendDebugMessage("PestDestroyer: tablist reports " + getAliveFinishReason(aliveNow) + ". Finishing.");
@@ -1143,7 +1141,7 @@ public class PestDestroyer {
             // No visible pests. Refresh infested plot data from tab.
             Set<String> rawInfested = PestManager.getInfestedPlotsFromTab(client);
             if (rawInfested.isEmpty()) {
-                if (System.currentTimeMillis() - runtime.activatedAt < STARTUP_FINISH_GRACE_MS) {
+                if (PestCompletionGuard.isInStartupGrace(runtime.activatedAt)) {
                     ClientUtils.sendDebugMessage("[PestDestroyer] Empty infested-plot tab data during startup grace. Retrying location scan.");
                     setState(State.GET_LOCATION);
                     return;
@@ -1586,7 +1584,7 @@ public class PestDestroyer {
         int aliveNow = PestManager.getEffectiveAliveCountNow(client);
         boolean onlyCurrentActivePlot = hasOnlyCurrentActiveInfestedPlot(client, currentPlot);
         boolean hasLocalEvidence = localPests > 0 || !runtime.killedEntities.isEmpty();
-        boolean startupGraceElapsed = System.currentTimeMillis() - runtime.activatedAt >= STARTUP_FINISH_GRACE_MS;
+        boolean startupGraceElapsed = PestCompletionGuard.isStartupGraceElapsed(runtime.activatedAt);
         boolean shouldSkip = localPests == 1
                 || (aliveNow == 1 && onlyCurrentActivePlot && (hasLocalEvidence || startupGraceElapsed));
         if (!shouldSkip) {
