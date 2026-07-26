@@ -340,12 +340,10 @@ public final class AetherConfig {
         private static boolean migrateLegacyLoadoutKeys(JsonObject root) {
                 boolean updated = false;
 
-                if (!root.has("autoLoadoutPest") && root.has("autoWardrobePest")) {
-                        AUTO_LOADOUT_PEST.set(readBoolean(root, "autoWardrobePest", AUTO_LOADOUT_PEST.get()));
-                        updated = true;
-                }
-                if (!root.has("autoLoadoutVisitor") && root.has("autoWardrobeVisitor")) {
-                        AUTO_LOADOUT_VISITOR.set(readBoolean(root, "autoWardrobeVisitor", AUTO_LOADOUT_VISITOR.get()));
+                // Loadout swapping is determined solely by the configured slots. Remove
+                // retired enable flags when rewriting legacy configs.
+                if (root.has("autoLoadoutPest") || root.has("autoLoadoutVisitor")
+                                || root.has("autoWardrobePest") || root.has("autoWardrobeVisitor")) {
                         updated = true;
                 }
                 if (!root.has("loadoutSlotFarming") && root.has("wardrobeSlotFarming")) {
@@ -524,8 +522,6 @@ public final class AetherConfig {
 
         // -- AUTO LOADOUT ----------------------------------------------------------
 
-        public static final BooleanEntry AUTO_LOADOUT_PEST = Config.bool("autoLoadoutPest", false);
-        public static final BooleanEntry AUTO_LOADOUT_VISITOR = Config.bool("autoLoadoutVisitor", false);
         public static final IntEntry LOADOUT_SLOT_FARMING = Config.integer("loadoutSlotFarming", 1).range(1, 12);
         public static final IntEntry LOADOUT_SLOT_PEST = Config.integer("loadoutSlotPest", 2).range(1, 12);
         public static final IntEntry LOADOUT_SLOT_PEST_KILL = Config.integer("loadoutSlotPestKill", 1).range(1, 12);

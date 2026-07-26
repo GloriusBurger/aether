@@ -144,10 +144,6 @@ public final class ManualPestManager {
     }
 
     private static void swapToPestKillLoadout(Minecraft client, int previousLoadout) {
-        if (!AetherConfig.AUTO_LOADOUT_PEST.get()) {
-            return;
-        }
-
         int targetSlot = AetherConfig.LOADOUT_SLOT_PEST_KILL.get();
         if (targetSlot <= 0) {
             return;
@@ -163,10 +159,6 @@ public final class ManualPestManager {
     }
 
     private static void restoreFarmingLoadout(Minecraft client) {
-        if (!AetherConfig.AUTO_LOADOUT_PEST.get()) {
-            return;
-        }
-
         int targetSlot = AetherConfig.LOADOUT_SLOT_FARMING.get();
         if (targetSlot <= 0) {
             return;
