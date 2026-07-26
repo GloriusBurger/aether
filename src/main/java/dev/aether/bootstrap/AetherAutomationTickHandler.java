@@ -2,7 +2,7 @@ package dev.aether.bootstrap;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.config.ConfigHelpers;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.bootstrap.AetherBootstrapHooks;

@@ -3,7 +3,7 @@ package dev.aether.bootstrap;
 import dev.aether.config.AetherConfig;
 import dev.aether.bootstrap.AetherBootstrapHooks;
 import dev.aether.bootstrap.AetherUiActions;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.modules.CropFeverManager;

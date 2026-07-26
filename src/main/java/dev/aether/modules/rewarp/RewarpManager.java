@@ -5,8 +5,7 @@ import dev.aether.config.ConfigHelpers;
 import dev.aether.config.RewarpPointPair;
 import dev.aether.config.RewarpPointPairs;
 import dev.aether.config.RewarpMode;
-import dev.aether.macro.AbstractMacro;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.macro.MacroWorkerThread;
@@ -80,10 +79,6 @@ public final class RewarpManager {
         client.execute(() -> {
             ConfigHelpers.executeRewarpCommand(pair.rewarpMode, pair.plotTpNumber);
             PestManager.markRewarpCompleted();
-            AbstractMacro active = FarmingMacroManager.getActiveMacro();
-            if (active != null) {
-                active.suppressDropDetection(3000);
-            }
         });
     }
 
@@ -168,10 +163,6 @@ public final class RewarpManager {
     private static void performCommandRewarp(Minecraft client, RewarpPointPair pair) {
         client.execute(() -> {
             ConfigHelpers.executeRewarpCommand(pair.rewarpMode, pair.plotTpNumber);
-            AbstractMacro active = FarmingMacroManager.getActiveMacro();
-            if (active != null) {
-                active.suppressDropDetection(3000);
-            }
         });
         MacroWorkerThread.sleepRandom(
                 AetherConfig.REWARP_DELAY_MIN.get(),

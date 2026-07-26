@@ -196,7 +196,7 @@ public class DynamicRestManager {
                 }
 
                 ClientUtils.sendDebugMessage("Disabling farming macro: Initiating dynamic rest sequence");
-                client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+                client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
                 ClientUtils.forceReleaseKeys();
                 ClientUtils.sendMessage(CommandUtils.shouldSkipSetSpawn()
                                 ? "\u00A7eDynamic Rest: preparing disconnect..."

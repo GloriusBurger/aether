@@ -843,11 +843,6 @@ public final class AetherConfig {
         public static final ListEntry<String> MACRO_FARM_WAYPOINTS = Config.list("macroFarmWaypoints",
                         Collections.emptyList(), String.class);
         public static final StringEntry BEDROCK_PLOT_MAKER_PLOT = Config.string("bedrockPlotMakerPlot", "1");
-        /** Rotate after landing from a lower farm layer. */
-        public static final BooleanEntry MACRO_ROTATE_ON_DROP = Config.bool("macroRotateOnDrop", false);
-        /** Yaw delta applied after landing from a lower farm layer. */
-        public static final IntEntry MACRO_DROP_ROTATION_DEGREES = Config.integer("macroDropRotationDegrees", 180)
-                        .range(-180, 180);
         /** Post lane-switch delay in milliseconds before evaluating row-end checks again. */
         public static final IntEntry MACRO_LANE_SWITCH_DELAY_MIN = Config.integer("macroLaneSwitchDelayMin", 0)
                         .range(0, 1000);

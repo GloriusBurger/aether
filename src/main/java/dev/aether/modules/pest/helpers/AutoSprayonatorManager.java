@@ -158,7 +158,7 @@ public final class AutoSprayonatorManager {
             PestManager.isCleaningInProgress = true;
 
             msg(client, "\u00A7eUnsprayed plot detected. Pausing farming to spray...");
-            client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+            client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
             MacroWorkerThread.sleep(guiDelay);
 
             if (!holdSprayonator(client) || shouldAbort()) {
@@ -178,7 +178,7 @@ public final class AutoSprayonatorManager {
             boolean aborted = shouldAbort();
             MacroWorkerThread.sleep(guiDelay);
             if (!aborted && MacroStateManager.isMacroRunning()) {
-                client.execute(() -> dev.aether.macro.FarmingMacroManager.enable(client, dev.aether.macro.FarmingMacroManager.createMacroFromConfig()));
+                client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.enable(client, dev.aether.macro.farming.FarmingMacroManager.createMacroFromConfig()));
                 MacroStateManager.setCurrentState(MacroState.State.FARMING);
             }
             PestManager.isCleaningInProgress = false;

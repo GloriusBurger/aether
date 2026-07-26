@@ -170,7 +170,7 @@ public class JunkManager {
                     return;
 
                 ClientUtils.sendDebugMessage("Disabling farming macro: Preparing to drop junk");
-                client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+                client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
                 MacroWorkerThread.sleep(400); // Small safety delay after stop
 
                 // /setspawn before warping
@@ -266,7 +266,7 @@ public class JunkManager {
                     client.execute(() -> {
                         GearManager.swapToFarmingTool(client);
                         ClientUtils.sendDebugMessage("Restarting farming macro after junk drop");
-                        dev.aether.macro.FarmingMacroManager.enable(client, dev.aether.macro.FarmingMacroManager.createMacroFromConfig());
+                        dev.aether.macro.farming.FarmingMacroManager.enable(client, dev.aether.macro.farming.FarmingMacroManager.createMacroFromConfig());
                     });
                 }
             } catch (Exception ignored) {

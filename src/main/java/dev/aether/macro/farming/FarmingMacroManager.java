@@ -1,14 +1,8 @@
-package dev.aether.macro;
+package dev.aether.macro.farming;
 
 import dev.aether.config.AetherConfig;
-import dev.aether.macro.impl.ADFarmMacro;
-import dev.aether.macro.impl.CocoaBeansMacro;
-import dev.aether.macro.impl.CustomFarmMacro;
-import dev.aether.macro.impl.SDSMushroomMacro;
-import dev.aether.macro.impl.SShapeCropMacro;
-import dev.aether.macro.impl.SShapeSugarCaneMacro;
-import dev.aether.macro.impl.WSCropMacro;
-import dev.aether.macro.impl.WSFarmMacro;
+import dev.aether.macro.MacroState;
+import dev.aether.macro.MacroWorkerThread;
 import dev.aether.modules.farming.SqueakyMousematManager;
 import dev.aether.modules.gear.GearManager;
 import dev.aether.modules.gear.helpers.LoadoutManager;
@@ -21,9 +15,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Manages the lifecycle of the currently active {@link AbstractMacro}.
+ * Manages the lifecycle of the currently active {@link AbstractFarmingMacro}.
  *
- * <p>Call {@link #enable(Minecraft, AbstractMacro)} to start a macro and
+ * <p>Call {@link #enable(Minecraft, AbstractFarmingMacro)} to start a macro and
  * {@link #disable(Minecraft)} to stop it.  {@link #tick(Minecraft)} must be
  * wired to a {@code ClientTickEvents.END_CLIENT_TICK} handler in
  * {@link dev.aether.AetherClient}.
@@ -35,49 +29,35 @@ public final class FarmingMacroManager {
     private static final long START_GUI_CLOSE_TIMEOUT_MS = 3500L;
     private static final long START_GUI_CLOSE_POLL_MS = 50L;
     private static final long START_IN_WORLD_STABLE_MS = 300L;
-    private static AbstractMacro activeMacro = null;
+    private static AbstractFarmingMacro activeMacro = null;
     private static volatile boolean deferredStartPending = false;
 
-    /**
-     * Persists the last confirmed row direction across macro restarts so we
-     * resume in the same direction after a pest-clean / wardrobe cycle.
-     */
-    private static volatile AbstractMacro.State cachedRowDirection = null;
+    /** Persists the active step within a macro's declared state cycle. */
+    private static volatile Integer cachedCycleStep = null;
 
-    public static void loadDirection() {
-        if (cachedRowDirection == null) {
+    public static void loadCycleStep() {
+        if (cachedCycleStep == null) {
             try {
-                java.nio.file.Path path = net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir().resolve("aether_last_direction.txt");
+                java.nio.file.Path path = net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir()
+                        .resolve("aether_last_direction.txt");
                 if (java.nio.file.Files.exists(path)) {
-                    String val = java.nio.file.Files.readString(path).trim();
-                    switch (val) {
-                        case "1": cachedRowDirection = AbstractMacro.State.RIGHT; break;
-                        case "0": cachedRowDirection = AbstractMacro.State.LEFT; break;
-                        case "2": cachedRowDirection = AbstractMacro.State.FORWARD; break;
-                        case "3": cachedRowDirection = AbstractMacro.State.BACKWARD; break;
-                    }
+                    cachedCycleStep = Integer.parseInt(java.nio.file.Files.readString(path).trim());
                 }
             } catch (Exception ignored) {}
         }
     }
 
-    public static void saveDirection(AbstractMacro.State state) {
-        if (state == AbstractMacro.State.LEFT || state == AbstractMacro.State.RIGHT ||
-            state == AbstractMacro.State.FORWARD || state == AbstractMacro.State.BACKWARD) {
-            cachedRowDirection = state;
-            try {
-                java.nio.file.Path path = net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir().resolve("aether_last_direction.txt");
-                String val = "0";
-                if (state == AbstractMacro.State.RIGHT) val = "1";
-                else if (state == AbstractMacro.State.FORWARD) val = "2";
-                else if (state == AbstractMacro.State.BACKWARD) val = "3";
-                java.nio.file.Files.writeString(path, val);
-            } catch (Exception ignored) {}
-        }
+    public static void saveCycleStep(int step) {
+        cachedCycleStep = Math.max(0, step);
+        try {
+            java.nio.file.Path path = net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir()
+                    .resolve("aether_last_direction.txt");
+            java.nio.file.Files.writeString(path, Integer.toString(cachedCycleStep));
+        } catch (Exception ignored) {}
     }
 
-    public static AbstractMacro.State getCachedDirection() {
-        return cachedRowDirection;
+    public static Integer getCachedCycleStep() {
+        return cachedCycleStep;
     }
 
     // -- Public API ------------------------------------------------------------
@@ -85,14 +65,15 @@ public final class FarmingMacroManager {
     /**
      * Instantiates a macro instance based on the current {@link AetherConfig#FARM_TYPE}.
      */
-    public static AbstractMacro createMacroFromConfig() {
+    public static AbstractFarmingMacro createMacroFromConfig() {
         String typeName = AetherConfig.FARM_TYPE.get();
         return switch (typeName) {
             case "A_D_FARM" -> new ADFarmMacro();
             case "COCOA_BEANS" -> new CocoaBeansMacro();
             case "SDS_MUSHROOM" -> new SDSMushroomMacro();
             case "W_S_FARM" -> new WSFarmMacro();
-            case "W_S_CROP" -> new WSCropMacro();
+            // Legacy configuration value retained so existing profiles keep using W/S.
+            case "W_S_CROP" -> new WSFarmMacro();
             case "CUSTOM" -> new CustomFarmMacro();
             case "S_SHAPE" -> new SShapeCropMacro();
             case "S_SHAPE_SUGAR_CANE" -> new SShapeSugarCaneMacro();
@@ -104,7 +85,7 @@ public final class FarmingMacroManager {
      * Enable the given macro, replacing any previously active one.
      * Always call this on the main client thread.
      */
-    public static void enable(Minecraft mc, AbstractMacro macro) {
+    public static void enable(Minecraft mc, AbstractFarmingMacro macro) {
         if (RestartManager.isRestartSequenceActive()) {
             return;
         }
@@ -143,7 +124,7 @@ public final class FarmingMacroManager {
         startMacroNow(mc, macro);
     }
 
-    private static void startMacroNow(Minecraft mc, AbstractMacro macro) {
+    private static void startMacroNow(Minecraft mc, AbstractFarmingMacro macro) {
         if (hasBlockingScreenOrContainer(mc)) {
             deferStartUntilReady(mc, macro);
             return;
@@ -158,7 +139,7 @@ public final class FarmingMacroManager {
         activeMacro.onEnable(mc);
     }
 
-    private static void deferStartUntilReady(Minecraft mc, AbstractMacro macro) {
+    private static void deferStartUntilReady(Minecraft mc, AbstractFarmingMacro macro) {
         if (deferredStartPending) {
             return;
         }
@@ -240,7 +221,7 @@ public final class FarmingMacroManager {
     }
 
     /** Returns the currently active macro, or {@code null} if none. */
-    public static AbstractMacro getActiveMacro() {
+    public static AbstractFarmingMacro getActiveMacro() {
         return activeMacro;
     }
 

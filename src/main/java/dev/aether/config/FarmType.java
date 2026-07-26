@@ -6,8 +6,7 @@ public enum FarmType {
     SDS_MUSHROOM("SDS (Mushroom)"),
     COCOA_BEANS("Cocoa Beans"),
     A_D_FARM("A/D"),
-    W_S_FARM("W/S (Flower)"),
-    W_S_CROP("W/S (Crop)"),
+    W_S_FARM("W/S"),
     CUSTOM("Custom");
 
     private final String label;

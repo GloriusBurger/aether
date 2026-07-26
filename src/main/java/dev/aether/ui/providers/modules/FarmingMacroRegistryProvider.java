@@ -104,20 +104,6 @@ public final class FarmingMacroRegistryProvider extends AbstractModulesRegistryP
                             AetherConfig.MACRO_DISABLE_SETSPAWN.set(v);
                             AetherConfig.save();
                         }))
-                .add(new ToggleSetting("Rotate on Drop",
-                        () -> AetherConfig.MACRO_ROTATE_ON_DROP.get(),
-                        v -> {
-                            AetherConfig.MACRO_ROTATE_ON_DROP.set(v);
-                            AetherConfig.save();
-                        }))
-                .add(new SliderSetting("Drop Rotation", -180, 180,
-                        () -> (float) AetherConfig.MACRO_DROP_ROTATION_DEGREES.get(),
-                        v -> {
-                            AetherConfig.MACRO_DROP_ROTATION_DEGREES.set(Math.round(v));
-                            AetherConfig.save();
-                        })
-                        .withDecimals(0).withSuffix("\u00B0")
-                        .visibleWhen(() -> AetherConfig.MACRO_ROTATE_ON_DROP.get()))
                 .add(new ToggleSetting("Squeaky Mousemat",
                         () -> AetherConfig.SQUEAKY_MOUSEMAT.get(),
                         v -> {

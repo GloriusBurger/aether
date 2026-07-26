@@ -1,6 +1,6 @@
 package dev.aether.modules.gear.helpers;
 
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.macro.MacroWorkerThread;

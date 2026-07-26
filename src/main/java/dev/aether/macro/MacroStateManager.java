@@ -1,5 +1,7 @@
 package dev.aether.macro;
 
+import dev.aether.macro.farming.FarmingMacroManager;
+
 import dev.aether.util.ClientUtils;
 import dev.aether.config.AetherConfig;
 import dev.aether.modules.ComposterManager;

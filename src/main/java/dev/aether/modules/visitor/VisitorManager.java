@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.macro.MacroWorkerThread;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.util.CommandUtils;
 import dev.aether.util.ClientUtils;
 

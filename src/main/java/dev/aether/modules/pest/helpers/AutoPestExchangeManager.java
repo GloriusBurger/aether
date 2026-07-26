@@ -5,7 +5,7 @@ import dev.aether.config.ConfigHelpers;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.macro.MacroWorkerThread;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.modules.farming.SqueakyMousematManager;
 import dev.aether.modules.gear.helpers.LoadoutManager;
 import dev.aether.modules.pest.PestManager;
