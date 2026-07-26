@@ -423,10 +423,10 @@ public final class AetherConfig {
         public static final BooleanEntry DELAY_PEST_FOR_CROP_FEVER = Config.bool("delayPestForCropFever", false);
         public static final BooleanEntry PEST_ON_TRACK_ENABLED = Config.bool("pestOnTrackEnabled", false);
         // start: farmhelper ish pest on track
-        public static final IntEntry PEST_ON_TRACK_FOV = Config.integer("pestOnTrackFov", 360).range(1, 360);
-        public static final IntEntry PEST_ON_TRACK_ACQUIRE_DELAY_MS = Config.integer("pestOnTrackAcquireDelayMs", 750).range(0, 2000);
-        public static final IntEntry PEST_ON_TRACK_STUCK_TIMEOUT_MS = Config.integer("pestOnTrackStuckTimeoutMs", 5000).range(4000, 25000);
-        public static final BooleanEntry PEST_ON_TRACK_SKIP_JACOB = Config.bool("pestOnTrackSkipJacob", true);
+        public static final IntEntry PEST_ON_THE_TRACK_FOV = Config.integer("pestOnTheTrackFov", 360).range(1, 360);
+        public static final IntEntry PEST_ON_THE_TRACK_ACQUIRE_DELAY_MS = Config.integer("pestOnTheTrackAcquireDelayMs", 750).range(0, 2000);
+        public static final IntEntry PEST_ON_THE_TRACK_STUCK_TIMEOUT_MS = Config.integer("pestOnTheTrackStuckTimeoutMs", 5000).range(4000, 25000);
+        public static final BooleanEntry PEST_ON_THE_TRACK_SKIP_JACOB = Config.bool("pestOnTheTrackSkipJacob", true);
         // end: farmhelper ish on track
         public static final BooleanEntry PEST_PLOT_TP_FOR_CURRENT_PLOT = Config.bool("pestPlotTpForCurrentPlot", false);
         public static final BooleanEntry ENABLE_PEST_TRAPS = Config.bool("enablePestTraps", false);

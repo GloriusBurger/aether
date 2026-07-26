@@ -10,6 +10,7 @@ import dev.aether.modules.CropFeverManager;
 import dev.aether.modules.failsafe.FailsafeManager;
 import dev.aether.modules.gear.GearManager;
 import dev.aether.modules.gear.helpers.LoadoutManager;
+import dev.aether.modules.pathfinding.PathfindingManager;
 import dev.aether.modules.pest.PestManager;
 import dev.aether.modules.rotation.RotationManager;
 import dev.aether.util.ClientUtils;
@@ -22,8 +23,8 @@ import net.minecraft.world.phys.Vec3;
 
 // opportunistically suck pests that enter the player's reach while doing the
 // funny thing
-public final class PestOnTrackManager {
-	private static final PestOnTrackManager INSTANCE = new PestOnTrackManager();
+public final class PestOnTheTrackManager {
+	private static final PestOnTheTrackManager INSTANCE = new PestOnTheTrackManager();
 	
 	public static final double RANGE_SAFETY_MARGIN = 0.5;
 	public static final long NO_TARGET_GRACE_MS = 500L;
@@ -38,9 +39,9 @@ public final class PestOnTrackManager {
 	private double vacuumRange;
 	private final IntSet accountedKills = new IntOpenHashSet(); // local record
 
-	private PestOnTrackManager() {}
+	private PestOnTheTrackManager() {}
 
-	public static PestOnTrackManager getInstance() {
+	public static PestOnTheTrackManager getInstance() {
 		return INSTANCE;
 	}
 	
@@ -110,7 +111,7 @@ public final class PestOnTrackManager {
 			return;
 		}
 		
-		if (now - candidateSelectedAt >= AetherConfig.PEST_ON_TRACK_ACQUIRE_DELAY_MS.get()) {
+		if (now - candidateSelectedAt >= AetherConfig.PEST_ON_THE_TRACK_ACQUIRE_DELAY_MS.get()) {
 			this.beginSuckingTheCandidate(client, now);
 		}
 	}
@@ -145,7 +146,7 @@ public final class PestOnTrackManager {
 		}
 		noneSuckTargetSince = 0L; // we found one
 		
-		if (now - foundSuckTargetAt >= AetherConfig.PEST_ON_TRACK_STUCK_TIMEOUT_MS.get()) {
+		if (now - foundSuckTargetAt >= AetherConfig.PEST_ON_THE_TRACK_STUCK_TIMEOUT_MS.get()) {
 			ClientUtils.sendDebugMessage("[Pest-On-The-Track] Sucking timed out! Resuming farming...");
 			this.resetOTTState(client, true);
 			return;
@@ -209,7 +210,7 @@ public final class PestOnTrackManager {
 		// atan2(z, x) = angle in rad
 		float targetYaw = (float) Math.toDegrees(Math.atan2(deltaZ, deltaX)) - 90.0f;
 		float yawOffset = Math.abs(Mth.wrapDegrees(targetYaw - client.player.getYRot()));
-		return yawOffset <= AetherConfig.PEST_ON_TRACK_FOV.get() * 0.5F;
+		return yawOffset <= AetherConfig.PEST_ON_THE_TRACK_FOV.get() * 0.5F;
 	}
 	
 	private boolean requireAndUpdateVac(Minecraft client) {
@@ -231,11 +232,15 @@ public final class PestOnTrackManager {
 			&& client.screen == null
 			&& client.player.containerMenu == client.player.inventoryMenu // invopen
 			&& ClientUtils.getCurrentLocation() == MacroState.Location.GARDEN 
+			&& !PathfindingManager.isNavigating() 
+			&& !AutoPestExchangeManager.isRunning()
+			&& !AutoPestExchangeManager.shouldBlockFarmingResume() 
+			&& !AutoSprayonatorManager.isRunning()
 			&& !PestDestroyer.isActive()
 			&& !PestManager.isCleaningInProgress 
 			&& !LoadoutManager.isSwappingLoadout
 			&& (!AetherConfig.DELAY_PEST_FOR_CROP_FEVER.get() || !CropFeverManager.isCropFeverActive)
-			&& (!AetherConfig.PEST_ON_TRACK_SKIP_JACOB.get() || ClientUtils.getJacobsContestRemainingMs() <= 0L)
+			&& (!AetherConfig.PEST_ON_THE_TRACK_SKIP_JACOB.get() || ClientUtils.getJacobsContestRemainingMs() <= 0L)
 		;
 	}
 	

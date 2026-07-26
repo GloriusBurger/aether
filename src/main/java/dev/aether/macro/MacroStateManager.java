@@ -25,7 +25,7 @@ import dev.aether.modules.pest.helpers.AutoPestExchangeManager;
 import dev.aether.modules.pest.helpers.AutoSprayonatorManager;
 import dev.aether.modules.pest.helpers.PestDestroyer;
 import dev.aether.modules.pest.helpers.PestExchangeManager;
-import dev.aether.modules.pest.helpers.PestOnTrackManager;
+import dev.aether.modules.pest.helpers.PestOnTheTrackManager;
 import dev.aether.modules.pest.helpers.PestTrapManager;
 import dev.aether.modules.profit.ProfitManager;
 import dev.aether.modules.session.DailyFarmTimeTracker;
@@ -210,7 +210,7 @@ public class MacroStateManager {
         ClientUtils.forceReleaseKeys();
         ClientUtils.sendDebugMessage(debugReason);
         PestManager.reset();
-        PestOnTrackManager.getInstance().reset(client);
+        PestOnTheTrackManager.getInstance().reset(client);
         PestExchangeManager.stop();
         PestDestroyer.stop(client);
         PestTrapManager.cancel(client);

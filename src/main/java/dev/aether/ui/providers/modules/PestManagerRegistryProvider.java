@@ -108,30 +108,30 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                     AetherConfig.save();
                 })
         .add(new SliderSetting("Pest Detection FOV", 1, 360,
-                () -> (float) AetherConfig.PEST_ON_TRACK_FOV.get(),
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_FOV.get(),
                 v -> {
-                    AetherConfig.PEST_ON_TRACK_FOV.set(Math.round(v));
+                    AetherConfig.PEST_ON_THE_TRACK_FOV.set(Math.round(v));
                     AetherConfig.save();
                 })
                 .withDecimals(0).withSuffix("\u00B0"))
         .add(new SliderSetting("Pest Detection Delay Time", 0, 3500,
-                () -> (float) AetherConfig.PEST_ON_TRACK_ACQUIRE_DELAY_MS.get(),
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_ACQUIRE_DELAY_MS.get(),
                 v -> {
-                    AetherConfig.PEST_ON_TRACK_ACQUIRE_DELAY_MS.set(Math.round(v));
+                    AetherConfig.PEST_ON_THE_TRACK_ACQUIRE_DELAY_MS.set(Math.round(v));
                     AetherConfig.save();
                 })
                 .withDecimals(0).withSuffix("ms"))
         .add(new SliderSetting("Stuck Timeout", 4000, 25000,
-                () -> (float) AetherConfig.PEST_ON_TRACK_STUCK_TIMEOUT_MS.get(),
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_STUCK_TIMEOUT_MS.get(),
                 v -> {
-                    AetherConfig.PEST_ON_TRACK_STUCK_TIMEOUT_MS.set(Math.round(v));
+                    AetherConfig.PEST_ON_THE_TRACK_STUCK_TIMEOUT_MS.set(Math.round(v));
                     AetherConfig.save();
                 })
                 .withDecimals(0).withSuffix("ms"))
         .add(new ToggleSetting("Skip during Jacob's Contests",
-                () -> AetherConfig.PEST_ON_TRACK_SKIP_JACOB.get(),
+                () -> AetherConfig.PEST_ON_THE_TRACK_SKIP_JACOB.get(),
                 v -> {
-                    AetherConfig.PEST_ON_TRACK_SKIP_JACOB.set(v);
+                    AetherConfig.PEST_ON_THE_TRACK_SKIP_JACOB.set(v);
                     AetherConfig.save();
                 })));
         groups.add(SettingGroup.of(

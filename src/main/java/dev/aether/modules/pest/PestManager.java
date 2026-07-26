@@ -9,7 +9,7 @@ import dev.aether.modules.pest.helpers.AutoPestExchangeManager;
 import dev.aether.modules.pest.helpers.PestBonusManager;
 import dev.aether.modules.pest.helpers.PestCleaningSequencer;
 import dev.aether.modules.pest.helpers.PestDiscoDestinationManager;
-import dev.aether.modules.pest.helpers.PestOnTrackManager;
+import dev.aether.modules.pest.helpers.PestOnTheTrackManager;
 import dev.aether.modules.pest.helpers.PestDestroyer;
 import dev.aether.modules.pest.helpers.PestReturnManager;
 import dev.aether.modules.GreenhouseManager;
@@ -78,7 +78,7 @@ public class PestManager {
                 || isCleaningInProgress
                 || isPestReentryCooldownActive()
                 || PestDestroyer.isActive()
-                || PestOnTrackManager.getInstance().isNotIdle()
+                || PestOnTheTrackManager.getInstance().isNotIdle()
                 || ManualPestManager.isActive()
                 || PestReturnManager.isFinishingInProgress
                 || PestReturnManager.isReturnToLocationActive
