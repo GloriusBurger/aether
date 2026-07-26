@@ -4,10 +4,12 @@ import dev.aether.config.AetherConfig;
 
 import java.util.Map;
 
-/** Standard s-shape crop pattern: left row, forward lane, right row, forward lane. */
+/** Standard s-shape crop pattern, with optional forward movement held throughout each row. */
 public class SShapeCropMacro extends AbstractFarmingMacro {
     private final StateCycle states = stateCycle(0.02, 2,
-            State.LEFT, State.SWITCHING_LANE, State.RIGHT, State.SWITCHING_LANE);
+            AetherConfig.MACRO_HOLD_W_WHILE_FARMING.get()
+                    ? new State[]{State.LEFT, State.RIGHT}
+                    : new State[]{State.LEFT, State.SWITCHING_LANE, State.RIGHT, State.SWITCHING_LANE});
 
     @Override
     protected DefaultAngle defaultAngle() {
