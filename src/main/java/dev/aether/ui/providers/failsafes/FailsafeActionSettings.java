@@ -1,4 +1,4 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.failsafes;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.modules.failsafe.FailsafeCustomReplayManager;

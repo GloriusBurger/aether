@@ -1,8 +1,10 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.failsafes;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.config.entries.StringEntry;
 import dev.aether.modules.failsafe.FailsafeSoundManager;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractFailsafesRegistryProvider;
 import dev.aether.ui.settings.ColorSetting;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.ModulesTab;
