@@ -1,7 +1,8 @@
 package dev.aether.modules.pest.helpers;
 
 import dev.aether.util.ClientUtils;
-
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +21,7 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 final class PestTargetTracker {
     private static final List<String> PEST_TEXTURE_FRAGMENTS = List.of(
@@ -351,7 +353,60 @@ final class PestTargetTracker {
         }
         return entityBufferSize;
     }
-
+    
+	public static Entity selectClosestPestWithin(
+		Minecraft client, double maxDistFromEye, 
+		Predicate<Entity> condition
+	) {
+		if (client == null || client.level == null || client.player == null || maxDistFromEye < 0.0) {
+			return null;
+		}
+		final Vec3 eyeLoc = client.player.getEyePosition();
+		final double maxDistanceSq = maxDistFromEye * maxDistFromEye;
+		final int count = fillEntityBuffer(client);
+		final IntSet seenEntities = new IntOpenHashSet(count);
+		
+		double closestDistanceSq = Double.MAX_VALUE;
+		Entity closestCandidate = null;
+		
+		for (int i = 0; i < count; i++) {
+			Entity entity = (Entity) entityBuffer[i];
+			if (entity == client.player || entity.isRemoved() || (
+				entity instanceof LivingEntity le && le.isDeadOrDying()
+			) || entity.getY() < 50) { // server trick
+				continue;
+			}
+			
+			Entity target = null;
+			if (entity instanceof Bat || entity instanceof Silverfish) {
+				target = entity;
+			} else if (entity instanceof ArmorStand armorStand && isPestArmorStand(armorStand)) {
+				Entity reprEnt = findRealEntityNear(client, armorStand);
+				target = reprEnt != null ? reprEnt : armorStand;
+			}
+			
+			if (target == null 
+				|| target.isRemoved()
+				|| (target instanceof LivingEntity living && living.isDeadOrDying()) 
+				|| seenEntities.contains(target.getId()) 
+				|| (condition != null && !condition.test(target))
+			) {
+				continue;
+			}
+			
+			Vec3 targetEye = target.position().add(
+				0, target.getEyeHeight(target.getPose()), 0
+			);
+			double distanceSq = eyeLoc.distanceToSqr(targetEye);
+			if (distanceSq <= maxDistanceSq && distanceSq < closestDistanceSq) {
+				closestCandidate = target;
+				closestDistanceSq = distanceSq;
+			}
+			seenEntities.add(target.getId());
+		}
+		return closestCandidate;
+	}
+    
     private static String formatPos(Vec3 pos) {
         return String.format("%.0f, %.0f, %.0f", pos.x, pos.y, pos.z);
     }
