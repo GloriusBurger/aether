@@ -1,8 +1,8 @@
 package dev.aether.modules.farming;
 
 import dev.aether.config.AetherConfig;
-import dev.aether.macro.AbstractMacro;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.AbstractFarmingMacro;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.util.AetherLang;
@@ -29,7 +29,7 @@ public final class FastLaneSwitchManager {
     private static final double BOUNDARY_HALF_THICKNESS = 0.035;
     private static final long STATE_CHANGE_SUPPRESS_MS = 0L;
 
-    private static AbstractMacro.State trackedState = AbstractMacro.State.NONE;
+    private static AbstractFarmingMacro.State trackedState = AbstractFarmingMacro.State.NONE;
     private static double previousCoord = 0.0;
     private static double speedBlocksPerSecond = 0.0;
     private static long lastTickMs = 0L;
@@ -39,14 +39,14 @@ public final class FastLaneSwitchManager {
     }
 
     public static void resetRuntime() {
-        trackedState = AbstractMacro.State.NONE;
+        trackedState = AbstractFarmingMacro.State.NONE;
         previousCoord = 0.0;
         speedBlocksPerSecond = 0.0;
         lastTickMs = 0L;
         suppressFastSwitchUntilMs = System.currentTimeMillis() + STATE_CHANGE_SUPPRESS_MS;
     }
 
-    public static void tick(Minecraft mc, AbstractMacro.State state) {
+    public static void tick(Minecraft mc, AbstractFarmingMacro.State state) {
         if (mc == null || mc.player == null || !isRowState(state)) {
             trackedState = state;
             lastTickMs = 0L;
@@ -73,14 +73,14 @@ public final class FastLaneSwitchManager {
         lastTickMs = now;
     }
 
-    public static void onStateChanged(AbstractMacro.State from, AbstractMacro.State to) {
+    public static void onStateChanged(AbstractFarmingMacro.State from, AbstractFarmingMacro.State to) {
         trackedState = to;
         lastTickMs = 0L;
         speedBlocksPerSecond = 0.0;
         suppressFastSwitchUntilMs = System.currentTimeMillis() + STATE_CHANGE_SUPPRESS_MS;
     }
 
-    public static boolean shouldFastSwitch(Minecraft mc, AbstractMacro.State state) {
+    public static boolean shouldFastSwitch(Minecraft mc, AbstractFarmingMacro.State state) {
         if (!isEnabledForCurrentFarm() || mc == null || mc.player == null || !isRowState(state)) {
             return false;
         }
@@ -96,7 +96,7 @@ public final class FastLaneSwitchManager {
     }
 
     public static String getDisplayText() {
-        AbstractMacro macro = FarmingMacroManager.getActiveMacro();
+        AbstractFarmingMacro macro = FarmingMacroManager.getActiveMacro();
         Minecraft mc = Minecraft.getInstance();
         if (!isEnabledForCurrentFarm()
                 || macro == null
@@ -121,7 +121,7 @@ public final class FastLaneSwitchManager {
     }
 
     public static boolean hasEstimate() {
-        AbstractMacro macro = FarmingMacroManager.getActiveMacro();
+        AbstractFarmingMacro macro = FarmingMacroManager.getActiveMacro();
         Minecraft mc = Minecraft.getInstance();
         if (!isEnabledForCurrentFarm() || macro == null || mc.player == null) {
             return false;
@@ -176,7 +176,7 @@ public final class FastLaneSwitchManager {
         var props = Gizmos.cuboid(box, style);
     }
 
-    private static BoundaryTarget getTargetBoundary(Minecraft mc, AbstractMacro.State state) {
+    private static BoundaryTarget getTargetBoundary(Minecraft mc, AbstractFarmingMacro.State state) {
         if (!hasValidBoundaries() || !isRowState(state)) {
             return BoundaryTarget.invalid();
         }
@@ -200,7 +200,7 @@ public final class FastLaneSwitchManager {
         return boundaryBlock + 0.5;
     }
 
-    private static double axisDirection(Minecraft mc, AbstractMacro.State state) {
+    private static double axisDirection(Minecraft mc, AbstractFarmingMacro.State state) {
         float yaw = mc.player.getYRot();
         double rad = Math.toRadians(yaw);
         double x;
@@ -255,11 +255,11 @@ public final class FastLaneSwitchManager {
                 && !"CUSTOM".equals(AetherConfig.FARM_TYPE.get());
     }
 
-    private static boolean isRowState(AbstractMacro.State state) {
-        return state == AbstractMacro.State.LEFT
-                || state == AbstractMacro.State.RIGHT
-                || state == AbstractMacro.State.FORWARD
-                || state == AbstractMacro.State.BACKWARD;
+    private static boolean isRowState(AbstractFarmingMacro.State state) {
+        return state == AbstractFarmingMacro.State.LEFT
+                || state == AbstractFarmingMacro.State.RIGHT
+                || state == AbstractFarmingMacro.State.FORWARD
+                || state == AbstractFarmingMacro.State.BACKWARD;
     }
 
     private static String formatDuration(long ms) {

@@ -21,7 +21,7 @@ public class PestCleaningSequencer {
         }
 
         ClientUtils.sendDebugMessage("Disabling farming macro: Pest threshold reached, starting cleaning sequence for plot " + plot);
-        client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+        client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
         PestManager.isCleaningInProgress = true;
         PestManager.clearCleaningTriggerPending();
         LoadoutManager.shouldRestartFarmingAfterSwap = false;

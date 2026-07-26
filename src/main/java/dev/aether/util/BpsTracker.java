@@ -1,7 +1,7 @@
 package dev.aether.util;
 
 import dev.aether.config.AetherConfig;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import java.util.ArrayDeque;
 import java.util.Deque;
 

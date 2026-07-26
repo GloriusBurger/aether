@@ -59,7 +59,7 @@ public class PestPrepSwapManager {
                     return;
                 }
                 ClientUtils.sendDebugMessage("Disabling farming macro: Triggering prep-swap");
-                client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+                client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
                 MacroWorkerThread.sleep(400);
                 if (shouldAbortPrepSwap()) {
                     return;

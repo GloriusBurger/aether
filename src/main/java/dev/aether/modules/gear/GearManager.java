@@ -60,8 +60,8 @@ public class GearManager {
                 dev.aether.macro.MacroStateManager.setCurrentState(dev.aether.macro.MacroState.State.FARMING);
                 GearManager.swapToFarmingTool(client);
                 ClientUtils.sendDebugMessage("Finalizing gear swap. Restarting farming macro...");
-                dev.aether.macro.FarmingMacroManager.enable(client,
-                        dev.aether.macro.FarmingMacroManager.createMacroFromConfig());
+                dev.aether.macro.farming.FarmingMacroManager.enable(client,
+                        dev.aether.macro.farming.FarmingMacroManager.createMacroFromConfig());
             });
             return;
         }
@@ -86,7 +86,7 @@ public class GearManager {
             dev.aether.macro.MacroStateManager.setCurrentState(dev.aether.macro.MacroState.State.FARMING);
             GearManager.swapToFarmingTool(client);
             ClientUtils.sendDebugMessage("Finalizing gear swap. Restarting farming macro...");
-            dev.aether.macro.FarmingMacroManager.enable(client, dev.aether.macro.FarmingMacroManager.createMacroFromConfig());
+            dev.aether.macro.farming.FarmingMacroManager.enable(client, dev.aether.macro.farming.FarmingMacroManager.createMacroFromConfig());
         });
     }
 

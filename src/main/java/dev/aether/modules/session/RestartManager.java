@@ -178,7 +178,7 @@ public class RestartManager {
             ClientUtils.sendDebugMessage("Disabling farming macro: Server restart/evacuation detected");
             // Cancel worker tasks right before abort execution.
             MacroWorkerThread.getInstance().cancelCurrent();
-            client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+            client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
             ClientUtils.forceReleaseKeys();
             restartSetSpawnWindow = CommandUtils.beginChatWindow();
             dev.aether.util.CommandUtils.initiateSetSpawn();
@@ -204,7 +204,7 @@ public class RestartManager {
             nextRestartActionTime = now + 10000;
         } else if (restartSequenceStage == 2 && System.currentTimeMillis() >= nextRestartActionTime) {
             ClientUtils.sendDebugMessage("Disabling farming macro: Entering recovery mode after server restart");
-            client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+            client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
             MacroStateManager.setCurrentState(MacroState.State.RECOVERING);
             restartSequenceStage = 0;
             isRestartPending = false;
@@ -237,7 +237,7 @@ public class RestartManager {
                     false);
             ClientUtils.sendDebugMessage("Disabling farming macro: Proxy restart recovery");
             MacroWorkerThread.getInstance().cancelCurrent();
-            client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+            client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
             ClientUtils.forceReleaseKeys();
             proxyRestartSetSpawnWindow = CommandUtils.beginChatWindow();
             CommandUtils.initiateSetSpawn();

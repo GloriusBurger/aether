@@ -1,14 +1,13 @@
-package dev.aether.macro.impl;
+package dev.aether.macro.farming;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.config.FarmWaypoint;
 import dev.aether.config.FarmWaypoints;
-import dev.aether.macro.AbstractMacro;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
 
-public class CustomFarmMacro extends AbstractMacro {
+public class CustomFarmMacro extends AbstractFarmingMacro {
     private static final double REACHED_HORIZONTAL_DISTANCE_SQ = 0.2 * 0.2;
     private static final double REACHED_VERTICAL_DISTANCE = 1.5;
 
