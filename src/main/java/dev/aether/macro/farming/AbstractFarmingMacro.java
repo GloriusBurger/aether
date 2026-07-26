@@ -382,6 +382,28 @@ public abstract class AbstractFarmingMacro extends AbstractMacro {
         rotated = true;
     }
 
+	/**
+	 * Reapplies the orientation selected when this macro was enabled.
+	 *
+	 * <p>
+	 * This deliberately uses the cached yaw and pitch instead of reading the config
+	 * again, so custom-angle humanization and the macro's default lane orientation
+	 * remain the same after a temporary int.
+	 *
+	 * @return whether a configured orientation was available
+	 */
+	public final boolean restoreConfiguredOrientation(Minecraft mc) {
+		if (mc.player == null || (yaw.isEmpty() && pitch.isEmpty())) {
+			return false;
+		}
+		RotationManager.rotateToYawPitch(mc, 
+			yaw.orElseGet(mc.player::getYRot), 
+			pitch.orElseGet(mc.player::getXRot),
+			AetherConfig.ROTATION_TIME.get(), true
+		);
+		return true;
+	}
+	
     /**
      * Reusable row/lane movement detector. It supports both a single world
      * axis and total X/Z movement, and deliberately ignores samples while

@@ -100,7 +100,7 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                 .add(FarmingSettingsFactory.pestFovRangeSetting())
                 .add(FarmingSettingsFactory.pestAboveAimPitchRangeSetting()));
         groups.add(SettingGroup.of(
-                "On-The-Track Pest Destroyer",
+                "On-The-Track Pest",
                 "Pauses farming briefly to vacuum pests already within reach",
                 () -> AetherConfig.PEST_ON_TRACK_ENABLED.get(),
                 v -> {

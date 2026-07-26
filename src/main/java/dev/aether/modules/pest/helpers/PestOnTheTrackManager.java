@@ -4,10 +4,12 @@ import dev.aether.config.AetherConfig;
 import dev.aether.macro.MacroInput;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
+import dev.aether.macro.MacroWorkerThread;
 import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.mixin.AccessorInventory;
 import dev.aether.modules.CropFeverManager;
 import dev.aether.modules.failsafe.FailsafeManager;
+import dev.aether.modules.farming.SqueakyMousematManager;
 import dev.aether.modules.gear.GearManager;
 import dev.aether.modules.gear.helpers.LoadoutManager;
 import dev.aether.modules.pathfinding.PathfindingManager;
@@ -30,14 +32,21 @@ public final class PestOnTheTrackManager {
 	public static final long NO_TARGET_GRACE_MS = 500L;
 	public static final int AIM_REFRESH_MS = 120;
 	
-	private State state = State.IDLE;
+	private volatile State state = State.IDLE;
 	private Entity trackedPest;
 	private long candidateSelectedAt;
 	private long foundSuckTargetAt;
 	private long noneSuckTargetSince;
 	private int vacuumSlot = -1;
 	private double vacuumRange;
-	private final IntSet accountedKills = new IntOpenHashSet(); // local record
+	// this is for the restore thingy
+	private boolean hasPreSuckRotation;
+	private float preSuckYaw;
+	private float preSuckPitch;
+	private volatile boolean mousematWorkerPending;
+	private volatile long currentRestoreAttemptId;
+	// local record; sync with aether
+	private final IntSet accountedKills = new IntOpenHashSet(); 
 
 	private PestOnTheTrackManager() {}
 
@@ -66,6 +75,7 @@ public final class PestOnTheTrackManager {
 			case IDLE -> this.updateWhileIdle(client);
 			case PREPARING_TO_SUCK -> this.updateWhilePreparing(client);
 			case SUCKING_CANDIDATE -> this.updateWhileSucking(client);
+			case RESTORING -> this.updateWhileRestoring(client);
 		}
 	}
 	
@@ -177,6 +187,10 @@ public final class PestOnTheTrackManager {
 		foundSuckTargetAt = timestamp;
 		noneSuckTargetSince = 0L;
 		accountedKills.clear(); // clean staye
+		// save these 4 ltr use
+		hasPreSuckRotation = true;
+		preSuckYaw = client.player.getYRot();
+		preSuckPitch = client.player.getXRot();
 		state = State.SUCKING_CANDIDATE;
 		
 		// this makes sure the macro stops touching inputs
@@ -188,6 +202,19 @@ public final class PestOnTheTrackManager {
 		ClientUtils.sendDebugMessage(
 			"[Pest-On-The-Track] A pest entered vacuum range. Pausing farming input and preparing to suck"
 		);
+	}
+	
+	private void updateWhileRestoring(Minecraft client) {
+		MacroInput.releaseMovement(client);
+		MacroInput.setAttack(client.options.keyAttack, false);
+		ClientUtils.setKeyMappingState(client.options.keyUse, false);
+		if (this.mousematWorkerPending) {
+			return; // finishFarmingRestore will be called by the thread
+		}
+		// finisheed rotation using normal method(s)
+		if (!RotationManager.isRotating()) {
+			finishFarmingRestore();
+		}
 	}
 	
 	private Entity selectEligiblePest(Minecraft client, boolean needsInFOV) {
@@ -258,11 +285,87 @@ public final class PestOnTheTrackManager {
 			&& MacroStateManager.getCurrentState() == MacroState.State.FARMING 
 			&& FarmingMacroManager.isActive()
 		) {
-			ClientUtils.sendDebugMessage("[Pest-On-The-Track] Swapping to the prev tool...");
-			GearManager.swapToFarmingTool(client);
+			this.beginFarmingRestore(client);
+			return;
 		}
 		this.clearOTTState();
 		ClientUtils.sendDebugMessage("[Pest-On-The-Track] Resuming farming input...");
+	}
+	
+	private void beginFarmingRestore(Minecraft client) {
+		state = State.RESTORING;
+		long restoreAttemptId = ++currentRestoreAttemptId;
+		ClientUtils.sendDebugMessage("[Pest-On-The-Track] Restoring prior farming direction...");
+		
+		// mousemats are not synchronous, so we delegate this to other system and exit early
+		if (AetherConfig.SQUEAKY_MOUSEMAT.get()) {
+			ClientUtils.sendDebugMessage("[Pest-On-The-Track] Restoring direction using mousemat (id: " + restoreAttemptId + ")");
+			mousematWorkerPending = true;
+			// genuinely what the ehell is this
+			MacroWorkerThread.getInstance().submit("POTT:MousematWorker", () -> {
+				boolean hasRestored = false;
+				try {
+					// only attempt to restore if this attempt has not been 
+					// overshadowed by another restore attempt
+					if (state == State.RESTORING && currentRestoreAttemptId == restoreAttemptId) {
+						hasRestored = SqueakyMousematManager.useIfNeeded(client);
+						if (currentRestoreAttemptId == restoreAttemptId
+							&& !MacroWorkerThread.shouldAbortTask(client, MacroState.State.FARMING)
+						) {
+							GearManager.swapToFarmingToolSync(client);
+						}
+					}
+				} catch (Exception e) {
+					ClientUtils.sendDebugMessage(
+						"[Pest-On-The-Track] Mousemat restore exception: " + e.getMessage()
+					);
+				} finally {
+					final boolean mousematOk = hasRestored;
+					client.execute(() -> {
+						if (state != State.RESTORING || currentRestoreAttemptId != restoreAttemptId) {
+							return;
+						}
+						mousematWorkerPending = false;
+						if (mousematOk) {
+							this.finishFarmingRestore();
+						} else {
+							// mousemat fucked
+							this.startFallbackRotation(client);
+						}
+					});
+				}
+			});
+			return;
+		}
+		ClientUtils.sendDebugMessage("[Pest-On-The-Track] Swapping to the prev tool...");
+		GearManager.swapToFarmingTool(client);
+		ClientUtils.sendDebugMessage("[Pest-On-The-Track] Restoring direction using head rotation (id: " + restoreAttemptId + ")");
+		this.startFallbackRotation(client);
+	}
+	
+	private void startFallbackRotation(Minecraft client) {
+		if (AetherConfig.MACRO_USE_CUSTOM_YAW.get() || AetherConfig.MACRO_USE_CUSTOM_PITCH.get()) {
+			// best case non mousemat
+			FarmingMacroManager.restoreConfiguredOrientation(client);  // this is async
+			ClientUtils.sendDebugMessage("[Pest-On-The-Track] Using configured values to restore...");
+		} else if (hasPreSuckRotation && client.player != null) {
+			// the last case: user has no y/p, no mousmat, just do a best effort
+			RotationManager.rotateToYawPitch( // this is async too
+				client, preSuckYaw, preSuckPitch, 
+				AetherConfig.ROTATION_TIME.get(), 
+				true
+			);
+			ClientUtils.sendDebugMessage("[Pest-On-The-Track] Using pre-suck values to restore...");
+		} else {
+			// ??? case
+			ClientUtils.sendMessage("\u00A7cUNABLE TO RESTORE ON-THE-TRACK FARMING DIRECTION! PLEASE REPORT THIS!", false);
+			this.finishFarmingRestore();
+		}
+	}
+
+	private void finishFarmingRestore() {
+		this.clearOTTState();
+		ClientUtils.sendDebugMessage("[Pest-On-The-Track] Farming direction restored. Resuming input...");
 	}
 	
 	public void reset(Minecraft client) {
@@ -284,6 +387,7 @@ public final class PestOnTheTrackManager {
 	// basic cleanup without restoring side effects
 	// DO NOT USE THIS IF YOU ARE RESUMING FROM ACTIVE STATE
 	private void clearOTTState() {
+		currentRestoreAttemptId++;
 		state = State.IDLE;
 		trackedPest = null;
 		candidateSelectedAt = 0L;
@@ -291,7 +395,12 @@ public final class PestOnTheTrackManager {
 		noneSuckTargetSince = 0L;
 		vacuumSlot = -1;
 		vacuumRange = 0.0;
+		mousematWorkerPending = false;
 		accountedKills.clear();
+		// this sucks, literally
+		hasPreSuckRotation = false;
+		preSuckYaw = 0.0f;
+		preSuckPitch = 0.0f;
 	}
 	
 	// due to the nature of this being a tick loop and not blocking linear exec
@@ -301,7 +410,7 @@ public final class PestOnTheTrackManager {
 			return;
 		}
 		accountedKills.add(trackedPest.getId());
-		PestManager.decrementPredictedAliveCount(client); // im still not sure what this does exactly, too bad
+		PestManager.decrementPredictedAliveCount(client); // now i know
 	}
 	
 	private boolean isDead(Entity entity) {
@@ -316,10 +425,10 @@ public final class PestOnTheTrackManager {
 	
 	// this will stop the tick() of the main farming loop to run while its taking over
 	public boolean isBlockingFarming() {
-		return state == State.SUCKING_CANDIDATE;
+		return state == State.SUCKING_CANDIDATE || state == State.RESTORING;
 	}
 	
-	public enum State {
-		IDLE, PREPARING_TO_SUCK, SUCKING_CANDIDATE
+	public static enum State {
+		IDLE, PREPARING_TO_SUCK, SUCKING_CANDIDATE, RESTORING
 	}
 }

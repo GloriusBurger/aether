@@ -27,6 +27,7 @@ import dev.aether.modules.pest.helpers.AutoSprayonatorManager;
 import dev.aether.modules.pest.helpers.PestAotvManager;
 import dev.aether.modules.pest.helpers.PestBonusManager;
 import dev.aether.modules.pest.helpers.PestDestroyer;
+import dev.aether.modules.pest.helpers.PestOnTheTrackManager;
 import dev.aether.modules.pest.helpers.PestReturnManager;
 import dev.aether.modules.pest.helpers.VacuumParticleDebug;
 import dev.aether.modules.profit.ProfitManager;
@@ -140,7 +141,10 @@ public final class AetherAutomationTickHandler {
         RotationManager.update();
         RotationExecutor.update();
         BedrockPlotMaker.update(client);
-        if (MacroStateManager.getCurrentState() == MacroState.State.FARMING) {
+        PestOnTheTrackManager.getInstance().update(client);
+        if (MacroStateManager.getCurrentState() == MacroState.State.FARMING
+        	&& !PestOnTheTrackManager.getInstance().isBlockingFarming()
+        ) {
             FarmingMacroManager.tick(client);
         }
         MacroStateManager.periodicUpdate();
