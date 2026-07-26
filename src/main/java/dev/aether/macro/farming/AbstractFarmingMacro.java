@@ -7,6 +7,7 @@ import dev.aether.modules.failsafe.FailsafeManager;
 import dev.aether.modules.farming.FastLaneSwitchManager;
 import dev.aether.modules.farming.SqueakyMousematManager;
 import dev.aether.modules.farming.UngrabMouse;
+import dev.aether.mixin.MixinMinecraft;
 import dev.aether.modules.rotation.RotationManager;
 import dev.aether.modules.visuals.FreecamManager;
 import dev.aether.util.ClientUtils;
@@ -298,8 +299,12 @@ public abstract class AbstractFarmingMacro extends AbstractMacro {
         ClientUtils.setKeyMappingState(opts.keyShift, sneak);
         ClientUtils.setKeyMappingState(opts.keySprint, sprint);
         ClientUtils.setKeyMappingState(opts.keyAttack, shouldAttack);
-        if (shouldAttack && !wasAttackHeldByMacro) {
-            ClientUtils.clickKeyMapping(opts.keyAttack);
+        if (shouldAttack) {
+            MixinMinecraft minecraft = (MixinMinecraft) mc;
+            minecraft.aether$setMissTime(0);
+            if (!wasAttackHeldByMacro) {
+                minecraft.aether$startAttack();
+            }
         }
     }
 
