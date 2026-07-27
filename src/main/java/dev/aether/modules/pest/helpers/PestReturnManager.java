@@ -259,7 +259,7 @@ public class PestReturnManager {
                 }
 
                 setFinishingStage("restore sunset pests night");
-                PestDestroyer.restorePendingSunsetPestsNight(client);
+                PestLifecycleManager.restorePendingSunsetPestsNight(client);
                 if (abortFinisherIfNeeded(client, "restore sunset pests night")) {
                     return;
                 }

@@ -25,6 +25,7 @@ public final class PestLifecycleManager {
     }
 
     private static volatile Stage stage = Stage.IDLE;
+    private static volatile boolean sunsetPestsRestoreNight = false;
 
     private PestLifecycleManager() {
     }
@@ -35,6 +36,33 @@ public final class PestLifecycleManager {
 
     public static void reset() {
         stage = Stage.IDLE;
+        sunsetPestsRestoreNight = false;
+    }
+
+    public static boolean restorePendingSunsetPestsNight(Minecraft client) {
+        if (!sunsetPestsRestoreNight) {
+            return true;
+        }
+
+        sunsetPestsRestoreNight = false;
+        boolean switched = GardenTimeManager.switchToNightTime(client);
+        if (!switched) {
+            ClientUtils.sendDebugMessage("Sunset Pests: failed to switch garden time to night.");
+        }
+        return switched;
+    }
+
+    static boolean prepareSunsetPestsDaytime(Minecraft client) {
+        if (!AetherConfig.SUNSET_PESTS.get()) {
+            return true;
+        }
+
+        sunsetPestsRestoreNight = true;
+        boolean switched = GardenTimeManager.switchToDaytime(client);
+        if (!switched) {
+            ClientUtils.sendDebugMessage("Sunset Pests: failed to switch garden time to day.");
+        }
+        return switched;
     }
 
     public static boolean start(Minecraft client, String plot, int pestCount, int sessionId) {

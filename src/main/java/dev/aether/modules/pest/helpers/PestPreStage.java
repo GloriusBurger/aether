@@ -28,6 +28,12 @@ final class PestPreStage {
             return false;
         }
 
+        if (AetherConfig.SUNSET_PESTS.get()) {
+            if (!PestLifecycleManager.prepareSunsetPestsDaytime(client)) {
+                return false;
+            }
+        }
+
         boolean deferLoadoutUntilAfterDiscoTeleport = PestDiscoDestinationManager.matchesPlot(plot);
         if (!deferLoadoutUntilAfterDiscoTeleport && !swapToPestLoadout(client, sessionId)) {
             return false;
