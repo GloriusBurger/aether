@@ -155,36 +155,6 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                         .addIconAction("/assets/aether/icons/refresh.svg", () -> refreshSoundOptions(manualPestSoundOptions))));
 
         groups.add(SettingGroup.of(
-                        "Disco Destination",
-                        "Prioritizes a selected plot and holds position for disco pests",
-                        () -> AetherConfig.PEST_DISCO_DESTINATION_MODE.get(),
-                        v -> {
-                            AetherConfig.PEST_DISCO_DESTINATION_MODE.set(v);
-                            AetherConfig.save();
-                        })
-                .add(new TextSetting("Disco Destination Plot", "Plot number (e.g. 5)",
-                        () -> AetherConfig.PEST_DISCO_DESTINATION_PLOT.get(),
-                        v -> {
-                            AetherConfig.PEST_DISCO_DESTINATION_PLOT.set(v);
-                            AetherConfig.save();
-                        })));
-
-        groups.add(SettingGroup.of(
-                        "Discoless Destination",
-                        "Plot TP to your farming plot, etherwarp once, then hold and vacuum",
-                        () -> AetherConfig.PEST_DISCOLESS_MODE.get(),
-                        v -> {
-                            AetherConfig.PEST_DISCOLESS_MODE.set(v);
-                            AetherConfig.save();
-                        })
-                .add(new ListSetting("Discoless Plot", "Add plot name",
-                        () -> AetherConfig.PEST_DISCOLESS_PLOT.get(),
-                        v -> {
-                        AetherConfig.PEST_DISCOLESS_PLOT.set(v);
-                        AetherConfig.save();
-                        })));
-
-        groups.add(SettingGroup.of(
                         "AOTV to Roof",
                         "Teleports to the roof before cleaning pests on selected plots",
                         () -> AetherConfig.AOTV_TO_ROOF.get(),
