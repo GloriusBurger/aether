@@ -68,6 +68,7 @@ public class PestReturnManager {
         isFinishingInProgress = false;
         finishingStartedAtMs = 0L;
         finishingStage = "idle";
+        PestLifecycleManager.completePostStage();
     }
 
     private static void runFinisherAsync(String threadName, Runnable task) {
@@ -258,7 +259,7 @@ public class PestReturnManager {
                 }
 
                 setFinishingStage("restore sunset pests night");
-                PestDestroyer.restorePendingSunsetPestsNight(client);
+                PestLifecycleManager.restorePendingSunsetPestsNight(client);
                 if (abortFinisherIfNeeded(client, "restore sunset pests night")) {
                     return;
                 }

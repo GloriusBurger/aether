@@ -45,7 +45,6 @@ final class PestDestroyerRuntime {
     long activatedAt = 0L;
     long lastRoofRescanAt = 0L;
     PestDestroyer.State roofAotvReturnState = null;
-    boolean sunsetPestsRestoreNight = false;
 
     int etherwarpEntryAttempts = 0;
     long etherwarpEntryClickAt = 0L;

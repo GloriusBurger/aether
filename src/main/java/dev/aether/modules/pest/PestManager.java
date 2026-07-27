@@ -7,8 +7,8 @@ import dev.aether.macro.MacroStateManager;
 import dev.aether.modules.pest.helpers.PestAotvManager;
 import dev.aether.modules.pest.helpers.AutoPestExchangeManager;
 import dev.aether.modules.pest.helpers.PestBonusManager;
-import dev.aether.modules.pest.helpers.PestCleaningSequencer;
 import dev.aether.modules.pest.helpers.PestDiscoDestinationManager;
+import dev.aether.modules.pest.helpers.PestLifecycleManager;
 import dev.aether.modules.pest.helpers.PestOnTheTrackManager;
 import dev.aether.modules.pest.helpers.PestDestroyer;
 import dev.aether.modules.pest.helpers.PestReturnManager;
@@ -232,6 +232,7 @@ public class PestManager {
         currentPestSessionId++;
 
         PestPrepSwapManager.resetState();
+        PestLifecycleManager.reset();
         PestReturnManager.resetState();
         PestAotvManager.resetState();
         PestBonusManager.resetState();
@@ -244,7 +245,6 @@ public class PestManager {
     public static void checkTabListForPests(Minecraft client, MacroState.State currentState) {
         if (client.getConnection() == null || client.player == null || !MacroStateManager.isMacroRunning())
             return;
-        boolean manualMode = AetherConfig.MANUAL_PEST_MODE.get();
         if (!isPestDestroyerEnabled())
             return;
 
@@ -279,7 +279,9 @@ public class PestManager {
         // Failsafe: if CLEANING and 0 pests for 10s, return to farming.
         // Do not apply this during SPRAYING because spray routes can legitimately
         // travel multiple plots with 0 alive pests between spray actions.
-        if (currentState == MacroState.State.CLEANING && !GreenhouseManager.isRunning()) {
+        if (currentState == MacroState.State.CLEANING
+                && !GreenhouseManager.isRunning()
+                && !ManualPestManager.isActive()) {
             updateCleaningProgressTracker(effectiveAlive);
             if (effectiveAlive <= 0) {
                 if (lastZeroPestTime == 0) {
@@ -343,9 +345,7 @@ public class PestManager {
             String targetPlot = PestDiscoDestinationManager.selectPrimaryPlot(data.infestedPlots, "0");
             ClientUtils.sendDebugMessage("[PestManager] Tab threshold met. infestedPlots=" + data.infestedPlots
                             + " targetPlot=" + targetPlot + " currentPlot=" + ClientUtils.getCurrentPlot());
-            boolean started = manualMode
-                    ? startManualPestPause(client, effectiveAlive)
-                    : startCleaningSequence(client, targetPlot);
+            boolean started = startCleaningSequence(client, targetPlot, effectiveAlive);
             if (started) {
                 consumeRewarpTrigger();
             }
@@ -360,7 +360,7 @@ public class PestManager {
         if (PestDestroyer.isActive()) {
             PestDestroyer.stop(client);
         }
-        PestReturnManager.handlePestCleaningFinished(client);
+        PestLifecycleManager.startPostStage(client);
     }
 
     public static void update() {
@@ -387,17 +387,21 @@ public class PestManager {
     }
 
     public static boolean startCleaningSequence(Minecraft client, String plot) {
-        if (AetherConfig.MANUAL_PEST_MODE.get()) {
-            return false;
-        }
+        return startCleaningSequence(client, plot, Math.max(1, getEffectiveAliveCountNow(client)));
+    }
+
+    private static boolean startCleaningSequence(Minecraft client, String plot, int pestCount) {
         if (!claimCleaningTrigger()) {
             return false;
         }
         currentInfestedPlot = plot;
         currentPestSessionId++;
         resetCleaningProgressTracker();
-        PestCleaningSequencer.startCleaningSequence(client, plot, currentInfestedPlot, currentPestSessionId);
-        return true;
+        if (PestLifecycleManager.start(client, plot, pestCount, currentPestSessionId)) {
+            return true;
+        }
+        clearCleaningTriggerPending();
+        return false;
     }
 
     public static void handlePhillipMessage(Minecraft client, String text) {
@@ -458,24 +462,11 @@ public class PestManager {
                         + " from tab=" + data.infestedPlots
                         + ", chat=" + normalizedRequestedPlot
                         + ", ordered=" + currentInfestedPlots);
-        boolean started = AetherConfig.MANUAL_PEST_MODE.get()
-                ? startManualPestPause(client, effectiveAlive)
-                : startCleaningSequence(client, targetPlot);
+        boolean started = startCleaningSequence(client, targetPlot, effectiveAlive);
         if (started) {
             consumeRewarpTrigger();
         }
         return started;
-    }
-
-    private static boolean startManualPestPause(Minecraft client, int count) {
-        if (!claimCleaningTrigger()) {
-            return false;
-        }
-        if (ManualPestManager.startFromPestDestroyerTrigger(client, count)) {
-            return true;
-        }
-        clearCleaningTriggerPending();
-        return false;
     }
 
     public static void decrementPredictedAliveCount(Minecraft client) {
