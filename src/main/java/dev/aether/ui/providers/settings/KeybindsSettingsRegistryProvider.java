@@ -1,6 +1,8 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.settings;
 
 import dev.aether.bootstrap.AetherKeybindRegistry;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractKeybindsRegistryProvider;
 import dev.aether.ui.settings.KeybindSetting;
 import dev.aether.ui.settings.ModulesTab;
 import dev.aether.ui.settings.SettingGroup;

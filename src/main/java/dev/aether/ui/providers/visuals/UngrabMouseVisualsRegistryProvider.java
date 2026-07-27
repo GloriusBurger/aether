@@ -1,7 +1,9 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.visuals;
 
 import dev.aether.bootstrap.AetherKeybindRegistry;
 import dev.aether.modules.visuals.UngrabMouseManager;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractVisualsRegistryProvider;
 import dev.aether.ui.settings.KeybindSetting;
 import dev.aether.ui.settings.ModulesTab;
 import dev.aether.ui.settings.SettingGroup;

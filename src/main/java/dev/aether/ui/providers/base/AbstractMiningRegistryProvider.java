@@ -1,5 +1,7 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.base;
 
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.MainGUIRegistryProvider;
 import dev.aether.ui.settings.ModulesTab;
 
 public abstract class AbstractMiningRegistryProvider implements MainGUIRegistryProvider {
@@ -16,6 +18,6 @@ public abstract class AbstractMiningRegistryProvider implements MainGUIRegistryP
     public final void register(MainGUIRegistry.Registrar registrar) {
         registrar.registerModuleSection(SECTION_ID, SECTION_NAME, SECTION_ORDER, order, createSubTab());
     }
-
+    
     protected abstract ModulesTab.SubTab createSubTab();
 }

@@ -1,8 +1,10 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.modules;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.modules.failsafe.FailsafeSoundManager;
 import dev.aether.notification.NotificationManager;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractModulesRegistryProvider;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.ListSetting;
 import dev.aether.ui.settings.ModulesTab;
@@ -97,7 +99,41 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                         .visibleWhen(() -> AetherConfig.PEST_AOTV_BETWEEN.get()))
                 .add(FarmingSettingsFactory.pestFovRangeSetting())
                 .add(FarmingSettingsFactory.pestAboveAimPitchRangeSetting()));
-
+        groups.add(SettingGroup.of(
+                "On-The-Track Pest",
+                "Pauses farming briefly to vacuum pests already within reach",
+                () -> AetherConfig.PEST_ON_TRACK_ENABLED.get(),
+                v -> {
+                    AetherConfig.PEST_ON_TRACK_ENABLED.set(v);
+                    AetherConfig.save();
+                })
+        .add(new SliderSetting("Pest Detection FOV", 1, 360,
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_FOV.get(),
+                v -> {
+                    AetherConfig.PEST_ON_THE_TRACK_FOV.set(Math.round(v));
+                    AetherConfig.save();
+                })
+                .withDecimals(0).withSuffix("\u00B0"))
+        .add(new SliderSetting("Pest Detection Delay Time", 0, 3500,
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_ACQUIRE_DELAY_MS.get(),
+                v -> {
+                    AetherConfig.PEST_ON_THE_TRACK_ACQUIRE_DELAY_MS.set(Math.round(v));
+                    AetherConfig.save();
+                })
+                .withDecimals(0).withSuffix("ms"))
+        .add(new SliderSetting("Stuck Timeout", 4000, 25000,
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_STUCK_TIMEOUT_MS.get(),
+                v -> {
+                    AetherConfig.PEST_ON_THE_TRACK_STUCK_TIMEOUT_MS.set(Math.round(v));
+                    AetherConfig.save();
+                })
+                .withDecimals(0).withSuffix("ms"))
+        .add(new ToggleSetting("Skip during Jacob's Contests",
+                () -> AetherConfig.PEST_ON_THE_TRACK_SKIP_JACOB.get(),
+                v -> {
+                    AetherConfig.PEST_ON_THE_TRACK_SKIP_JACOB.set(v);
+                    AetherConfig.save();
+                })));
         groups.add(SettingGroup.of(
                         "Manual Pest Killing",
                         "Tabs you in and pauses when pests spawn so you can kill them by hand, then warps to garden and restarts (overrides Pest Destroyer)",

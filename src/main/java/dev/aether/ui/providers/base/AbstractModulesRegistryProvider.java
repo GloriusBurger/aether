@@ -1,5 +1,7 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.base;
 
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.MainGUIRegistryProvider;
 import dev.aether.ui.settings.ModulesTab;
 
 public abstract class AbstractModulesRegistryProvider implements MainGUIRegistryProvider {

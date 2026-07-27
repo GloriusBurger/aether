@@ -1,5 +1,7 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.colors;
 
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractColorsRegistryProvider;
 import dev.aether.ui.settings.ColorSetting;
 import dev.aether.ui.settings.ModulesTab;
 import dev.aether.ui.settings.SettingGroup;

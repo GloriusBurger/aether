@@ -5,15 +5,17 @@ import dev.aether.mixin.AccessorInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
 import java.util.Map;
 
 final class PestLoadoutHelper {
-    private static final Map<String, Float> VACUUM_RANGES = Map.of(
-            "Skymart Vacuum", 5f,
-            "Turbo Vacuum", 7.5f,
-            "Hyper Vacuum", 10f,
-            "InfiniVacuum", 12.5f,
-            "InfiniVacuum Hooverius", 15F);
+    private static final List<Map.Entry<String, Float>> VACUUM_RANGES = List.of(
+        Map.entry("InfiniVacuum Hooverius", 15f),
+        Map.entry("InfiniVacuum", 12.5f),
+        Map.entry("Hyper Vacuum", 10f),
+        Map.entry("Turbo Vacuum", 7.5f),
+        Map.entry("Skymart Vacuum", 5f)
+    );
 
     private PestLoadoutHelper() {
     }
@@ -69,7 +71,7 @@ final class PestLoadoutHelper {
         }
 
         String name = stack.getHoverName().getString().replaceAll("(?i)\\u00A7.", "").trim();
-        for (Map.Entry<String, Float> entry : VACUUM_RANGES.entrySet()) {
+        for (Map.Entry<String, Float> entry : VACUUM_RANGES) {
             if (name.contains(entry.getKey())) {
                 return entry.getValue() * 0.9f;
             }

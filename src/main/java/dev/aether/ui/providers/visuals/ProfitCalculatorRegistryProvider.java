@@ -1,10 +1,12 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.visuals;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.config.PetInfo;
 import dev.aether.config.PetRarity;
 import dev.aether.modules.profit.ProfitManager;
 import dev.aether.modules.profit.ProfitPriceSource;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractVisualsRegistryProvider;
 import dev.aether.ui.settings.ActionSetting;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.ModulesTab;

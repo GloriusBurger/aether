@@ -60,6 +60,13 @@ public final class FarmingMacroManager {
         return cachedCycleStep;
     }
 
+	/**
+	 * Restores the active macro's cached farming orientation.
+	 */
+	public static boolean restoreConfiguredOrientation(Minecraft mc) {
+		return activeMacro != null && activeMacro.restoreConfiguredOrientation(mc);
+	}
+
     // -- Public API ------------------------------------------------------------
 
     /**

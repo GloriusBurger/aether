@@ -1,7 +1,9 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.visuals;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.modules.discord.DiscordRemoteControlManager;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.MainGUIRegistryProvider;
 import dev.aether.ui.settings.ModulesTab;
 import dev.aether.ui.settings.SettingGroup;
 import dev.aether.ui.settings.SliderSetting;

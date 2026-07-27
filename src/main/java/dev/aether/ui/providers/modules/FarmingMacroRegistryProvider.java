@@ -1,10 +1,12 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.modules;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.config.FarmWaypoint;
 import dev.aether.config.FarmingMacroPresetManager;
 import dev.aether.config.FarmType;
 import dev.aether.config.FarmWaypoints;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractModulesRegistryProvider;
 import dev.aether.ui.settings.ActionSetting;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.MultiDropdownSetting;
