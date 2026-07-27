@@ -20,6 +20,7 @@ final class PestCombatCoordinator {
     private static final float AOTV_AIM_TOLERANCE_DEGREES = 2.0f;
     private static final double POST_AOTV_LOOK_DOWN_HORIZONTAL_DISTANCE = 3.0;
     private static final double VACUUM_REAPPROACH_BUFFER = 6.0;
+    private static final double TARGET_REACQUIRE_CONE_DEGREES = 120.0;
     private static final double S_BRAKE_ENTER_DISTANCE = 2.0;
     private static final double S_BRAKE_EXIT_DISTANCE = 4.0;
     private static final double S_BRAKE_MIN_SPEED = 0.20;
@@ -195,6 +196,21 @@ final class PestCombatCoordinator {
         }
 
         if (client.player == null) {
+            return;
+        }
+
+        // If we pass the pest, it can remain inside the vacuum re-approach
+        // buffer while sitting behind us. Reacquire it immediately instead of
+        // continuing to hold the old kill state with the pest out of view.
+        if (isOutsideForwardCone(client, currentTarget, TARGET_REACQUIRE_CONE_DEGREES)) {
+            ClientUtils.setKeyMappingState(client.options.keyUse, false);
+            ClientUtils.setKeyMappingState(client.options.keyDown, false);
+            ClientUtils.setKeyMappingState(client.options.keyUp, false);
+            PathfindingManager.stop();
+            context.setTargetWithoutSkullTicks(0);
+            context.startPathToPest(client, currentTarget);
+            context.setState(PestDestroyer.State.APPROACH_PEST);
+            ClientUtils.sendDebugMessage("[PestDestroyer] Target moved behind forward cone. Reacquiring immediately.");
             return;
         }
 
@@ -450,6 +466,19 @@ final class PestCombatCoordinator {
             context.setState(PestDestroyer.State.FLY_TO_PEST);
         }
         return true;
+    }
+
+    static boolean isOutsideForwardCone(Minecraft client, Entity target, double coneDegrees) {
+        if (client == null || client.player == null || target == null || coneDegrees <= 0.0) {
+            return false;
+        }
+        Vec3 toTarget = getEntityEyePosition(target).subtract(client.player.getEyePosition());
+        if (toTarget.lengthSqr() == 0.0) {
+            return false;
+        }
+        double dot = client.player.getViewVector(1.0F).normalize().dot(toTarget.normalize());
+        double threshold = Math.cos(Math.toRadians(coneDegrees));
+        return dot < threshold;
     }
 
     private static Vec3 getEntityEyePosition(Entity entity) {
