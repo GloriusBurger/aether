@@ -8,7 +8,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import dev.aether.modules.gear.GearManager;
+import dev.aether.macro.MacroWorkerThread;
 import dev.aether.modules.rotation.RotationManager;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PestAotvManager {
     public static volatile boolean isSneakingForAotv = false;
@@ -159,7 +162,8 @@ public class PestAotvManager {
 
         isSneakingForAotv = true;
         Vec3 eyePos = client.player.getEyePosition();
-        float yawRad = (float) Math.toRadians(client.player.getYRot());
+        float upwardYaw = client.player.getYRot() + randomYawOffset();
+        float yawRad = (float) Math.toRadians(upwardYaw);
         int baseUpPitch = Math.max(20, Math.min(90, AetherConfig.AOTV_ROOF_PITCH.get()));
         int humanization = Math.max(0, Math.min(15, AetherConfig.AOTV_ROOF_PITCH_HUMANIZATION.get()));
         double randomizedUpPitch = baseUpPitch + ((Math.random() * 2.0) - 1.0) * humanization;
@@ -214,6 +218,37 @@ public class PestAotvManager {
                     }
                 });
             }
+    }
+
+    /** Performs the post-roof view reset on the worker after its AOTV phase has ended. */
+    public static void rotateDownAfterAotv(Minecraft client) throws InterruptedException {
+        if (client == null || client.player == null) {
+            return;
+        }
+
+        float targetYaw = client.player.getYRot() + randomYawOffset();
+        float targetPitch = (float) (-30.0 + Math.random() * 60.0);
+        int rotTime = (int) (AetherConfig.ROTATION_TIME.get() * (0.92 + Math.random() * 0.16));
+        AtomicBoolean started = new AtomicBoolean(false);
+        client.execute(() -> {
+            if (client.player == null) {
+                return;
+            }
+            RotationManager.rotateToYawPitch(client, targetYaw, targetPitch, rotTime, true);
+            started.set(true);
+        });
+
+        long deadline = System.currentTimeMillis() + Math.max(1_500L, rotTime + 1_000L);
+        while (!started.get() && System.currentTimeMillis() < deadline) {
+            MacroWorkerThread.sleep(10);
+        }
+        while (started.get() && RotationManager.isRotating() && System.currentTimeMillis() < deadline) {
+            MacroWorkerThread.sleep(20);
+        }
+    }
+
+    private static float randomYawOffset() {
+        return (float) (-10.0 + Math.random() * 20.0);
     }
 
     private static void finishPreparationAotv(Minecraft client, boolean recoverWithPlotTp) {

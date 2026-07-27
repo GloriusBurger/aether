@@ -101,6 +101,8 @@ final class PestPreStage {
             ClientUtils.sendDebugMessage("Pest PRE stage: AOTV timed out; using plottp to recover.");
             CommandUtils.initiatePlotTp(plot);
             MacroWorkerThread.sleep(2500);
+        } else {
+            PestAotvManager.rotateDownAfterAotv(client);
         }
         return !shouldAbort(client, sessionId);
     }
