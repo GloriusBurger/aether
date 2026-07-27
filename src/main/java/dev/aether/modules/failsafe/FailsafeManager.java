@@ -4,6 +4,7 @@ import dev.aether.config.AetherConfig;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.modules.discord.DiscordRemoteControlManager;
 import dev.aether.modules.discord.DiscordStatusManager;
+import dev.aether.modules.pest.ManualPestManager;
 import dev.aether.util.AetherLang;
 import dev.aether.util.ClientUtils;
 import net.minecraft.client.Minecraft;
@@ -82,6 +83,11 @@ public final class FailsafeManager {
     }
 
     public static void tick(Minecraft client) {
+        if (shouldSuspendRuntimeFailsafes()) {
+            resetRuntimeState();
+            return;
+        }
+
         FailsafeTestManager.tick(client);
         InventorySlotFailsafe.tick(client);
         UnexpectedInventoryFailsafe.tick(client);
@@ -92,15 +98,27 @@ public final class FailsafeManager {
     }
 
     public static void onBlockBreak() {
+        if (shouldSuspendRuntimeFailsafes()) {
+            return;
+        }
+
         BpsFailsafe.onBlockBreak();
     }
 
     public static void onBlockBreak(BlockPos pos) {
+        if (shouldSuspendRuntimeFailsafes()) {
+            return;
+        }
+
         BpsFailsafe.onBlockBreak();
         DirtFailsafe.onBlockBreak(pos);
     }
 
     public static void onBlockChanged(Minecraft client, BlockPos pos, BlockState oldState, BlockState newState) {
+        if (shouldSuspendRuntimeFailsafes()) {
+            return;
+        }
+
         DirtFailsafe.onBlockChanged(client, pos, oldState, newState);
     }
 
@@ -256,6 +274,10 @@ public final class FailsafeManager {
 
         long maxAdditionalDelayMs = Math.round(maxAdditionalDelaySeconds * 1000.0f);
         return java.util.concurrent.ThreadLocalRandom.current().nextLong(maxAdditionalDelayMs + 1L);
+    }
+
+    private static boolean shouldSuspendRuntimeFailsafes() {
+        return ManualPestManager.isActive();
     }
 
     public static void onFailsafeTriggered(FailsafeAction action) {
