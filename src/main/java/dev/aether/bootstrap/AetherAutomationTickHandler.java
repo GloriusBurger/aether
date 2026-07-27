@@ -64,7 +64,7 @@ public final class AetherAutomationTickHandler {
                     || client.screen instanceof ChatScreen
                     || AetherBootstrapHooks.isBootstrapConfigScreen(client.screen);
             if (automationStopScreen) {
-                if (MacroStateManager.isMacroRunning()) {
+                if (MacroStateManager.isMacroRunning() && !ManualPestManager.isActive()) {
                     MacroStateManager.stopMacro(client);
                 }
                 if (BedrockPlotMaker.isRunning()) {
@@ -156,6 +156,7 @@ public final class AetherAutomationTickHandler {
         RestartManager.update();
         AutoCarnivalManager.update();
 
+        PestAotvManager.updatePreparationAotv(client);
         PestDestroyer.update();
         MetalDetectorSolver.update();
         VacuumParticleDebug.onClientTick();

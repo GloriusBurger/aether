@@ -68,6 +68,7 @@ public class PestReturnManager {
         isFinishingInProgress = false;
         finishingStartedAtMs = 0L;
         finishingStage = "idle";
+        PestLifecycleManager.completePostStage();
     }
 
     private static void runFinisherAsync(String threadName, Runnable task) {

@@ -24,8 +24,8 @@ import java.util.*;
  * Uses {@link PathfindingManager} in fly mode to navigate to pest entities,
  * then aims and fires the vacuum to kill them.
  * <p>
- * Lifecycle: {@link PestCleaningSequencer} calls {@link #start(Minecraft)}
- * to begin hunting pests in the garden.
+ * Lifecycle: {@link PestLifecycleManager} starts this automatic CLEANING stage
+ * after the shared PRE stage completes, beginning the pest hunt in the garden.
  * Each tick, {@link #update(Minecraft)} drives the state machine. When all
  * pests
  * are dead (or stuck), it calls
