@@ -21,6 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class PestTrapManager {
@@ -145,6 +147,7 @@ public class PestTrapManager {
 
     public static void runSequence(Minecraft client, String plot) throws InterruptedException {
         currentOperation = Operation.CLEAR;
+        Set<Integer> clearedTrapIds = new HashSet<>();
         if (shouldAbort() || abortForPestExchange(client, "clear")) {
             return;
         }
@@ -176,9 +179,13 @@ public class PestTrapManager {
                 return;
             }
             ensureGuiClosed(client);
-            List<Integer> fullTraps = getFullTrapsFromTab(client);
+            List<Integer> fullTraps = getFullTrapsFromTab(client).stream()
+                    .filter(trapId -> !clearedTrapIds.contains(trapId))
+                    .toList();
             if (fullTraps.isEmpty()) {
-                ClientUtils.sendDebugMessage("No more full traps detected in tablist.");
+                ClientUtils.sendDebugMessage(clearedTrapIds.isEmpty()
+                        ? "No more full traps detected in tablist."
+                        : "No uncleared full traps detected in tablist.");
                 break;
             }
 
@@ -226,6 +233,8 @@ public class PestTrapManager {
                     if (releaseSlot != -1) {
                         ClientUtils.sendDebugMessage("Clicking 'Release All Pests' button at slot " + releaseSlot);
                         clickCurrentScreenSlot(client, releaseSlot);
+                        clearedTrapIds.add(trapId);
+                        clearedThisPass++;
                     } else {
                         ClientUtils.sendDebugMessage("Could not find 'Release All Pests' button.");
                     }
@@ -234,7 +243,6 @@ public class PestTrapManager {
                     waitForTrapGuiClosed(client);
                     ensurePetEquippedAfterTrapOpen(client);
                     MacroWorkerThread.sleep(200);
-                    clearedThisPass++;
                 } else {
                     ClientUtils.sendDebugMessage("Failed to open trap GUI for #" + trapId
                             + " (dist=" + String.format("%.2f", trapTarget.distance()) + ")");
