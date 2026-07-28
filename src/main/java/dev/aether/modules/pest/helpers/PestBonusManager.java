@@ -14,8 +14,20 @@ public class PestBonusManager {
     private static final Pattern BONUS_INACTIVE_PATTERN = Pattern.compile("(?i)\\bbonus\\b.*\\binactive\\b");
     private static final Pattern BONUS_ACTIVE_PATTERN = Pattern.compile("(?i)\\bbonus\\b.*\\bactive\\b");
 
-    public static volatile boolean isBonusInactive = false;
-    public static volatile boolean isReactivatingBonus = false;
+    private static volatile boolean isBonusInactive = false;
+    private static volatile boolean isReactivatingBonus = false;
+
+    public static boolean isBonusInactive() {
+        return isBonusInactive;
+    }
+
+    public static void setBonusInactive(boolean inactive) {
+        isBonusInactive = inactive;
+    }
+
+    public static void beginReactivation() {
+        isReactivatingBonus = true;
+    }
 
     public static void resetState() {
         isBonusInactive = false;
@@ -23,15 +35,24 @@ public class PestBonusManager {
     }
 
     public static void updateFromTab() {
+        refreshFromTab();
+    }
+
+    /**
+     * Refreshes the cached state and returns the state observed in this tab
+     * snapshot. A null result means the bonus line was not present.
+     */
+    public static Boolean refreshFromTab() {
         Minecraft client = Minecraft.getInstance();
         if (client == null || client.player == null || client.getConnection() == null) {
-            return;
+            return null;
         }
 
         Boolean bonusInactive = readBonusState(client);
         if (bonusInactive != null) {
             isBonusInactive = bonusInactive;
         }
+        return bonusInactive;
     }
 
     public static Boolean parseBonusState(String text) {
@@ -87,21 +108,22 @@ public class PestBonusManager {
     }
 
     private static Boolean readBonusState(Minecraft client) {
+        Boolean lastMatch = null;
         for (String line : TablistUtils.getRawTabLines(client)) {
             Boolean parsed = parseBonusState(line);
             if (parsed != null) {
-                return parsed;
+                lastMatch = parsed;
             }
         }
 
         for (String line : TablistUtils.getTabLines(client)) {
             Boolean parsed = parseBonusState(line);
             if (parsed != null) {
-                return parsed;
+                lastMatch = parsed;
             }
         }
 
-        return null;
+        return lastMatch;
     }
 
     private static String normalizeLine(String text) {
