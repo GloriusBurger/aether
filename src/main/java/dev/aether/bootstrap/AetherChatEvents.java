@@ -79,7 +79,7 @@ public final class AetherChatEvents {
                     return;
                 }
 
-                if (PestManager.isCleaningInProgress || AutoPestExchangeManager.isRunning()) {
+                if (PestManager.isCleaningInProgress() || AutoPestExchangeManager.isRunning()) {
                     PestManager.handlePhillipMessage(Minecraft.getInstance(), text);
                     AutoSprayonatorManager.onChatMessage(plainText);
                     return;
