@@ -19,12 +19,15 @@ final class BpsFailsafe {
     }
 
     private static final long CLIENT_STALL_THRESHOLD_MS = 1000L;
+    private static final long CLIENT_STALL_DISCARD_COOLDOWN_MS = 30000L;
+    private static final long MAX_CLOCK_ADVANCE_MS = 1000L;
 
     private static final Deque<Long> breakTimes = new ArrayDeque<>();
     private static long farmingClockMs = 0L;
     private static long lowBpsSince = 0L;
     private static long lowBpsRandomDelayMs = 0L;
     private static long lastTickRealMs = 0L;
+    private static long lastStallDiscardMs = 0L;
     private static boolean triggered = false;
 
     private BpsFailsafe() {}
@@ -37,6 +40,7 @@ final class BpsFailsafe {
         lowBpsSince = 0L;
         lowBpsRandomDelayMs = 0L;
         lastTickRealMs = 0L;
+        lastStallDiscardMs = 0L;
         triggered = false;
     }
 
@@ -66,15 +70,18 @@ final class BpsFailsafe {
         }
 
         long tickRealMs = System.currentTimeMillis();
-        long realElapsedMs = lastTickRealMs == 0L ? 0L : tickRealMs - lastTickRealMs;
+        long realElapsedMs = lastTickRealMs == 0L ? 50L : Math.max(0L, tickRealMs - lastTickRealMs);
         lastTickRealMs = tickRealMs;
-        if (realElapsedMs > CLIENT_STALL_THRESHOLD_MS) {
+
+        if (realElapsedMs > CLIENT_STALL_THRESHOLD_MS
+                && tickRealMs - lastStallDiscardMs > CLIENT_STALL_DISCARD_COOLDOWN_MS) {
+            lastStallDiscardMs = tickRealMs;
             discardWindow();
             return;
         }
 
         synchronized (breakTimes) {
-            farmingClockMs += 50L;
+            farmingClockMs += Math.min(realElapsedMs, MAX_CLOCK_ADVANCE_MS);
             cleanup();
         }
 
