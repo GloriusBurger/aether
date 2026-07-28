@@ -278,12 +278,14 @@ public final class LiveAetherBootstrapHooks implements AetherBootstrapHooks.Feat
 
     @Override
     public void tickFailsafes(Minecraft minecraft) {
+        dev.aether.util.RefocusInputGuard.tick(minecraft);
         DelayedBlockBreakTracker.tick(minecraft);
         FailsafeManager.tick(minecraft);
     }
 
     @Override
     public void resetFailsafes() {
+        dev.aether.util.RefocusInputGuard.reset();
         DelayedBlockBreakTracker.reset();
         FailsafeManager.reset();
     }
