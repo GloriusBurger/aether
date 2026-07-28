@@ -35,15 +35,24 @@ public class PestBonusManager {
     }
 
     public static void updateFromTab() {
+        refreshFromTab();
+    }
+
+    /**
+     * Refreshes the cached state and returns the state observed in this tab
+     * snapshot. A null result means the bonus line was not present.
+     */
+    public static Boolean refreshFromTab() {
         Minecraft client = Minecraft.getInstance();
         if (client == null || client.player == null || client.getConnection() == null) {
-            return;
+            return null;
         }
 
         Boolean bonusInactive = readBonusState(client);
         if (bonusInactive != null) {
             isBonusInactive = bonusInactive;
         }
+        return bonusInactive;
     }
 
     public static Boolean parseBonusState(String text) {
@@ -99,21 +108,22 @@ public class PestBonusManager {
     }
 
     private static Boolean readBonusState(Minecraft client) {
+        Boolean lastMatch = null;
         for (String line : TablistUtils.getRawTabLines(client)) {
             Boolean parsed = parseBonusState(line);
             if (parsed != null) {
-                return parsed;
+                lastMatch = parsed;
             }
         }
 
         for (String line : TablistUtils.getTabLines(client)) {
             Boolean parsed = parseBonusState(line);
             if (parsed != null) {
-                return parsed;
+                lastMatch = parsed;
             }
         }
 
-        return null;
+        return lastMatch;
     }
 
     private static String normalizeLine(String text) {
