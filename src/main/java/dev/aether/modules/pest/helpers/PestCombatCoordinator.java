@@ -528,10 +528,22 @@ final class PestCombatCoordinator {
                     (targetEye.x - eyePos.x) * (targetEye.x - eyePos.x)
                             + (targetEye.z - eyePos.z) * (targetEye.z - eyePos.z));
             float desiredPitch = getAbovePestPitch(target);
+            double actualPitch = downwardPitchDegrees(
+                    eyePos.y - targetEye.y,
+                    horizontalDistance);
+            if (actualPitch > desiredPitch) {
+                return targetEye;
+            }
             double targetY = eyePos.y + Math.tan(Math.toRadians(-desiredPitch)) * horizontalDistance;
             return new Vec3(targetEye.x, targetY, targetEye.z);
         }
         return targetEye;
+    }
+
+    static double downwardPitchDegrees(double verticalDrop, double horizontalDistance) {
+        return Math.toDegrees(Math.atan2(
+                Math.max(0.0, verticalDrop),
+                Math.max(0.0, horizontalDistance)));
     }
 
     private static float getAbovePestPitch(Entity target) {
