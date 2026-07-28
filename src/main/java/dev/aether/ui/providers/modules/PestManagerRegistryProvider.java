@@ -1,7 +1,10 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.modules;
 
 import dev.aether.config.AetherConfig;
+import dev.aether.modules.failsafe.FailsafeSoundManager;
 import dev.aether.notification.NotificationManager;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractModulesRegistryProvider;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.ListSetting;
 import dev.aether.ui.settings.ModulesTab;
@@ -24,6 +27,7 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
     @Override
     protected ModulesTab.SubTab createSubTab() {
         List<String> sprayMaterials = FarmingSettingsFactory.sprayMaterials();
+        List<String> manualPestSoundOptions = getSoundOptions();
         List<SettingGroup> groups = new ArrayList<>();
 
         groups.add(SettingGroup.of(
@@ -95,6 +99,60 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                         .visibleWhen(() -> AetherConfig.PEST_AOTV_BETWEEN.get()))
                 .add(FarmingSettingsFactory.pestFovRangeSetting())
                 .add(FarmingSettingsFactory.pestAboveAimPitchRangeSetting()));
+        groups.add(SettingGroup.of(
+                "On-The-Track Pest",
+                "Pauses farming briefly to vacuum pests already within reach",
+                () -> AetherConfig.PEST_ON_TRACK_ENABLED.get(),
+                v -> {
+                    AetherConfig.PEST_ON_TRACK_ENABLED.set(v);
+                    AetherConfig.save();
+                })
+        .add(new SliderSetting("Pest Detection FOV", 1, 360,
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_FOV.get(),
+                v -> {
+                    AetherConfig.PEST_ON_THE_TRACK_FOV.set(Math.round(v));
+                    AetherConfig.save();
+                })
+                .withDecimals(0).withSuffix("\u00B0"))
+        .add(new SliderSetting("Pest Detection Delay Time", 0, 3500,
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_ACQUIRE_DELAY_MS.get(),
+                v -> {
+                    AetherConfig.PEST_ON_THE_TRACK_ACQUIRE_DELAY_MS.set(Math.round(v));
+                    AetherConfig.save();
+                })
+                .withDecimals(0).withSuffix("ms"))
+        .add(new SliderSetting("Stuck Timeout", 4000, 25000,
+                () -> (float) AetherConfig.PEST_ON_THE_TRACK_STUCK_TIMEOUT_MS.get(),
+                v -> {
+                    AetherConfig.PEST_ON_THE_TRACK_STUCK_TIMEOUT_MS.set(Math.round(v));
+                    AetherConfig.save();
+                })
+                .withDecimals(0).withSuffix("ms"))
+        .add(new ToggleSetting("Skip during Jacob's Contests",
+                () -> AetherConfig.PEST_ON_THE_TRACK_SKIP_JACOB.get(),
+                v -> {
+                    AetherConfig.PEST_ON_THE_TRACK_SKIP_JACOB.set(v);
+                    AetherConfig.save();
+                })));
+        groups.add(SettingGroup.of(
+                        "Manual Pest Killing",
+                        "Tabs you in and pauses when pests spawn so you can kill them by hand, then warps to garden and restarts (overrides Pest Destroyer)",
+                        () -> AetherConfig.MANUAL_PEST_MODE.get(),
+                        v -> {
+                            AetherConfig.MANUAL_PEST_MODE.set(v);
+                            AetherConfig.save();
+                        })
+                .add(new DropdownSetting("Manual Pest Sound", manualPestSoundOptions,
+                        () -> getSoundIndex(manualPestSoundOptions, AetherConfig.MANUAL_PEST_SOUND_FILE.get()),
+                        i -> {
+                            if (i < 0 || i >= manualPestSoundOptions.size()) {
+                                return;
+                            }
+                            AetherConfig.MANUAL_PEST_SOUND_FILE.set(manualPestSoundOptions.get(i));
+                            AetherConfig.save();
+                        })
+                        .addIconAction("/assets/aether/icons/folder.svg", FailsafeSoundManager::openSoundFolder)
+                        .addIconAction("/assets/aether/icons/refresh.svg", () -> refreshSoundOptions(manualPestSoundOptions))));
 
         groups.add(SettingGroup.of(
                         "Disco Destination",
@@ -282,6 +340,29 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                     AetherConfig.save();
                 },
                 groups);
+    }
+
+    private static List<String> getSoundOptions() {
+        List<String> sounds = new ArrayList<>(FailsafeSoundManager.getAvailableSounds());
+        if (sounds.isEmpty()) {
+            sounds.add(FailsafeSoundManager.getDefaultSoundFileName());
+        }
+        return sounds;
+    }
+
+    private static void refreshSoundOptions(List<String> options) {
+        options.clear();
+        options.addAll(getSoundOptions());
+    }
+
+    private static int getSoundIndex(List<String> options, String selected) {
+        int selectedIndex = options.indexOf(selected);
+        if (selectedIndex >= 0) {
+            return selectedIndex;
+        }
+
+        int defaultIndex = options.indexOf(FailsafeSoundManager.getDefaultSoundFileName());
+        return defaultIndex >= 0 ? defaultIndex : 0;
     }
 
 }

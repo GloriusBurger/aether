@@ -113,6 +113,25 @@ public final class FailsafeSoundManager {
         });
     }
 
+    public static void playConfiguredSoundFile(String requested) {
+        if (!AetherConfig.FAILSAFE_SOUND_ENABLED.get()) {
+            return;
+        }
+
+        float volume = clampVolume(AetherConfig.FAILSAFE_SOUND_VOLUME.get());
+        if (volume <= 0.0f) {
+            return;
+        }
+
+        String sanitized = sanitizeSoundName(requested);
+        PLAYBACK_EXECUTOR.execute(() -> {
+            Path soundPath = resolvePlayableSound(sanitized);
+            if (soundPath != null) {
+                playSound(soundPath, volume);
+            }
+        });
+    }
+
     /** Which sound file the user picked for this action, falling back to the shared default. */
     private static String requestedSoundFor(FailsafeAction action) {
         String perAction = switch (action) {

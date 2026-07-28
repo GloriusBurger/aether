@@ -1,8 +1,10 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.modules;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.config.ConfigHelpers;
 import dev.aether.config.UnflyMode;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractModulesRegistryProvider;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.ModulesTab;
 import dev.aether.ui.settings.SettingGroup;

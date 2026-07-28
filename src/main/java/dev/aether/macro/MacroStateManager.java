@@ -1,5 +1,7 @@
 package dev.aether.macro;
 
+import dev.aether.macro.farming.FarmingMacroManager;
+
 import dev.aether.util.ClientUtils;
 import dev.aether.config.AetherConfig;
 import dev.aether.modules.ComposterManager;
@@ -23,6 +25,7 @@ import dev.aether.modules.pest.helpers.AutoPestExchangeManager;
 import dev.aether.modules.pest.helpers.AutoSprayonatorManager;
 import dev.aether.modules.pest.helpers.PestDestroyer;
 import dev.aether.modules.pest.helpers.PestExchangeManager;
+import dev.aether.modules.pest.helpers.PestOnTheTrackManager;
 import dev.aether.modules.pest.helpers.PestTrapManager;
 import dev.aether.modules.profit.ProfitManager;
 import dev.aether.modules.session.DailyFarmTimeTracker;
@@ -207,6 +210,7 @@ public class MacroStateManager {
         ClientUtils.forceReleaseKeys();
         ClientUtils.sendDebugMessage(debugReason);
         PestManager.reset();
+        PestOnTheTrackManager.getInstance().reset(client);
         PestExchangeManager.stop();
         PestDestroyer.stop(client);
         PestTrapManager.cancel(client);

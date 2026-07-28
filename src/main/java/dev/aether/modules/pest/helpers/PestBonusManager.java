@@ -71,7 +71,7 @@ public class PestBonusManager {
                     return;
                 }
                 ClientUtils.sendDebugMessage("Disabling farming macro: Phillip reactivation detected");
-                client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+                client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
                 MacroWorkerThread.sleep(ConfigHelpers.getRandomizedDelay(250));
                 if (MacroWorkerThread.shouldAbortTask(client)) {
                     return;

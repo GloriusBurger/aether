@@ -1,10 +1,12 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.modules;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.config.FarmWaypoint;
 import dev.aether.config.FarmingMacroPresetManager;
 import dev.aether.config.FarmType;
 import dev.aether.config.FarmWaypoints;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractModulesRegistryProvider;
 import dev.aether.ui.settings.ActionSetting;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.MultiDropdownSetting;
@@ -104,20 +106,6 @@ public final class FarmingMacroRegistryProvider extends AbstractModulesRegistryP
                             AetherConfig.MACRO_DISABLE_SETSPAWN.set(v);
                             AetherConfig.save();
                         }))
-                .add(new ToggleSetting("Rotate on Drop",
-                        () -> AetherConfig.MACRO_ROTATE_ON_DROP.get(),
-                        v -> {
-                            AetherConfig.MACRO_ROTATE_ON_DROP.set(v);
-                            AetherConfig.save();
-                        }))
-                .add(new SliderSetting("Drop Rotation", -180, 180,
-                        () -> (float) AetherConfig.MACRO_DROP_ROTATION_DEGREES.get(),
-                        v -> {
-                            AetherConfig.MACRO_DROP_ROTATION_DEGREES.set(Math.round(v));
-                            AetherConfig.save();
-                        })
-                        .withDecimals(0).withSuffix("\u00B0")
-                        .visibleWhen(() -> AetherConfig.MACRO_ROTATE_ON_DROP.get()))
                 .add(new ToggleSetting("Squeaky Mousemat",
                         () -> AetherConfig.SQUEAKY_MOUSEMAT.get(),
                         v -> {

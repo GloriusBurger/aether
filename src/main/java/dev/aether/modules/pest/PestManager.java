@@ -7,8 +7,9 @@ import dev.aether.macro.MacroStateManager;
 import dev.aether.modules.pest.helpers.PestAotvManager;
 import dev.aether.modules.pest.helpers.AutoPestExchangeManager;
 import dev.aether.modules.pest.helpers.PestBonusManager;
-import dev.aether.modules.pest.helpers.PestCleaningSequencer;
 import dev.aether.modules.pest.helpers.PestDiscoDestinationManager;
+import dev.aether.modules.pest.helpers.PestLifecycleManager;
+import dev.aether.modules.pest.helpers.PestOnTheTrackManager;
 import dev.aether.modules.pest.helpers.PestDestroyer;
 import dev.aether.modules.pest.helpers.PestReturnManager;
 import dev.aether.modules.GreenhouseManager;
@@ -77,6 +78,8 @@ public class PestManager {
                 || isCleaningInProgress
                 || isPestReentryCooldownActive()
                 || PestDestroyer.isActive()
+                || PestOnTheTrackManager.getInstance().isNotIdle()
+                || ManualPestManager.isActive()
                 || PestReturnManager.isFinishingInProgress
                 || PestReturnManager.isReturnToLocationActive
                 || LoadoutManager.isSwappingLoadout) {
@@ -115,6 +118,19 @@ public class PestManager {
      */
     public static Set<String> getInfestedPlotsFromTab(Minecraft client) {
         return new LinkedHashSet<>(parseTabList(client).infestedPlots);
+    }
+
+    /**
+     * Raw pests-alive count from the current tab list. Returns -1 when the tab
+     * has no pests line (i.e. no pests). Unlike {@link #getEffectiveAliveCountNow}
+     * this is not blended with chat-predicted counts, so it drops back to 0/-1 as
+     * soon as the tab clears - which is what manual pest handling relies on.
+     */
+    public static int getTabAliveCountNow(Minecraft client) {
+        if (client == null || client.getConnection() == null || client.player == null) {
+            return -1;
+        }
+        return parseTabList(client).aliveCount;
     }
 
     private static class TabListData {
@@ -216,11 +232,13 @@ public class PestManager {
         currentPestSessionId++;
 
         PestPrepSwapManager.resetState();
+        PestLifecycleManager.reset();
         PestReturnManager.resetState();
         PestAotvManager.resetState();
         PestBonusManager.resetState();
         AutoPestExchangeManager.reset();
         PestDestroyer.reset();
+        ManualPestManager.reset();
         DynamicPestsManager.reset();
     }
 
@@ -261,7 +279,9 @@ public class PestManager {
         // Failsafe: if CLEANING and 0 pests for 10s, return to farming.
         // Do not apply this during SPRAYING because spray routes can legitimately
         // travel multiple plots with 0 alive pests between spray actions.
-        if (currentState == MacroState.State.CLEANING && !GreenhouseManager.isRunning()) {
+        if (currentState == MacroState.State.CLEANING
+                && !GreenhouseManager.isRunning()
+                && !ManualPestManager.isActive()) {
             updateCleaningProgressTracker(effectiveAlive);
             if (effectiveAlive <= 0) {
                 if (lastZeroPestTime == 0) {
@@ -301,7 +321,6 @@ public class PestManager {
             return;
         }
 
-        // Check if cleaning should be triggered
         if (isThresholdMet(effectiveAlive)) {
             if (isPestReentryCooldownActive()) {
                 return;
@@ -326,7 +345,8 @@ public class PestManager {
             String targetPlot = PestDiscoDestinationManager.selectPrimaryPlot(data.infestedPlots, "0");
             ClientUtils.sendDebugMessage("[PestManager] Tab threshold met. infestedPlots=" + data.infestedPlots
                             + " targetPlot=" + targetPlot + " currentPlot=" + ClientUtils.getCurrentPlot());
-            if (startCleaningSequence(client, targetPlot)) {
+            boolean started = startCleaningSequence(client, targetPlot, effectiveAlive);
+            if (started) {
                 consumeRewarpTrigger();
             }
         }
@@ -340,7 +360,7 @@ public class PestManager {
         if (PestDestroyer.isActive()) {
             PestDestroyer.stop(client);
         }
-        PestReturnManager.handlePestCleaningFinished(client);
+        PestLifecycleManager.startPostStage(client);
     }
 
     public static void update() {
@@ -367,14 +387,21 @@ public class PestManager {
     }
 
     public static boolean startCleaningSequence(Minecraft client, String plot) {
+        return startCleaningSequence(client, plot, Math.max(1, getEffectiveAliveCountNow(client)));
+    }
+
+    private static boolean startCleaningSequence(Minecraft client, String plot, int pestCount) {
         if (!claimCleaningTrigger()) {
             return false;
         }
         currentInfestedPlot = plot;
         currentPestSessionId++;
         resetCleaningProgressTracker();
-        PestCleaningSequencer.startCleaningSequence(client, plot, currentInfestedPlot, currentPestSessionId);
-        return true;
+        if (PestLifecycleManager.start(client, plot, pestCount, currentPestSessionId)) {
+            return true;
+        }
+        clearCleaningTriggerPending();
+        return false;
     }
 
     public static void handlePhillipMessage(Minecraft client, String text) {
@@ -435,7 +462,7 @@ public class PestManager {
                         + " from tab=" + data.infestedPlots
                         + ", chat=" + normalizedRequestedPlot
                         + ", ordered=" + currentInfestedPlots);
-        boolean started = startCleaningSequence(client, targetPlot);
+        boolean started = startCleaningSequence(client, targetPlot, effectiveAlive);
         if (started) {
             consumeRewarpTrigger();
         }

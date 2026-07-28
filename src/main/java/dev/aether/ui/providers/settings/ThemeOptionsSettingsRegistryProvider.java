@@ -1,5 +1,8 @@
-package dev.aether.ui;
+package dev.aether.ui.providers.settings;
 
+import dev.aether.ui.MainGUI;
+import dev.aether.ui.MainGUIRegistry;
+import dev.aether.ui.providers.base.AbstractSettingsRegistryProvider;
 import dev.aether.ui.settings.ActionSetting;
 import dev.aether.ui.settings.ModulesTab;
 import dev.aether.ui.settings.SettingGroup;

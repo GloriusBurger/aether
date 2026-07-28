@@ -1,7 +1,8 @@
 package dev.aether.modules.failsafe;
 
 import dev.aether.config.AetherConfig;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
+import dev.aether.modules.pest.helpers.PestOnTheTrackManager;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.notification.NotificationManager;
@@ -158,11 +159,15 @@ final class BpsFailsafe {
         if (!MacroStateManager.isMacroRunning() || MacroStateManager.getCurrentState() != MacroState.State.FARMING) {
             return false;
         }
-
+        
         if (!FarmingMacroManager.isActive()) {
             return false;
         }
-
+        
+        if (PestOnTheTrackManager.getInstance().isBlockingFarming()) {
+        		return false;
+        }
+        
         var activeMacro = FarmingMacroManager.getActiveMacro();
         return activeMacro != null && activeMacro.isFarmingState();
     }

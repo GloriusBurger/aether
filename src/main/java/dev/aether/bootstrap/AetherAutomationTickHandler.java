@@ -2,7 +2,7 @@ package dev.aether.bootstrap;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.config.ConfigHelpers;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.bootstrap.AetherBootstrapHooks;
@@ -20,12 +20,14 @@ import dev.aether.modules.inventorymanager.JunkManager;
 import dev.aether.modules.pathfinding.PathfindingManager;
 import dev.aether.modules.pathfinding.rotation.RotationExecutor;
 import dev.aether.modules.pest.DynamicPestsManager;
+import dev.aether.modules.pest.ManualPestManager;
 import dev.aether.modules.pest.PestManager;
 import dev.aether.modules.pest.helpers.AutoPestExchangeManager;
 import dev.aether.modules.pest.helpers.AutoSprayonatorManager;
 import dev.aether.modules.pest.helpers.PestAotvManager;
 import dev.aether.modules.pest.helpers.PestBonusManager;
 import dev.aether.modules.pest.helpers.PestDestroyer;
+import dev.aether.modules.pest.helpers.PestOnTheTrackManager;
 import dev.aether.modules.pest.helpers.PestReturnManager;
 import dev.aether.modules.pest.helpers.VacuumParticleDebug;
 import dev.aether.modules.profit.ProfitManager;
@@ -62,7 +64,7 @@ public final class AetherAutomationTickHandler {
                     || client.screen instanceof ChatScreen
                     || AetherBootstrapHooks.isBootstrapConfigScreen(client.screen);
             if (automationStopScreen) {
-                if (MacroStateManager.isMacroRunning()) {
+                if (MacroStateManager.isMacroRunning() && !ManualPestManager.isActive()) {
                     MacroStateManager.stopMacro(client);
                 }
                 if (BedrockPlotMaker.isRunning()) {
@@ -130,6 +132,7 @@ public final class AetherAutomationTickHandler {
         PestBonusManager.updateFromTab();
         AutoPestExchangeManager.update();
         PestManager.update();
+        ManualPestManager.update();
         CropFeverManager.update();
         AutoSprayonatorManager.update();
         DynamicPestsManager.update();
@@ -138,7 +141,10 @@ public final class AetherAutomationTickHandler {
         RotationManager.update();
         RotationExecutor.update();
         BedrockPlotMaker.update(client);
-        if (MacroStateManager.getCurrentState() == MacroState.State.FARMING) {
+        PestOnTheTrackManager.getInstance().update(client);
+        if (MacroStateManager.getCurrentState() == MacroState.State.FARMING
+        	&& !PestOnTheTrackManager.getInstance().isBlockingFarming()
+        ) {
             FarmingMacroManager.tick(client);
         }
         MacroStateManager.periodicUpdate();
@@ -150,6 +156,7 @@ public final class AetherAutomationTickHandler {
         RestartManager.update();
         AutoCarnivalManager.update();
 
+        PestAotvManager.updatePreparationAotv(client);
         PestDestroyer.update();
         MetalDetectorSolver.update();
         VacuumParticleDebug.onClientTick();

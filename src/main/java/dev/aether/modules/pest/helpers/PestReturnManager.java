@@ -17,7 +17,7 @@ import dev.aether.modules.pest.PestManager;
 import dev.aether.modules.visitor.VisitorManager;
 import dev.aether.util.ClientUtils;
 import dev.aether.util.CommandUtils;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.modules.visitor.VisitorsMacro;
 import net.minecraft.client.Minecraft;
 
@@ -68,6 +68,7 @@ public class PestReturnManager {
         isFinishingInProgress = false;
         finishingStartedAtMs = 0L;
         finishingStage = "idle";
+        PestLifecycleManager.completePostStage();
     }
 
     private static void runFinisherAsync(String threadName, Runnable task) {
@@ -258,7 +259,7 @@ public class PestReturnManager {
                 }
 
                 setFinishingStage("restore sunset pests night");
-                PestDestroyer.restorePendingSunsetPestsNight(client);
+                PestLifecycleManager.restorePendingSunsetPestsNight(client);
                 if (abortFinisherIfNeeded(client, "restore sunset pests night")) {
                     return;
                 }
@@ -336,8 +337,8 @@ public class PestReturnManager {
             ClientUtils.sendDebugMessage("Pest cleaning sequence finished. Restarting farming...");
             ClientUtils.sendDebugMessage("Starting farming macro");
             SqueakyMousematManager.armReapplyAttempt();
-            client.execute(() -> dev.aether.macro.FarmingMacroManager.enable(client,
-                    dev.aether.macro.FarmingMacroManager.createMacroFromConfig()));
+            client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.enable(client,
+                    dev.aether.macro.farming.FarmingMacroManager.createMacroFromConfig()));
         } catch (Exception e) {
             if (e instanceof InterruptedException) {
                 Thread.currentThread().interrupt();

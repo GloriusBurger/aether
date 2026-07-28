@@ -72,8 +72,8 @@ public class AutoSellManager {
             if (resumeFarming) {
                 MacroStateManager.setCurrentState(MacroState.State.FARMING);
                 if (client != null) {
-                    client.execute(() -> dev.aether.macro.FarmingMacroManager.enable(client,
-                            dev.aether.macro.FarmingMacroManager.createMacroFromConfig()));
+                    client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.enable(client,
+                            dev.aether.macro.farming.FarmingMacroManager.createMacroFromConfig()));
                 }
             } else {
                 MacroStateManager.setCurrentState(MacroState.State.OFF);
@@ -283,7 +283,7 @@ public class AutoSellManager {
 
             if (MacroStateManager.getCurrentState() == MacroState.State.FARMING && !isNested) {
                 ClientUtils.sendDebugMessage("Disabling farming macro: Preparing AutoSell");
-                client.execute(() -> dev.aether.macro.FarmingMacroManager.disable(client));
+                client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.disable(client));
             }
 
             MacroWorkerThread.sleep(500);
@@ -387,8 +387,8 @@ public class AutoSellManager {
                     if (!shouldAbort()) {
                         if (dev.aether.modules.visitor.VisitorManager.shouldSkipVisitorsDuringJacobsContest(client, true)) {
                             if (wasRunningBeforeSell && visitorResumeIntent && !wasTriggeredManually) {
-                                client.execute(() -> dev.aether.macro.FarmingMacroManager.enable(client,
-                                        dev.aether.macro.FarmingMacroManager.createMacroFromConfig()));
+                                client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.enable(client,
+                                        dev.aether.macro.farming.FarmingMacroManager.createMacroFromConfig()));
                             }
                         } else {
                             client.execute(() -> dev.aether.modules.visitor.VisitorsMacro.start(client,
@@ -397,8 +397,8 @@ public class AutoSellManager {
                     }
                 } else if (wasRunningBeforeSell && !wasTriggeredManually) {
                     MacroStateManager.setCurrentState(MacroState.State.FARMING);
-                    client.execute(() -> dev.aether.macro.FarmingMacroManager.enable(client,
-                            dev.aether.macro.FarmingMacroManager.createMacroFromConfig()));
+                    client.execute(() -> dev.aether.macro.farming.FarmingMacroManager.enable(client,
+                            dev.aether.macro.farming.FarmingMacroManager.createMacroFromConfig()));
                 } else if (!wasTriggeredManually) {
                     MacroStateManager.setCurrentState(MacroState.State.OFF);
                 }

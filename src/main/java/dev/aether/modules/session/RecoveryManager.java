@@ -3,7 +3,7 @@ package dev.aether.modules.session;
 import dev.aether.config.AetherConfig;
 import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
-import dev.aether.macro.FarmingMacroManager;
+import dev.aether.macro.farming.FarmingMacroManager;
 import dev.aether.modules.failsafe.FailsafeManager;
 import dev.aether.modules.farming.SqueakyMousematManager;
 import dev.aether.modules.gear.GearManager;

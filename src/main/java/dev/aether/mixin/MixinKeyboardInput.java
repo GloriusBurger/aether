@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(KeyboardInput.class)
 public abstract class MixinKeyboardInput extends ClientInput {
@@ -65,10 +66,15 @@ public abstract class MixinKeyboardInput extends ClientInput {
             shift,
             sprint
         );
-        this.moveVector = new Vec2(calculateImpulse(left, right), calculateImpulse(forward, backward)).normalized();
+        this.moveVector = new Vec2(
+            aetherModCalculateImpulse(left, right), 
+            aetherModCalculateImpulse(forward, backward)
+        ).normalized();
     }
-
-    private static float calculateImpulse(boolean positive, boolean negative) {
+    
+    @Unique // lunar turned this method vis to PUBLIC for some reason
+    // this makes sure it doesn't overshadow lunar decision
+    private static float aetherModCalculateImpulse(boolean positive, boolean negative) {
         if (positive == negative) {
             return 0.0f;
         }
