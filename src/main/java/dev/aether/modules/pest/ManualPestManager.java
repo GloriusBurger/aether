@@ -79,7 +79,7 @@ public final class ManualPestManager {
     private static void tickWaiting(Minecraft client) {
         if (!MacroStateManager.isMacroRunning()
                 || MacroStateManager.getCurrentState() != MacroState.State.CLEANING
-                || !PestManager.isCleaningInProgress) {
+                || !PestManager.isCleaningInProgress()) {
             reset();
             return;
         }
