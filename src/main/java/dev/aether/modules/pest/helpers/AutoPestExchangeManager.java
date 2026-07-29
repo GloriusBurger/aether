@@ -173,7 +173,10 @@ public final class AutoPestExchangeManager {
             if (MacroWorkerThread.shouldAbortTask(client))
                 return;
 
-            PestExchangeManager.runExchangeBlocking(client);
+            boolean exchangeCompleted = PestExchangeManager.runExchangeBlocking(client);
+            if (exchangeCompleted) {
+                PestBonusManager.setBonusInactive(false);
+            }
 
             if (MacroWorkerThread.shouldAbortTask(client))
                 return;

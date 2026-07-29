@@ -200,17 +200,19 @@ final class PestCombatCoordinator {
         }
 
         // If we pass the pest, it can remain inside the vacuum re-approach
-        // buffer while sitting behind us. Reacquire it immediately instead of
-        // continuing to hold the old kill state with the pest out of view.
+        // buffer while sitting behind us. This is an orientation problem, not
+        // a navigation problem: a path to a nearby target can complete without
+        // moving and bounce KILL_PEST <-> APPROACH_PEST forever.
         if (isOutsideForwardCone(client, currentTarget, TARGET_REACQUIRE_CONE_DEGREES)) {
             ClientUtils.setKeyMappingState(client.options.keyUse, false);
             ClientUtils.setKeyMappingState(client.options.keyDown, false);
             ClientUtils.setKeyMappingState(client.options.keyUp, false);
             PathfindingManager.stop();
             context.setTargetWithoutSkullTicks(0);
-            context.startPathToPest(client, currentTarget);
-            context.setState(PestDestroyer.State.APPROACH_PEST);
-            ClientUtils.sendDebugMessage("[PestDestroyer] Target moved behind forward cone. Reacquiring immediately.");
+            if (!FailsafeManager.shouldSuppressPestCleanerRotation(client)) {
+                RotationManager.forceRotation(client, buildCombatAimTarget(client, currentTarget), 120);
+            }
+            ClientUtils.sendDebugMessage("[PestDestroyer] Target moved behind forward cone. Turning to reacquire.");
             return;
         }
 
