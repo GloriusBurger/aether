@@ -18,14 +18,11 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-/** Tracks and renders pests in the Garden, including briefly unloaded pests. */
+/** Renders only currently loaded, confirmed pest entities in the Garden. */
 public final class PestEspManager {
-    private static final long MEMORY_TIMEOUT_MS = 15_000L;
-    private static final Map<String, PestData> PESTS = new LinkedHashMap<>();
-
     private PestEspManager() {
     }
 
@@ -43,22 +40,7 @@ public final class PestEspManager {
             return;
         }
 
-        long now = System.currentTimeMillis();
-        for (Entity entity : PestTargetTracker.getLoadedPests(client)) {
-            if (entity == null || entity.isRemoved() || isDead(entity)) {
-                continue;
-            }
-            PESTS.put(entity.getUUID().toString(), new PestData(
-                    entity.position(), entity.getBoundingBox(), entity, now));
-        }
-        PESTS.entrySet().removeIf(entry -> {
-            PestData data = entry.getValue();
-            return data.entity().isRemoved() && now - data.lastSeen() > MEMORY_TIMEOUT_MS
-                    || isDead(data.entity())
-                    || now - data.lastSeen() > MEMORY_TIMEOUT_MS;
-        });
-
-        for (PestData pest : PESTS.values()) {
+        for (PestData pest : getRenderablePests(client)) {
             int rgb = pestColor(AetherConfig.PEST_ESP_HIGHLIGHT_COLOR.get());
             if (AetherConfig.PEST_ESP_HIGHLIGHT.get()) {
                 int stroke = argb(220, rgb);
@@ -83,7 +65,12 @@ public final class PestEspManager {
                 || !AetherConfig.PEST_ESP_TRACER.get()
                 || !client.options.getCameraType().isFirstPerson()
                 || ClientUtils.getCurrentLocation() != MacroState.Location.GARDEN
-                || PESTS.isEmpty()) {
+        ) {
+            return;
+        }
+
+        List<PestData> pests = getRenderablePests(client);
+        if (pests.isEmpty()) {
             return;
         }
 
@@ -94,11 +81,6 @@ public final class PestEspManager {
         float height = client.getWindow().getGuiScaledHeight();
         int tracerColor = argb(255, pestColor(AetherConfig.PEST_ESP_TRACER_COLOR.get()));
 
-        PESTS.entrySet().removeIf(entry -> isDead(entry.getValue().entity()));
-        if (PESTS.isEmpty()) {
-            return;
-        }
-
         if (!NanoVGManager.isInitialized()) {
             NanoVGManager.init();
         }
@@ -107,14 +89,8 @@ public final class PestEspManager {
         try {
             float startX = width * 0.5f;
             float startY = height * 0.5f;
-            for (PestData pest : PESTS.values()) {
-                if (isDead(pest.entity())) {
-                    continue;
-                }
-                Vec3 target = !pest.entity().isRemoved()
-                        ? pest.entity().position()
-                        : pest.position();
-                ScreenPoint screenPoint = projectToScreen(target, cameraPosition, viewProjection, width, height);
+            for (PestData pest : pests) {
+                ScreenPoint screenPoint = projectToScreen(pest.position(), cameraPosition, viewProjection, width, height);
                 if (screenPoint != null) {
                     renderer.line(startX, startY, screenPoint.x(), screenPoint.y(), 2.0f, tracerColor);
                 }
@@ -122,6 +98,17 @@ public final class PestEspManager {
         } finally {
             NanoVGManager.endFrame();
         }
+    }
+
+    private static List<PestData> getRenderablePests(Minecraft client) {
+        List<PestData> pests = new ArrayList<>();
+        for (Entity entity : PestTargetTracker.getLoadedPests(client)) {
+            if (entity == null || entity.isRemoved() || isDead(entity)) {
+                continue;
+            }
+            pests.add(new PestData(entity.position(), entity.getBoundingBox()));
+        }
+        return pests;
     }
 
     private static ScreenPoint projectToScreen(Vec3 position, Vec3 cameraPosition,
@@ -154,7 +141,7 @@ public final class PestEspManager {
         return ARGB.color(alpha, (rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
     }
 
-    private record PestData(Vec3 position, AABB box, Entity entity, long lastSeen) {
+    private record PestData(Vec3 position, AABB box) {
     }
 
     private record ScreenPoint(float x, float y) {
