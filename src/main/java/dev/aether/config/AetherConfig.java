@@ -990,6 +990,13 @@ public final class AetherConfig {
         public static final BooleanEntry PIP_START_DECORATED = Config.bool("pipStartDecorated", true);
         public static final BooleanEntry PIP_ENABLE_ZOOM = Config.bool("pipEnableZoom", true);
 
+        // -- PEST ESP -------------------------------------------------------------
+        public static final BooleanEntry PEST_ESP_ENABLED = Config.bool("pestEspEnabled", false);
+        public static final BooleanEntry PEST_ESP_HIGHLIGHT = Config.bool("pestEspHighlight", true);
+        public static final IntEntry PEST_ESP_HIGHLIGHT_COLOR = Config.integer("pestEspHighlightColor", 0xFFFF3030);
+        public static final BooleanEntry PEST_ESP_TRACER = Config.bool("pestEspTracer", true);
+        public static final IntEntry PEST_ESP_TRACER_COLOR = Config.integer("pestEspTracerColor", 0xFFFF3030);
+
         // -- GREENHOUSE ------------------------------------------------------------
         public static final BooleanEntry AUTO_GREENHOUSE = Config.bool("autoGreenhouse", false);
         public static final IntEntry AUTO_GREENHOUSE_INTERVAL_MINUTES = Config.integer("autoGreenhouseIntervalMinutes", 120)

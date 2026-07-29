@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-final class PestTargetTracker {
+public final class PestTargetTracker {
     private static final List<String> PEST_TEXTURE_FRAGMENTS = List.of(
             "70a1e836bf1968b2eaa4837227a19204f17295d870ee9e754bd6b6d60ddbed3c",
             "a24c69f96ce5562221e195c8ef2bfad71ebf7f95f5ae914a484a8d0ec21672674",
@@ -161,6 +161,11 @@ final class PestTargetTracker {
             }
         }
         return closest;
+    }
+
+    /** Returns the pest entities currently visible to the client. */
+    public static List<Entity> getLoadedPests(Minecraft client) {
+        return snapshot(client).targets();
     }
 
     private static List<Entity> availableTargets(Minecraft client, Collection<Entity> killedEntities) {
