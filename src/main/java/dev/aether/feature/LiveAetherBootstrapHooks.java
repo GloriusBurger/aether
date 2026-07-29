@@ -125,7 +125,7 @@ public final class LiveAetherBootstrapHooks implements AetherBootstrapHooks.Feat
 
     @Override
     public void renderPestEspTracerOverlay() {
-        PestEspManager.renderFirstPersonTracerOverlay();
+        PestEspManager.renderTracerOverlay();
     }
 
     @Override

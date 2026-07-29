@@ -168,6 +168,13 @@ public final class PestTargetTracker {
         return snapshot(client).targets();
     }
 
+    public static List<Entity> getLoadedPestMobs(Minecraft client) {
+        return snapshot(client).targets().stream()
+                .filter(entity -> entity instanceof Bat || entity instanceof Silverfish)
+                .filter(entity -> !isUnavailable(client, entity, List.of()))
+                .toList();
+    }
+
     private static List<Entity> availableTargets(Minecraft client, Collection<Entity> killedEntities) {
         List<Entity> available = new ArrayList<>();
         for (Entity target : snapshot(client).targets()) {

@@ -31,7 +31,6 @@ public class MixinGameRenderer {
         if (Minecraft.getInstance().screen instanceof MainGUI mainGUI) {
             mainGUI.renderAfterGameRenderer(deltaTracker.getGameTimeDeltaTicks());
         }
-        AetherBootstrapHooks.renderPestEspTracerOverlay();
         AetherBootstrapHooks.renderFailsafeColourFlash();
     }
 

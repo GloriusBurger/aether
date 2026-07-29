@@ -23,6 +23,8 @@ import java.util.List;
 
 /** Renders only currently loaded, confirmed pest entities in the Garden. */
 public final class PestEspManager {
+    private static final float TRACER_EDGE_MARGIN = 20.0f;
+
     private PestEspManager() {
     }
 
@@ -47,23 +49,16 @@ public final class PestEspManager {
                 int fill = argb(45, rgb);
                 Gizmos.cuboid(pest.box(), GizmoStyle.strokeAndFill(stroke, 2.0f, fill)).setAlwaysOnTop();
             }
-            if (AetherConfig.PEST_ESP_TRACER.get()
-                    && !client.options.getCameraType().isFirstPerson()) {
-                int tracer = argb(255, pestColor(AetherConfig.PEST_ESP_TRACER_COLOR.get()));
-                Gizmos.line(client.player.getEyePosition(), pest.position(), tracer, 5.0f).setAlwaysOnTop();
-            }
         }
     }
 
-    /** Draws first-person tracers using the final rendered camera for zero-lag movement. */
-    public static void renderFirstPersonTracerOverlay() {
+    public static void renderTracerOverlay() {
         Minecraft client = Minecraft.getInstance();
         if (client == null || client.level == null || client.player == null
                 || client.screen != null
                 || StreamerModeManager.isEnabled()
                 || !AetherConfig.PEST_ESP_ENABLED.get()
                 || !AetherConfig.PEST_ESP_TRACER.get()
-                || !client.options.getCameraType().isFirstPerson()
                 || ClientUtils.getCurrentLocation() != MacroState.Location.GARDEN
         ) {
             return;
@@ -102,7 +97,9 @@ public final class PestEspManager {
 
     private static List<PestData> getRenderablePests(Minecraft client) {
         List<PestData> pests = new ArrayList<>();
-        for (Entity entity : PestTargetTracker.getLoadedPests(client)) {
+        // Do not render the armor-stand skull-marker fallback used by the pest targeter. The
+        // marker may remain loaded for a short time after its backing pest mob has died.
+        for (Entity entity : PestTargetTracker.getLoadedPestMobs(client)) {
             if (entity == null || entity.isRemoved() || isDead(entity)) {
                 continue;
             }
@@ -118,15 +115,27 @@ public final class PestEspManager {
                 (float) (position.y - cameraPosition.y),
                 (float) (position.z - cameraPosition.z),
                 1.0f).mul(viewProjection);
-        if (clip.w <= 0.001f) {
-            return null;
+        if (clip.w > 0.001f) {
+            float ndcX = clip.x / clip.w;
+            float ndcY = clip.y / clip.w;
+            return new ScreenPoint(
+                    (ndcX + 1.0f) * 0.5f * width,
+                    (1.0f - ndcY) * 0.5f * height);
+        }
+        float depth = Math.max(Math.abs(clip.w), 0.001f);
+        float directionX = clip.x / depth;
+        float directionY = -clip.y / depth;
+        if (Math.abs(directionX) < 0.001f && Math.abs(directionY) < 0.001f) {
+            directionY = 1.0f;
         }
 
-        float ndcX = clip.x / clip.w;
-        float ndcY = clip.y / clip.w;
-        return new ScreenPoint(
-                (ndcX + 1.0f) * 0.5f * width,
-                (1.0f - ndcY) * 0.5f * height);
+        float centerX = width * 0.5f;
+        float centerY = height * 0.5f;
+        float margin = Math.min(TRACER_EDGE_MARGIN, Math.min(width, height) * 0.1f);
+        float availableX = Math.max(1.0f, centerX - margin);
+        float availableY = Math.max(1.0f, centerY - margin);
+        float scale = 1.0f / Math.max(Math.abs(directionX) / availableX, Math.abs(directionY) / availableY);
+        return new ScreenPoint(centerX + directionX * scale, centerY + directionY * scale);
     }
 
     private static int pestColor(int value) {
