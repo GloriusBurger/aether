@@ -82,9 +82,11 @@ record PestTabSnapshot(
                 }
             }
 
-            Boolean parsedBonus = PestBonusManager.parseBonusState(normalized);
-            if (parsedBonus != null) {
-                bonusInactive = parsedBonus;
+            if (bonusInactive == null) {
+                Boolean parsedBonus = PestBonusManager.parseBonusState(normalized);
+                if (parsedBonus != null) {
+                    bonusInactive = parsedBonus;
+                }
             }
         }
 
