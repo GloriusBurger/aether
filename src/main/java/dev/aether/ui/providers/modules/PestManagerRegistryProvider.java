@@ -1,11 +1,13 @@
 package dev.aether.ui.providers.modules;
 
+import dev.aether.bootstrap.AetherKeybindRegistry;
 import dev.aether.config.AetherConfig;
 import dev.aether.modules.failsafe.FailsafeSoundManager;
 import dev.aether.notification.NotificationManager;
 import dev.aether.ui.MainGUIRegistry;
 import dev.aether.ui.providers.base.AbstractModulesRegistryProvider;
 import dev.aether.ui.settings.DropdownSetting;
+import dev.aether.ui.settings.KeybindSetting;
 import dev.aether.ui.settings.ListSetting;
 import dev.aether.ui.settings.ModulesTab;
 import dev.aether.ui.settings.PositionSetting;
@@ -152,7 +154,9 @@ public final class PestManagerRegistryProvider extends AbstractModulesRegistryPr
                             AetherConfig.save();
                         })
                         .addIconAction("/assets/aether/icons/folder.svg", FailsafeSoundManager::openSoundFolder)
-                        .addIconAction("/assets/aether/icons/refresh.svg", () -> refreshSoundOptions(manualPestSoundOptions))));
+                        .addIconAction("/assets/aether/icons/refresh.svg", () -> refreshSoundOptions(manualPestSoundOptions)))
+                .add(new KeybindSetting("Manual Pest Early Finish",
+                        AetherKeybindRegistry.getManualPestEarlyFinishKey())));
 
         groups.add(SettingGroup.of(
                         "AOTV to Roof",
