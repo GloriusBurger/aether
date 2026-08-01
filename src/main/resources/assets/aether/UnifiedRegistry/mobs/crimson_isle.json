@@ -1,0 +1,124 @@
+{
+  "categoryName": "CRIMSON_ISLE",
+  "families": [
+    {
+      "familyName": "Wither Skeleton",
+      "mobs": [
+        {
+          "entityId": "WITHER_SKELETON",
+          "displayName": "Wither Skeleton",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Magma Cube",
+      "mobs": [
+        {
+          "entityId": "MAGMA_CUBE",
+          "displayName": "Magma Cube",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Ghast",
+      "mobs": [
+        {
+          "entityId": "GHAST",
+          "displayName": "Ghast",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Bladesoul",
+      "mobs": [
+        {
+          "entityId": "BLADESOUL",
+          "displayName": "Bladesoul",
+          "category": "BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Mage Outlaw",
+      "mobs": [
+        {
+          "entityId": "MAGE_OUTLAW",
+          "displayName": "Mage Outlaw",
+          "category": "BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Barbarian Duke X",
+      "mobs": [
+        {
+          "entityId": "BARBARIAN_DUKE_X",
+          "displayName": "Barbarian Duke X",
+          "category": "BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Ashfang",
+      "mobs": [
+        {
+          "entityId": "ASHFANG",
+          "displayName": "Ashfang",
+          "category": "BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

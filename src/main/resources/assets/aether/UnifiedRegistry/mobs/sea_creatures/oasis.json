@@ -1,0 +1,55 @@
+{
+  "categoryName": "FISHING",
+  "families": [
+    {
+      "familyName": "Oasis Sea Creatures",
+      "mobs": [
+        {
+          "entityId": "OASIS_RABBIT",
+          "displayName": "Oasis Rabbit",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 5,
+          "requiredLocation": "OASIS",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "OASIS_SHEEP",
+          "displayName": "Oasis Sheep",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 8,
+          "requiredLocation": "OASIS",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "AGARIMOO",
+          "displayName": "Agarimoo",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 10,
+          "requiredLocation": "OASIS",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

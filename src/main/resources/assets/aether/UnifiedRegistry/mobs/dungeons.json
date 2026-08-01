@@ -1,0 +1,391 @@
+{
+  "categoryName": "DUNGEONS",
+  "families": [
+    {
+      "familyName": "Catacombs Zombie",
+      "mobs": [
+        {
+          "entityId": "ZOMBIE_GRUNT",
+          "displayName": "Zombie Grunt",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "ZOMBIE_SOLDIER",
+          "displayName": "Zombie Soldier",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "ZOMBIE_KNIGHT",
+          "displayName": "Zombie Knight",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "ZOMBIE_COMMANDER",
+          "displayName": "Zombie Commander",
+          "category": "DUNGEON_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "ZOMBIE_LORD",
+          "displayName": "Zombie Lord",
+          "category": "DUNGEON_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Catacombs Skeleton",
+      "mobs": [
+        {
+          "entityId": "SKELETON_GRUNT",
+          "displayName": "Skeleton Grunt",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SKELETON_SOLDIER",
+          "displayName": "Skeleton Soldier",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SKELETON_KNIGHT",
+          "displayName": "Skeleton Knight",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SKELETON_MASTER",
+          "displayName": "Skeleton Master",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SKELETOR",
+          "displayName": "Skeletor",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Catacombs Sniper",
+      "mobs": [
+        {
+          "entityId": "SNIPER",
+          "displayName": "Sniper",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SUPER_ARCHER",
+          "displayName": "Super Archer",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Tank Zombie",
+      "mobs": [
+        {
+          "entityId": "TANK_ZOMBIE",
+          "displayName": "Tank Zombie",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Crypt Dreadlord",
+      "mobs": [
+        {
+          "entityId": "CRYPT_DREADLORD",
+          "displayName": "Crypt Dreadlord",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "CRYPT_SOULEATER",
+          "displayName": "Crypt Souleater",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "CRYPT_LURKER",
+          "displayName": "Crypt Lurker",
+          "category": "DUNGEON_NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Lost Adventurer",
+      "mobs": [
+        {
+          "entityId": "LOST_ADVENTURER",
+          "displayName": "Lost Adventurer",
+          "category": "DUNGEON_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "FROZEN_ADVENTURER",
+          "displayName": "Frozen Adventurer",
+          "category": "DUNGEON_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Shadow Assassin",
+      "mobs": [
+        {
+          "entityId": "SHADOW_ASSASSIN",
+          "displayName": "Shadow Assassin",
+          "category": "DUNGEON_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Angry Archaeologist",
+      "mobs": [
+        {
+          "entityId": "ANGRY_ARCHAEOLOGIST",
+          "displayName": "Angry Archaeologist",
+          "category": "DUNGEON_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "King Midas",
+      "mobs": [
+        {
+          "entityId": "KING_MIDAS",
+          "displayName": "King Midas",
+          "category": "DUNGEON_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Dungeon Bosses",
+      "mobs": [
+        {
+          "entityId": "BONZO",
+          "displayName": "Bonzo",
+          "category": "DUNGEON_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SCARF",
+          "displayName": "Scarf",
+          "category": "DUNGEON_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "THE_PROFESSOR",
+          "displayName": "The Professor",
+          "category": "DUNGEON_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "THORN",
+          "displayName": "Thorn",
+          "category": "DUNGEON_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LIVID",
+          "displayName": "Livid",
+          "category": "DUNGEON_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SADAN",
+          "displayName": "Sadan",
+          "category": "DUNGEON_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "NECRON",
+          "displayName": "Necron",
+          "category": "DUNGEON_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

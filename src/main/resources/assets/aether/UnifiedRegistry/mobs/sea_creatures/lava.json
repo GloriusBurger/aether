@@ -1,0 +1,190 @@
+{
+  "categoryName": "FISHING",
+  "families": [
+    {
+      "familyName": "Lava Sea Creatures",
+      "mobs": [
+        {
+          "entityId": "MAGMA_SLUG",
+          "displayName": "Magma Slug",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "MOOGMA",
+          "displayName": "MOOGMA",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LAVA_LEECH",
+          "displayName": "Lava Leech",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "PYROCLASTIC_WORM",
+          "displayName": "Pyroclastic Worm",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LAVA_FLAME",
+          "displayName": "Lava Flame",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "FIRE_EEL",
+          "displayName": "Fire Eel",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "TAURUS",
+          "displayName": "Taurus",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "THUNDER",
+          "displayName": "Thunder",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LORD_JAWBUS",
+          "displayName": "Lord Jawbus",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 27,
+          "requiredLocation": "LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "FLAMING_WORM",
+          "displayName": "Flaming Worm",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 19,
+          "requiredLocation": "CRYSTAL_HOLLOWS_LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LAVA_BLAZE",
+          "displayName": "Lava Blaze",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 20,
+          "requiredLocation": "CRYSTAL_HOLLOWS_LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LAVA_PIGMAN",
+          "displayName": "Lava Pigman",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 20,
+          "requiredLocation": "CRYSTAL_HOLLOWS_LAVA",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

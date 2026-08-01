@@ -1,0 +1,265 @@
+{
+  "categoryName": "FISHING",
+  "families": [
+    {
+      "familyName": "Water Sea Creatures",
+      "mobs": [
+        {
+          "entityId": "SQUID",
+          "displayName": "Squid",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 1,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SEA_WALKER",
+          "displayName": "Sea Walker",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 2,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "NIGHT_SQUID",
+          "displayName": "Night Squid",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 5,
+          "requiredLocation": "ANY_WATER_NIGHT",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SEA_GUARDIAN",
+          "displayName": "Sea Guardian",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 10,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SEA_WITCH",
+          "displayName": "Sea Witch",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 15,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SEA_ARCHER",
+          "displayName": "Sea Archer",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 15,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "RIDER_OF_THE_DEEP",
+          "displayName": "Rider of the Deep",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 20,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "CATFISH",
+          "displayName": "Catfish",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 23,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "CARROT_KING",
+          "displayName": "Carrot King",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 25,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SEA_LEECH",
+          "displayName": "Sea Leech",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 24,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "GUARDIAN_DEFENDER",
+          "displayName": "Guardian Defender",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 21,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "DEEP_SEA_PROTECTOR",
+          "displayName": "Deep Sea Protector",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 26,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "WATER_HYDRA",
+          "displayName": "Water Hydra",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 26,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LOCH_EMPEROR",
+          "displayName": "The Loch Emperor",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 20,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "WATER_WORM",
+          "displayName": "Water Worm",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 20,
+          "requiredLocation": "CRYSTAL_HOLLOWS_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "POISONED_WATER_WORM",
+          "displayName": "Poisoned Water Worm",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 22,
+          "requiredLocation": "CRYSTAL_HOLLOWS_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "ABYSSAL_MINER",
+          "displayName": "Abyssal Miner",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 24,
+          "requiredLocation": "CRYSTAL_HOLLOWS_WATER",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "categoryName": "SPOOKY_FESTIVAL",
+  "families": [
+    {
+      "familyName": "Spooky Mobs",
+      "mobs": [
+        {
+          "entityId": "TRICK_OR_TREATER",
+          "displayName": "Trick or Treater",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "SCARY_JERRY",
+          "displayName": "Scary Jerry",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "CRAZY_WITCH",
+          "displayName": "Crazy Witch",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "PHANTOM_SPIRIT",
+          "displayName": "Phantom Spirit",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "NIGHTMARE",
+          "displayName": "Nightmare",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "WEREWOLF",
+          "displayName": "Werewolf",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "SPOOKY_ZOMBIE_KNIGHT",
+          "displayName": "Zombie Knight",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "SPOOKY_WITHER_SKELETON",
+          "displayName": "Wither Skeleton",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "WRAITH",
+          "displayName": "Wraith",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "GARGOYLE",
+          "displayName": "Gargoyle",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        },
+        {
+          "entityId": "MEGA_BAT",
+          "displayName": "Mega Bat",
+          "category": "SPOOKY",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": 1
+          }
+        }
+      ]
+    }
+  ]
+}

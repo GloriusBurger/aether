@@ -1,0 +1,56 @@
+{
+  "categoryName": "THE_PARK",
+  "families": [
+    {
+      "familyName": "Pack Spirit",
+      "mobs": [
+        {
+          "entityId": "PACK_SPIRIT",
+          "displayName": "Pack Spirit",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Howling Spirit",
+      "mobs": [
+        {
+          "entityId": "HOWLING_SPIRIT",
+          "displayName": "Howling Spirit",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Soul of the Alpha",
+      "mobs": [
+        {
+          "entityId": "SOUL_OF_THE_ALPHA",
+          "displayName": "Soul of the Alpha",
+          "category": "MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "categoryName": "DEEP_CAVERNS",
+  "families": [
+    {
+      "familyName": "Sneaky Creeper",
+      "mobs": [
+        {
+          "entityId": "SNEAKY_CREEPER",
+          "displayName": "Sneaky Creeper",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Lapis Zombie",
+      "mobs": [
+        {
+          "entityId": "LAPIS_ZOMBIE",
+          "displayName": "Lapis Zombie",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Redstone Pigman",
+      "mobs": [
+        {
+          "entityId": "REDSTONE_PIGMAN",
+          "displayName": "Redstone Pigman",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Emerald Slime",
+      "mobs": [
+        {
+          "entityId": "EMERALD_SLIME",
+          "displayName": "Emerald Slime",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Miner Zombie",
+      "mobs": [
+        {
+          "entityId": "MINER_ZOMBIE",
+          "displayName": "Miner Zombie",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Miner Skeleton",
+      "mobs": [
+        {
+          "entityId": "MINER_SKELETON",
+          "displayName": "Miner Skeleton",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "categoryName": "MYTHOLOGICAL_RITUAL",
+  "families": [
+    {
+      "familyName": "Mythological Creatures",
+      "mobs": [
+        {
+          "entityId": "MINOS_HUNTER",
+          "displayName": "Minos Hunter",
+          "level": 10,
+          "category": "MYTHOLOGICAL",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SIAMESE_LYNXES",
+          "displayName": "Siamese Lynxes",
+          "level": 25,
+          "category": "MYTHOLOGICAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "MINOTAUR",
+          "displayName": "Minotaur",
+          "level": 45,
+          "category": "MYTHOLOGICAL",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "GAIA_CONSTRUCT",
+          "displayName": "Gaia Construct",
+          "level": 140,
+          "category": "MYTHOLOGICAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SPHINX",
+          "displayName": "Sphinx",
+          "level": 250,
+          "category": "MYTHOLOGICAL",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "MINOS_CHAMPION",
+          "displayName": "Minos Champion",
+          "level": 350,
+          "category": "MYTHOLOGICAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "MINOS_INQUISITOR",
+          "displayName": "Minos Inquisitor",
+          "level": 750,
+          "category": "MYTHOLOGICAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

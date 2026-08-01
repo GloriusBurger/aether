@@ -1,0 +1,97 @@
+{
+  "categoryName": "HUB",
+  "families": [
+    {
+      "familyName": "Graveyard Zombie",
+      "mobs": [
+        {
+          "entityId": "ZOMBIE",
+          "displayName": "Zombie",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "ZOMBIE_VILLAGER",
+          "displayName": "Zombie Villager",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Ruin Skeleton",
+      "mobs": [
+        {
+          "entityId": "SKELETON",
+          "displayName": "Skeleton",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Crypt Ghoul",
+      "mobs": [
+        {
+          "entityId": "CRYPT_GHOUL",
+          "displayName": "Crypt Ghoul",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "GOLDEN_GHOUL",
+          "displayName": "Golden Ghoul",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Old Wolf",
+      "mobs": [
+        {
+          "entityId": "OLD_WOLF",
+          "displayName": "Old Wolf",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "categoryName": "THE_END",
+  "families": [
+    {
+      "familyName": "Enderman",
+      "mobs": [
+        {
+          "entityId": "ENDERMAN",
+          "displayName": "Enderman",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Zealot",
+      "mobs": [
+        {
+          "entityId": "ZEALOT",
+          "displayName": "Zealot",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "ZEALOT_BRUISER",
+          "displayName": "Zealot Bruiser",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Obsidian Defender",
+      "mobs": [
+        {
+          "entityId": "OBSIDIAN_DEFENDER",
+          "displayName": "Obsidian Defender",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Watcher",
+      "mobs": [
+        {
+          "entityId": "WATCHER",
+          "displayName": "Watcher",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Voidling",
+      "mobs": [
+        {
+          "entityId": "VOIDLING_DEVOTEE",
+          "displayName": "Voidling Devotee",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "VOIDLING_RADICAL",
+          "displayName": "Voidling Radical",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "VOIDLING_EXTREMIST",
+          "displayName": "Voidling Extremist",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "VOIDLING_FANATIC",
+          "displayName": "Voidling Fanatic",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Ender Dragon",
+      "mobs": [
+        {
+          "entityId": "ENDER_DRAGON",
+          "displayName": "Ender Dragon",
+          "category": "BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Endstone Protector",
+      "mobs": [
+        {
+          "entityId": "ENDSTONE_PROTECTOR",
+          "displayName": "Endstone Protector",
+          "category": "BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

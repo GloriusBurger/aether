@@ -1,0 +1,126 @@
+{
+  "categoryName": "DWARVEN_MINES",
+  "families": [
+    {
+      "familyName": "Goblin",
+      "mobs": [
+        {
+          "entityId": "GOBLIN_KNIFETHROWER",
+          "displayName": "Goblin Knifethrower",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "GOBLIN_FIRELINGER",
+          "displayName": "Goblin Fireslinger",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "GOBLIN_MURDERER",
+          "displayName": "Goblin Murderer",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "GOBLIN_BATTLER",
+          "displayName": "Goblin Battler",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Ice Walker",
+      "mobs": [
+        {
+          "entityId": "ICE_WALKER",
+          "displayName": "Ice Walker",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Star Sentry",
+      "mobs": [
+        {
+          "entityId": "STAR_SENTRY",
+          "displayName": "Star Sentry",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Treasure Hoarder",
+      "mobs": [
+        {
+          "entityId": "TREASURE_HOARDER",
+          "displayName": "Treasure Hoarder",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Ghost",
+      "mobs": [
+        {
+          "entityId": "GHOST",
+          "displayName": "Ghost",
+          "category": "NORMAL",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

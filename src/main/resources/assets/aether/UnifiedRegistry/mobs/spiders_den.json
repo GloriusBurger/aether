@@ -1,0 +1,189 @@
+{
+  "categoryName": "SPIDERS_DEN",
+  "families": [
+    {
+      "familyName": "Spider",
+      "mobs": [
+        {
+          "entityId": "DASHER_SPIDER",
+          "displayName": "Dasher Spider",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "WEAVER_SPIDER",
+          "displayName": "Weaver Spider",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "VORACIOUS_SPIDER",
+          "displayName": "Voracious Spider",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Splitter Spider",
+      "mobs": [
+        {
+          "entityId": "SPLITTER_SPIDER",
+          "displayName": "Splitter Spider",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Spider Jockey",
+      "mobs": [
+        {
+          "entityId": "SPIDER_JOCKEY",
+          "displayName": "Spider Jockey",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Gravel Skeleton",
+      "mobs": [
+        {
+          "entityId": "GRAVEL_SKELETON",
+          "displayName": "Gravel Skeleton",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Rain Slime",
+      "mobs": [
+        {
+          "entityId": "RAIN_SLIME",
+          "displayName": "Rain Slime",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "TOXIC_RAIN_SLIME",
+          "displayName": "Toxic Rain Slime",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Broodmother",
+      "mobs": [
+        {
+          "entityId": "BROODMOTHER",
+          "displayName": "Broodmother",
+          "category": "MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Arachne",
+      "mobs": [
+        {
+          "entityId": "ARACHNE_KEEPER",
+          "displayName": "Arachne's Keeper",
+          "category": "MINIBOSS",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "ARACHNE",
+          "displayName": "Arachne",
+          "category": "BOSS",
+          "hunting": true,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Cave Spider",
+      "mobs": [
+        {
+          "entityId": "CAVE_SPIDER",
+          "displayName": "Cave Spider",
+          "category": "NORMAL",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

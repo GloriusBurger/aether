@@ -1,0 +1,755 @@
+{
+  "categoryName": "SLAYER",
+  "families": [
+    {
+      "familyName": "Revenant Horror",
+      "mobs": [
+        {
+          "entityId": "REVENANT_HORROR_T1",
+          "displayName": "Revenant Horror I",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 1
+          }
+        },
+        {
+          "entityId": "REVENANT_HORROR_T2",
+          "displayName": "Revenant Horror II",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 2
+          }
+        },
+        {
+          "entityId": "REVENANT_HORROR_T3",
+          "displayName": "Revenant Horror III",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "REVENANT_HORROR_T4",
+          "displayName": "Revenant Horror IV",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 4
+          }
+        },
+        {
+          "entityId": "REVENANT_HORROR_T5",
+          "displayName": "Revenant Horror V",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 5
+          }
+        },
+        {
+          "entityId": "REVENANT_SYCOPHANT",
+          "displayName": "Revenant Sycophant",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "REVENANT_CHAMPION",
+          "displayName": "Revenant Champion",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "DEFORMED_REVENANT",
+          "displayName": "Deformed Revenant",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 4
+          }
+        },
+        {
+          "entityId": "ATONED_CHAMPION",
+          "displayName": "Atoned Champion",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 5
+          }
+        },
+        {
+          "entityId": "ATONED_REVENANT",
+          "displayName": "Atoned Revenant",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ZOMBIE",
+            "tier": 5
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Tarantula Broodfather",
+      "mobs": [
+        {
+          "entityId": "TARANTULA_BROODFATHER_T1",
+          "displayName": "Tarantula Broodfather I",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "SPIDER",
+            "tier": 1
+          }
+        },
+        {
+          "entityId": "TARANTULA_BROODFATHER_T2",
+          "displayName": "Tarantula Broodfather II",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "SPIDER",
+            "tier": 2
+          }
+        },
+        {
+          "entityId": "TARANTULA_BROODFATHER_T3",
+          "displayName": "Tarantula Broodfather III",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "SPIDER",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "TARANTULA_BROODFATHER_T4",
+          "displayName": "Tarantula Broodfather IV",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "SPIDER",
+            "tier": 4
+          }
+        },
+        {
+          "entityId": "TARANTULA_VERMIN",
+          "displayName": "Tarantula Vermin",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "SPIDER",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "TARANTULA_BEAST",
+          "displayName": "Tarantula Beast",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "SPIDER",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "MUTANT_TARANTULA",
+          "displayName": "Mutant Tarantula",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "SPIDER",
+            "tier": 4
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Sven Packmaster",
+      "mobs": [
+        {
+          "entityId": "SVEN_PACKMASTER_T1",
+          "displayName": "Sven Packmaster I",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "WOLF",
+            "tier": 1
+          }
+        },
+        {
+          "entityId": "SVEN_PACKMASTER_T2",
+          "displayName": "Sven Packmaster II",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "WOLF",
+            "tier": 2
+          }
+        },
+        {
+          "entityId": "SVEN_PACKMASTER_T3",
+          "displayName": "Sven Packmaster III",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "WOLF",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "SVEN_PACKMASTER_T4",
+          "displayName": "Sven Packmaster IV",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "WOLF",
+            "tier": 4
+          }
+        },
+        {
+          "entityId": "SVEN_FOOTSOLDIER",
+          "displayName": "Sven Follower",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "WOLF",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "SVEN_PACKLEADER",
+          "displayName": "Sven Packleader",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "WOLF",
+            "tier": 4
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Voidgloom Seraph",
+      "mobs": [
+        {
+          "entityId": "VOIDGLOOM_SERAPH_T1",
+          "displayName": "Voidgloom Seraph I",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ENDERMAN",
+            "tier": 1
+          }
+        },
+        {
+          "entityId": "VOIDGLOOM_SERAPH_T2",
+          "displayName": "Voidgloom Seraph II",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ENDERMAN",
+            "tier": 2
+          }
+        },
+        {
+          "entityId": "VOIDGLOOM_SERAPH_T3",
+          "displayName": "Voidgloom Seraph III",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ENDERMAN",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "VOIDGLOOM_SERAPH_T4",
+          "displayName": "Voidgloom Seraph IV",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ENDERMAN",
+            "tier": 4
+          }
+        },
+        {
+          "entityId": "VOIDLING_DEVOTEE",
+          "displayName": "Voidling Devotee",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ENDERMAN",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "VOIDLING_RADICAL",
+          "displayName": "Voidling Radical",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ENDERMAN",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "VOIDLING_EXTREMIST",
+          "displayName": "Voidling Extremist",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ENDERMAN",
+            "tier": 4
+          }
+        },
+        {
+          "entityId": "VOIDLING_FANATIC",
+          "displayName": "Voidling Fanatic",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "ENDERMAN",
+            "tier": 4
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Inferno Demonlord",
+      "mobs": [
+        {
+          "entityId": "INFERNO_DEMONLORD_T1",
+          "displayName": "Inferno Demonlord I",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "BLAZE",
+            "tier": 1
+          }
+        },
+        {
+          "entityId": "INFERNO_DEMONLORD_T2",
+          "displayName": "Inferno Demonlord II",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "BLAZE",
+            "tier": 2
+          }
+        },
+        {
+          "entityId": "INFERNO_DEMONLORD_T3",
+          "displayName": "Inferno Demonlord III",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "BLAZE",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "INFERNO_DEMONLORD_T4",
+          "displayName": "Inferno Demonlord IV",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "BLAZE",
+            "tier": 4
+          }
+        },
+        {
+          "entityId": "FLARE_DEMON",
+          "displayName": "Flare Demon",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "BLAZE",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "SMOLDERING_BLAZE",
+          "displayName": "Smoldering Blaze",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "BLAZE",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "MILLENIA_OLD_BLAZE",
+          "displayName": "Millenia-Old Blaze",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "BLAZE",
+            "tier": 4
+          }
+        }
+      ]
+    },
+    {
+      "familyName": "Riftstalker Bloodfiend",
+      "mobs": [
+        {
+          "entityId": "RIFTSTALKER_BLOODFIEND_T1",
+          "displayName": "Riftstalker Bloodfiend I",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "VAMPIRE",
+            "tier": 1
+          }
+        },
+        {
+          "entityId": "RIFTSTALKER_BLOODFIEND_T2",
+          "displayName": "Riftstalker Bloodfiend II",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "VAMPIRE",
+            "tier": 2
+          }
+        },
+        {
+          "entityId": "RIFTSTALKER_BLOODFIEND_T3",
+          "displayName": "Riftstalker Bloodfiend III",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "VAMPIRE",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "RIFTSTALKER_BLOODFIEND_T4",
+          "displayName": "Riftstalker Bloodfiend IV",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "VAMPIRE",
+            "tier": 4
+          }
+        },
+        {
+          "entityId": "RIFTSTALKER_BLOODFIEND_T5",
+          "displayName": "Riftstalker Bloodfiend V",
+          "category": "SLAYER_BOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "VAMPIRE",
+            "tier": 5
+          }
+        },
+        {
+          "entityId": "VAMPIRE_THRALL",
+          "displayName": "Vampire Thrall",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "VAMPIRE",
+            "tier": 3
+          }
+        },
+        {
+          "entityId": "VAMPIRE_SPLATTER",
+          "displayName": "Vampire Splatter",
+          "category": "SLAYER_MINIBOSS",
+          "hunting": false,
+          "damageRequirements": {
+            "magicImmune": true,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          },
+          "slayerDetails": {
+            "slayerType": "VAMPIRE",
+            "tier": 4
+          }
+        }
+      ]
+    }
+  ]
+}

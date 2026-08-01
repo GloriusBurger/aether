@@ -1,0 +1,70 @@
+{
+  "categoryName": "FISHING",
+  "families": [
+    {
+      "familyName": "Shark Fishing Festival",
+      "mobs": [
+        {
+          "entityId": "NURSE_SHARK",
+          "displayName": "Nurse Shark",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 5,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SHARK_FISHING_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "BLUE_SHARK",
+          "displayName": "Blue Shark",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 10,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SHARK_FISHING_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "TIGER_SHARK",
+          "displayName": "Tiger Shark",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 18,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SHARK_FISHING_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "GREAT_WHITE_SHARK",
+          "displayName": "Great White Shark",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 24,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SHARK_FISHING_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "categoryName": "GARDEN",
+  "families": [
+    {
+      "familyName": "Pests",
+      "mobs": [
+        {
+          "entityId": "FLY",
+          "displayName": "Fly",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Wheat",
+          "spray": "Dung",
+          "vinyl": "Pretty Fly",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "CRICKET",
+          "displayName": "Cricket",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Carrot",
+          "spray": "Honey Jar",
+          "vinyl": "Cricket Choir",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LOCUST",
+          "displayName": "Locust",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Potato",
+          "spray": "Plant Matter",
+          "vinyl": "Cicada Symphony",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "RAT",
+          "displayName": "Rat",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Pumpkin",
+          "spray": "Tasty Cheese",
+          "vinyl": "Rodent Revolution",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "MOSQUITO",
+          "displayName": "Mosquito",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Sugar Cane",
+          "spray": "Compost",
+          "vinyl": "Buzzin' Beats",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "EARTHWORM",
+          "displayName": "Earthworm",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Melon Slice",
+          "spray": "Compost",
+          "vinyl": "Earthworm Ensemble",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "MITE",
+          "displayName": "Mite",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Cactus",
+          "spray": "Tasty Cheese",
+          "vinyl": "DynaMITES",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "MOTH",
+          "displayName": "Moth",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Cocoa Beans",
+          "spray": "Honey Jar",
+          "vinyl": "Wings of Harmony",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SLUG",
+          "displayName": "Slug",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Mushrooms",
+          "spray": "Plant Matter",
+          "vinyl": "Slow and Groovy",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "BEETLE",
+          "displayName": "Beetle",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Nether Wart",
+          "spray": "Dung",
+          "vinyl": "Not Just a Pest",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "FIREFLY",
+          "displayName": "Firefly",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Moonflower",
+          "spray": "Jelly",
+          "vinyl": "Firefly in the Hole",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "DRAGONFLY",
+          "displayName": "Dragonfly",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Sunflower",
+          "spray": "Jelly",
+          "vinyl": "Imagine Dragonflies",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "PRAYING_MANTIS",
+          "displayName": "Praying Mantis",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "Wild Rose",
+          "spray": "Jelly",
+          "vinyl": "Pray For Me",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "LUNAR_MOTH",
+          "displayName": "Lunar Moth",
+          "category": "NORMAL",
+          "hunting": true,
+          "crop": "None",
+          "spray": "None",
+          "vinyl": "None",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "VACUUM",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

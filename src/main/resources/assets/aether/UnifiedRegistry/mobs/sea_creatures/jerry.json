@@ -1,0 +1,100 @@
+{
+  "categoryName": "FISHING",
+  "families": [
+    {
+      "familyName": "Jerry Pond Sea Creatures",
+      "mobs": [
+        {
+          "entityId": "FROZEN_STEVE",
+          "displayName": "Frozen Steve",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 7,
+          "requiredLocation": "JERRY_WORKSHOP",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "FROSTY_THE_SNOWMAN",
+          "displayName": "Frosty the Snowman",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 10,
+          "requiredLocation": "JERRY_WORKSHOP",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "SNOWMAN",
+          "displayName": "Snowman",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 15,
+          "requiredLocation": "JERRY_WORKSHOP",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "NUTCRACKER",
+          "displayName": "Nutcracker",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 20,
+          "requiredLocation": "JERRY_WORKSHOP",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "YETI",
+          "displayName": "Yeti",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 25,
+          "requiredLocation": "JERRY_WORKSHOP",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "REINDEER",
+          "displayName": "Reindeer",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 25,
+          "requiredLocation": "JERRY_WORKSHOP",
+          "requiredEvent": "NONE",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}

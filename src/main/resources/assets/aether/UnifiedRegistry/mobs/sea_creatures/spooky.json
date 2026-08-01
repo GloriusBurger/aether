@@ -1,0 +1,85 @@
+{
+  "categoryName": "FISHING",
+  "families": [
+    {
+      "familyName": "Spooky Festival Sea Creatures",
+      "mobs": [
+        {
+          "entityId": "SCARECROW",
+          "displayName": "Scarecrow",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 9,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SPOOKY_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "NIGHTMARE",
+          "displayName": "Nightmare",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 15,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SPOOKY_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "WEREWOLF",
+          "displayName": "Werewolf",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 20,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SPOOKY_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "PHANTOM_FISHER",
+          "displayName": "Phantom Fisher",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 24,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SPOOKY_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        },
+        {
+          "entityId": "GRIM_REAPER",
+          "displayName": "Grim Reaper",
+          "category": "SEA_CREATURE",
+          "hunting": false,
+          "requiredFishingLevel": 26,
+          "requiredLocation": "ANY_WATER",
+          "requiredEvent": "SPOOKY_FESTIVAL",
+          "damageRequirements": {
+            "magicImmune": false,
+            "physicalImmune": false,
+            "requiredTool": "NONE",
+            "damageCap": null
+          }
+        }
+      ]
+    }
+  ]
+}
