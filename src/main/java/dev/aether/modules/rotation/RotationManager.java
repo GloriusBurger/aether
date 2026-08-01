@@ -54,7 +54,6 @@ public class RotationManager {
         }
 
         targetRot = RotationUtils.getAdjustedEnd(startRot, end);
-        FailsafeManager.expectRotation(targetRot.yaw, targetRot.pitch);
 
         long configDuration = (long) ConfigHelpers.getRandomizedDelay(AetherConfig.ROTATION_TIME.get());
         long dynamicDuration = computeDynamicDuration(startRot, targetRot);
@@ -79,7 +78,6 @@ public class RotationManager {
         if (isRotating && !force) return;
         startRot = new RotationUtils.Rotation(mc.player.getYRot(), mc.player.getXRot());
         targetRot = RotationUtils.getAdjustedEnd(startRot, new RotationUtils.Rotation(yaw, pitch));
-        FailsafeManager.expectRotation(targetRot.yaw, targetRot.pitch);
         rotationDuration = Math.max(100, Math.max(durationMs, computeDynamicDuration(startRot, targetRot)));
         rotationStartTime = System.currentTimeMillis();
         applyTrackingNoise = false;
@@ -96,7 +94,6 @@ public class RotationManager {
         startRot = new RotationUtils.Rotation(mc.player.getYRot(), mc.player.getXRot());
         targetRot = RotationUtils.calculateLookAt(mc.player.getEyePosition(), targetPos);
         targetRot = RotationUtils.getAdjustedEnd(startRot, targetRot);
-        FailsafeManager.expectRotation(targetRot.yaw, targetRot.pitch);
         rotationDuration = Math.max(1, durationMs);
         rotationStartTime = System.currentTimeMillis();
         applyTrackingNoise = true;

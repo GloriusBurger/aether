@@ -24,7 +24,6 @@ public final class RotationExecutor {
         stopRotating();
         targetYaw   = endRot.yaw;
         targetPitch = endRot.pitch;
-        FailsafeManager.expectRotation(targetYaw, targetPitch);
         currStrat   = strategy;
         // Cache GCD once per navigation start instead of recomputing every tick
         double sens = mc.options.sensitivity().get();
