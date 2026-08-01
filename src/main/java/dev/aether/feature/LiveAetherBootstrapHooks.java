@@ -18,6 +18,7 @@ import dev.aether.modules.pest.helpers.VacuumParticleDebug;
 import dev.aether.modules.rotation.RotationManager;
 import dev.aether.modules.visuals.FreecamManager;
 import dev.aether.modules.visuals.FreelookManager;
+import dev.aether.modules.visuals.PestEspManager;
 import dev.aether.modules.visuals.StreamerModeManager;
 import dev.aether.renderer.AetherBackground;
 import dev.aether.renderer.AetherBackgroundScreens;
@@ -120,6 +121,11 @@ public final class LiveAetherBootstrapHooks implements AetherBootstrapHooks.Feat
     @Override
     public void renderFailsafeColourFlash() {
         FailsafeColourFlashManager.render();
+    }
+
+    @Override
+    public void renderPestEspTracerOverlay() {
+        PestEspManager.renderTracerOverlay();
     }
 
     @Override
