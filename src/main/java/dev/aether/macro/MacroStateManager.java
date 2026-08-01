@@ -235,6 +235,7 @@ public class MacroStateManager {
         ReconnectScheduler.cancel();
         PathfindingManager.stop();
         VisitorsMacro.stop(client);
+        dev.aether.modules.harp.HarpMacroManager.stop(client);
     }
 
     private static void runOnClientThread(Minecraft client, Runnable action) {
