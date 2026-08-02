@@ -151,8 +151,6 @@ public class HarpMacroManager {
                 ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
                 ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
                 
-                long now = System.currentTimeMillis();
-                
                 // 1. Process pending scheduled clicks
                 if (scheduledClicks[clickSlotIndex] != 0 && now >= scheduledClicks[clickSlotIndex]) {
                     if (now - lastClickTime >= 50) { // Global spam prevention
