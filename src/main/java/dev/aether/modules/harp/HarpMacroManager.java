@@ -20,6 +20,8 @@ public class HarpMacroManager {
     private static volatile int runGeneration = 0;
     private static volatile long lastClickTime = 0;
     private static final long[] lastSlotClickTime = new long[54];
+    private static final long[] scheduledClicks = new long[54];
+    private static final boolean[] blockInSlot = new boolean[54];
     private static volatile String lastGuiTitle = "";
     private static final java.util.Set<String> seenItems = new java.util.concurrent.ConcurrentSkipListSet<>();
     
@@ -131,20 +133,32 @@ public class HarpMacroManager {
                 ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
                 ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
                 
+                long now = System.currentTimeMillis();
+                
+                // 1. Process pending scheduled clicks
+                if (scheduledClicks[clickSlotIndex] != 0 && now >= scheduledClicks[clickSlotIndex]) {
+                    if (now - lastClickTime >= 50) { // Global spam prevention
+                        dev.aether.util.ClientUtils.sendMessage("\u00A7aClicking string " + (i + 1) + " (Slot " + clickSlotIndex + ")");
+                        clickSlot(client, screen, clickSlotIndex);
+                        scheduledClicks[clickSlotIndex] = 0; // Clear schedule
+                        lastSlotClickTime[clickSlotIndex] = now;
+                        lastClickTime = now;
+                    }
+                }
+                
+                // 2. Detect new notes and schedule them
                 if (isNoteBlock(noteStack) || isNoteBlock(clickStack)) {
-                    long now = System.currentTimeMillis();
-                    if (now - lastSlotClickTime[clickSlotIndex] < 150) continue; // Prevent spamming the same string
-                    if (now - lastClickTime < 50) return; // Prevent spamming too many clicks globally within 50ms
-                    
-                    int delay = ConfigHelpers.getRandomizedDelay(AetherConfig.HARP_CLICK_DELAY_MIN.get(), AetherConfig.HARP_CLICK_DELAY_MAX.get());
-                    MacroWorkerThread.sleep(delay);
-                    
-                    dev.aether.util.ClientUtils.sendMessage("\u00A7aClicking string " + (i + 1) + " (Slot " + clickSlotIndex + ")");
-                    clickSlot(client, screen, clickSlotIndex); // Click the corresponding bottom slot
-                    
-                    lastSlotClickTime[clickSlotIndex] = System.currentTimeMillis();
-                    lastClickTime = System.currentTimeMillis();
-                    return; // Only process one click per tick to mimic human
+                    if (!blockInSlot[clickSlotIndex]) {
+                        blockInSlot[clickSlotIndex] = true;
+                        
+                        // Schedule only if not clicked recently (anti-spam)
+                        if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
+                            int delay = ConfigHelpers.getRandomizedDelay(AetherConfig.HARP_CLICK_DELAY_MIN.get(), AetherConfig.HARP_CLICK_DELAY_MAX.get());
+                            scheduledClicks[clickSlotIndex] = now + delay;
+                        }
+                    }
+                } else {
+                    blockInSlot[clickSlotIndex] = false;
                 }
             }
         }
