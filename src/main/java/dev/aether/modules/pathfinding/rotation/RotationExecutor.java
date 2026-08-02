@@ -27,6 +27,7 @@ public final class RotationExecutor {
     private RotationExecutor() {}
 
     public static void rotateTo(Rotation endRot, IRotationStrategy strategy) {
+        if (FailsafeManager.shouldSuppressPestCleanerRotation(mc)) return;
         stopRotating();
         targetYaw   = endRot.yaw;
         targetPitch = endRot.pitch;
@@ -58,6 +59,7 @@ public final class RotationExecutor {
         if (player == null || !isRotating) return;
 
         if (hasExternalRotation(player)) {
+            FailsafeManager.reportExternalRotation();
             stopRotating();
             return;
         }

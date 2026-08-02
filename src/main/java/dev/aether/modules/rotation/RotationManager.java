@@ -52,6 +52,9 @@ public class RotationManager {
         if (isRotating)
             return;
 
+        if (FailsafeManager.shouldSuppressPestCleanerRotation(mc))
+            return;
+
         startRot = new RotationUtils.Rotation(mc.player.getYRot(), mc.player.getXRot());
         RotationUtils.Rotation end = RotationUtils.calculateLookAt(mc.player.getEyePosition(), targetPos);
         
@@ -83,6 +86,7 @@ public class RotationManager {
     public static void rotateToYawPitch(Minecraft mc, float yaw, float pitch, long durationMs, boolean force) {
         if (mc.player == null) return;
         if (isRotating && !force) return;
+        if (FailsafeManager.shouldSuppressPestCleanerRotation(mc)) return;
         startRot = new RotationUtils.Rotation(mc.player.getYRot(), mc.player.getXRot());
         targetRot = RotationUtils.getAdjustedEnd(startRot, new RotationUtils.Rotation(yaw, pitch));
         rotationDuration = Math.max(100, Math.max(durationMs, computeDynamicDuration(startRot, targetRot)));
@@ -99,6 +103,7 @@ public class RotationManager {
      */
     public static void forceRotation(Minecraft mc, Vec3 targetPos, long durationMs) {
         if (mc.player == null) return;
+        if (FailsafeManager.shouldSuppressPestCleanerRotation(mc)) return;
         startRot = new RotationUtils.Rotation(mc.player.getYRot(), mc.player.getXRot());
         targetRot = RotationUtils.calculateLookAt(mc.player.getEyePosition(), targetPos);
         targetRot = RotationUtils.getAdjustedEnd(startRot, targetRot);
@@ -117,6 +122,7 @@ public class RotationManager {
 
         if (isRotating && startRot != null && targetRot != null) {
             if (hasExternalRotation(mc)) {
+                FailsafeManager.reportExternalRotation();
                 cancelRotation();
                 return;
             }
