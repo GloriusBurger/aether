@@ -82,10 +82,10 @@ public class HarpMacroManager {
             }
             
             if (title.contains("Melody's Harp")) {
-                // If it's a 54-slot chest, it's the play GUI (or the song selection GUI which we ignore)
-                if (screen.getMenu().slots.size() >= 54) {
-                    handlePlaying(client, screen);
-                }
+                // Song selection menu - ignored
+            } else if (screen.getMenu().slots.size() >= 54) {
+                // Playing a song (assuming any 54-slot chest that isn't the selection menu is the play GUI)
+                handlePlaying(client, screen);
             }
         }
     }
