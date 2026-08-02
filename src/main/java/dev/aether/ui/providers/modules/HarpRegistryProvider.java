@@ -57,7 +57,7 @@ public final class HarpRegistryProvider extends AbstractMiningRegistryProvider {
                     }
                 }));
 
-        group.add(new SliderSetting("Click Delay Min", 0, 100,
+        group.add(new SliderSetting("Click Delay Min", 0f, 300f,
                 () -> (float) AetherConfig.HARP_CLICK_DELAY_MIN.get(),
                 v -> {
                     AetherConfig.HARP_CLICK_DELAY_MIN.set(Math.round(v));
@@ -65,7 +65,7 @@ public final class HarpRegistryProvider extends AbstractMiningRegistryProvider {
                 })
                 .withDecimals(0).withSuffix("ms"));
                 
-        group.add(new SliderSetting("Click Delay Max", 0, 100,
+        group.add(new SliderSetting("Click Delay Max", 0f, 300f,
                 () -> (float) AetherConfig.HARP_CLICK_DELAY_MAX.get(),
                 v -> {
                     AetherConfig.HARP_CLICK_DELAY_MAX.set(Math.round(v));
