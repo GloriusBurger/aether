@@ -150,7 +150,6 @@ public class HarpMacroManager {
             if (noteSlotIndex >= 0 && clickSlotIndex < screen.getMenu().slots.size()) {
                 ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
                 ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
-                long now = System.currentTimeMillis();
                 boolean isRow4Quartz = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(clickStack.getItem()).getPath().equals("quartz_block");
                 int minDelay = AetherConfig.HARP_CLICK_DELAY_MIN.get();
                 
