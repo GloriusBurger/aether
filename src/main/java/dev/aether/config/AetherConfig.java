@@ -1015,7 +1015,5 @@ public final class AetherConfig {
 
         // -- HARP MACRO ------------------------------------------------------------
         public static final BooleanEntry ENABLE_HARP_MACRO = Config.bool("enableHarpMacro", false);
-        public static final IntEntry HARP_CLICK_DELAY_MIN = Config.integer("harpClickDelayMin", 10).range(0, 600);
-        public static final IntEntry HARP_CLICK_DELAY_MAX = Config.integer("harpClickDelayMax", 50).range(0, 600);
-        public static final StringEntry HARP_SONG = Config.string("harpSong", "Hymn to the Joy");
+        public static final IntEntry HARP_CLICK_DELAY = Config.integer("harpClickDelay", 150).range(0, 600);
 }

@@ -82,40 +82,10 @@ public class HarpMacroManager {
             }
             
             if (title.contains("Melody's Harp")) {
-                // Song selection menu
-                handleSongSelection(client, screen);
-                MacroWorkerThread.sleep(500); // Wait after a selection check
-            } else if (screen.getMenu().slots.size() >= 54) {
-                // Playing a song (assuming any 54-slot chest that isn't the selection menu is the play GUI)
-                handlePlaying(client, screen);
-            }
-        }
-    }
-
-    private static void handleSongSelection(Minecraft client, AbstractContainerScreen<?> screen) {
-        String targetSong = AetherConfig.HARP_SONG.get();
-        if (targetSong == null || targetSong.isEmpty()) return;
-        
-        // Ensure the string matches the item names in the game by removing formatting and checking equality/contains
-        String targetNormalized = dev.aether.util.TablistUtils.stripColors(targetSong).toLowerCase();
-        
-        for (Slot slot : screen.getMenu().slots) {
-            ItemStack stack = slot.getItem();
-            if (stack == null || stack.isEmpty()) continue;
-            
-            Component hoverNameComp = stack.getHoverName();
-            if (hoverNameComp == null) continue;
-            
-            String itemName = dev.aether.util.TablistUtils.stripColors(hoverNameComp.getString()).toLowerCase();
-            if (itemName.equals(targetNormalized) || itemName.contains(targetNormalized)) {
-                // Found the song, click it!
-                int delay = ConfigHelpers.getRandomizedDelay(AetherConfig.HARP_CLICK_DELAY_MIN.get(), AetherConfig.HARP_CLICK_DELAY_MAX.get());
-                MacroWorkerThread.sleep(delay);
-                
-                ClientUtils.sendMessage("\u00A7aSelecting song: " + targetSong);
-                clickSlot(client, screen, slot.index);
-                MacroWorkerThread.sleep(1000); // Wait for the new GUI to load
-                return;
+                // If it's a 54-slot chest, it's the play GUI (or the song selection GUI which we ignore)
+                if (screen.getMenu().slots.size() >= 54) {
+                    handlePlaying(client, screen);
+                }
             }
         }
     }
@@ -152,25 +122,9 @@ public class HarpMacroManager {
             if (noteSlotIndex >= 0 && clickSlotIndex < screen.getMenu().slots.size()) {
                 ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
                 ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
-                boolean isRow4Quartz = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(clickStack.getItem()).getPath().equals("quartz_block");
-                int minDelay = AetherConfig.HARP_CLICK_DELAY_MIN.get();
+                int delay = AetherConfig.HARP_CLICK_DELAY.get();
                 
-                // 1. REACTION MODE (Always active if we see quartz!)
-                if (isRow4Quartz) {
-                    if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
-                        if (now - lastClickTime >= 50) {
-                            String msg = "[Reaction] Clicking string " + (i + 1);
-                            dev.aether.util.ClientUtils.sendMessage("\u00A7a" + msg);
-                            dev.aether.Aether.LOGGER.info(msg);
-                            clickSlot(client, screen, clickSlotIndex);
-                            lastSlotClickTime[clickSlotIndex] = now;
-                            lastClickTime = now;
-                            scheduledClicks[clickSlotIndex] = 0; // Cancel any pending prediction!
-                        }
-                    }
-                }
-                
-                // 2. Process pending scheduled clicks (PREDICTION MODE)
+                // 1. Process pending scheduled clicks
                 if (scheduledClicks[clickSlotIndex] != 0 && now >= scheduledClicks[clickSlotIndex]) {
                     if (now - lastClickTime >= 50) { // Global spam prevention
                         String msg = "[Prediction] Clicking string " + (i + 1);
@@ -183,21 +137,18 @@ public class HarpMacroManager {
                     }
                 }
                 
-                // 3. Detect new notes and schedule them
-                if (minDelay > 0) { // Only predict if delay > 0
-                    if (isNoteBlock(noteStack)) {
-                        if (!blockInSlot[clickSlotIndex]) {
-                            blockInSlot[clickSlotIndex] = true;
-                            
-                            // Schedule only if not clicked recently (anti-spam)
-                            if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
-                                int delay = ConfigHelpers.getRandomizedDelay(minDelay, AetherConfig.HARP_CLICK_DELAY_MAX.get());
-                                scheduledClicks[clickSlotIndex] = now + delay;
-                            }
+                // 2. Detect new notes and schedule them
+                if (isNoteBlock(noteStack)) {
+                    if (!blockInSlot[clickSlotIndex]) {
+                        blockInSlot[clickSlotIndex] = true;
+                        
+                        // Schedule only if not clicked recently (anti-spam)
+                        if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
+                            scheduledClicks[clickSlotIndex] = now + delay;
                         }
-                    } else {
-                        blockInSlot[clickSlotIndex] = false;
                     }
+                } else {
+                    blockInSlot[clickSlotIndex] = false;
                 }
             }
         }
