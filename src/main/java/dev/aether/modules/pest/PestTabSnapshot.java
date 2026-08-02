@@ -51,15 +51,10 @@ record PestTabSnapshot(
                 aliveCount = Math.max(aliveCount, Integer.parseInt(aliveMatcher.group(1)));
             }
 
-            if (normalized.toUpperCase().contains("MAX PESTS")) {
-                aliveCount = 99;
-            }
-
             Matcher cooldownMatcher = COOLDOWN_PATTERN.matcher(normalized);
             if (cooldownMatcher.find()) {
                 String value = cooldownMatcher.group(1).toUpperCase();
                 if (value.contains("MAX PEST")) {
-                    aliveCount = 99;
                     cooldownSeconds = 999;
                 } else if (value.equals("READY")) {
                     cooldownSeconds = 0;
