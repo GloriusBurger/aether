@@ -27,7 +27,7 @@ public class HarpMacroManager {
 
     public static void start(Minecraft client) {
         if (isRunning) {
-            ClientUtils.sendDebugMessage("\u00A7cHarp macro is already running.");
+            ClientUtils.sendMessage("\u00A7cHarp macro is already running.");
             return;
         }
         
@@ -35,7 +35,7 @@ public class HarpMacroManager {
         shouldStop = false;
         int generation = ++runGeneration;
         seenItems.clear();
-        ClientUtils.sendDebugMessage("\u00A7eStarting Harp macro...");
+        ClientUtils.sendMessage("\u00A7eStarting Harp macro...");
         
         MacroStateManager.setCurrentState(MacroState.State.HARPING);
 
@@ -51,7 +51,7 @@ public class HarpMacroManager {
                     MacroWorkerThread.sleep(10); // Loop quickly for accuracy
                 }
             } catch (Exception e) {
-                ClientUtils.sendDebugMessage("\u00A7cHarp macro error: " + e.getMessage());
+                ClientUtils.sendMessage("\u00A7cHarp macro error: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 if (generation == runGeneration) {
@@ -68,7 +68,7 @@ public class HarpMacroManager {
     public static void stop(Minecraft client) {
         if (!isRunning) return;
         shouldStop = true;
-        ClientUtils.sendDebugMessage("\u00A7eStopping Harp macro...");
+        ClientUtils.sendMessage("\u00A7eStopping Harp macro...");
     }
 
     private static void tick(Minecraft client) {
@@ -78,7 +78,7 @@ public class HarpMacroManager {
             String title = screen.getTitle().getString();
             
             if (!title.equals(lastGuiTitle)) {
-                ClientUtils.sendDebugMessage("\u00A7b[Harp Debug] Opened GUI: " + title);
+                ClientUtils.sendMessage("\u00A7b[Harp Debug] Opened GUI: " + title);
                 lastGuiTitle = title;
             }
             
@@ -113,7 +113,7 @@ public class HarpMacroManager {
                 int delay = ConfigHelpers.getRandomizedDelay(AetherConfig.HARP_CLICK_DELAY_MIN.get(), AetherConfig.HARP_CLICK_DELAY_MAX.get());
                 MacroWorkerThread.sleep(delay);
                 
-                ClientUtils.sendDebugMessage("\u00A7aSelecting song: " + targetSong);
+                ClientUtils.sendMessage("\u00A7aSelecting song: " + targetSong);
                 clickSlot(client, screen, slot.index);
                 MacroWorkerThread.sleep(1000); // Wait for the new GUI to load
                 return;
@@ -143,7 +143,7 @@ public class HarpMacroManager {
                     int delay = ConfigHelpers.getRandomizedDelay(AetherConfig.HARP_CLICK_DELAY_MIN.get(), AetherConfig.HARP_CLICK_DELAY_MAX.get());
                     MacroWorkerThread.sleep(delay);
                     
-                    dev.aether.util.ClientUtils.sendDebugMessage("\u00A7aClicking string " + (i + 1) + " (Slot " + clickSlotIndex + ")");
+                    dev.aether.util.ClientUtils.sendMessage("\u00A7aClicking string " + (i + 1) + " (Slot " + clickSlotIndex + ")");
                     clickSlot(client, screen, clickSlotIndex); // Click the corresponding bottom slot
                     lastClickTime = System.currentTimeMillis();
                     return; // Only process one click per tick to mimic human
@@ -166,7 +166,7 @@ public class HarpMacroManager {
         String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).getPath();
         
         if (seenItems.add(id)) {
-            ClientUtils.sendDebugMessage("\u00A7b[Harp Debug] Saw item: " + id);
+            ClientUtils.sendMessage("\u00A7b[Harp Debug] Saw item: " + id);
         }
         
         return id.contains("wool") || id.contains("clay") || id.contains("terracotta");
