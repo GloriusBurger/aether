@@ -155,7 +155,22 @@ public class HarpMacroManager {
                 boolean isRow4Quartz = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(clickStack.getItem()).getPath().equals("quartz_block");
                 int minDelay = AetherConfig.HARP_CLICK_DELAY_MIN.get();
                 
-                // 1. Process pending scheduled clicks
+                // 1. REACTION MODE (Always active if we see quartz!)
+                if (isRow4Quartz) {
+                    if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
+                        if (now - lastClickTime >= 50) {
+                            String msg = "[Reaction] Clicking string " + (i + 1);
+                            dev.aether.util.ClientUtils.sendMessage("\u00A7a" + msg);
+                            dev.aether.Aether.LOGGER.info(msg);
+                            clickSlot(client, screen, clickSlotIndex);
+                            lastSlotClickTime[clickSlotIndex] = now;
+                            lastClickTime = now;
+                            scheduledClicks[clickSlotIndex] = 0; // Cancel any pending prediction!
+                        }
+                    }
+                }
+                
+                // 2. Process pending scheduled clicks (PREDICTION MODE)
                 if (scheduledClicks[clickSlotIndex] != 0 && now >= scheduledClicks[clickSlotIndex]) {
                     if (now - lastClickTime >= 50) { // Global spam prevention
                         String msg = "[Prediction] Clicking string " + (i + 1);
@@ -168,24 +183,8 @@ public class HarpMacroManager {
                     }
                 }
                 
-                if (minDelay == 0) {
-                    // --- REACTION MODE ---
-                    if (isRow4Quartz) {
-                        if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
-                            if (now - lastClickTime >= 50) {
-                                String msg = "[Reaction] Clicking string " + (i + 1);
-                                dev.aether.util.ClientUtils.sendMessage("\u00A7a" + msg);
-                                dev.aether.Aether.LOGGER.info(msg);
-                                clickSlot(client, screen, clickSlotIndex);
-                                lastSlotClickTime[clickSlotIndex] = now;
-                                lastClickTime = now;
-                                scheduledClicks[clickSlotIndex] = 0;
-                            }
-                        }
-                    }
-                } else {
-                    // --- PREDICTION MODE ---
-                    // 2. Detect new notes and schedule them
+                // 3. Detect new notes and schedule them
+                if (minDelay > 0) { // Only predict if delay > 0
                     if (isNoteBlock(noteStack)) {
                         if (!blockInSlot[clickSlotIndex]) {
                             blockInSlot[clickSlotIndex] = true;
