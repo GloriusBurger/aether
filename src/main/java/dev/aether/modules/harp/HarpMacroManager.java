@@ -19,6 +19,8 @@ public class HarpMacroManager {
     private static volatile boolean shouldStop = false;
     private static volatile int runGeneration = 0;
     private static volatile long lastClickTime = 0;
+    private static volatile String lastGuiTitle = "";
+    private static final java.util.Set<String> seenItems = new java.util.concurrent.ConcurrentSkipListSet<>();
     
     // Slots for the click targets in the Harp minigame (Row 5 - slots 37 to 43)
     private static final int[] CLICK_SLOTS = {37, 38, 39, 40, 41, 42, 43};
@@ -32,6 +34,7 @@ public class HarpMacroManager {
         isRunning = true;
         shouldStop = false;
         int generation = ++runGeneration;
+        seenItems.clear();
         ClientUtils.sendDebugMessage("\u00A7eStarting Harp macro...");
         
         MacroStateManager.setCurrentState(MacroState.State.HARPING);
@@ -74,12 +77,17 @@ public class HarpMacroManager {
         if (client.screen instanceof AbstractContainerScreen<?> screen) {
             String title = screen.getTitle().getString();
             
+            if (!title.equals(lastGuiTitle)) {
+                ClientUtils.sendDebugMessage("\u00A7b[Harp Debug] Opened GUI: " + title);
+                lastGuiTitle = title;
+            }
+            
             if (title.contains("Melody's Harp")) {
                 // Song selection menu
                 handleSongSelection(client, screen);
                 MacroWorkerThread.sleep(500); // Wait after a selection check
-            } else if (title.startsWith("Harp - ")) {
-                // Playing a song
+            } else if (screen.getMenu().slots.size() >= 54) {
+                // Playing a song (assuming any 54-slot chest that isn't the selection menu is the play GUI)
                 handlePlaying(client, screen);
             }
         }
@@ -156,6 +164,11 @@ public class HarpMacroManager {
         }
         
         String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).getPath();
+        
+        if (seenItems.add(id)) {
+            ClientUtils.sendDebugMessage("\u00A7b[Harp Debug] Saw item: " + id);
+        }
+        
         return id.contains("wool") || id.contains("clay") || id.contains("terracotta");
     }
 
