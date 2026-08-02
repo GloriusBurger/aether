@@ -36,8 +36,6 @@ public class HarpMacroManager {
         int generation = ++runGeneration;
         seenItems.clear();
         ClientUtils.sendMessage("\u00A7eStarting Harp macro...");
-        
-        MacroStateManager.setCurrentState(MacroState.State.HARPING);
 
         MacroWorkerThread.getInstance().submit("HarpMacro", () -> {
             try {
@@ -57,9 +55,6 @@ public class HarpMacroManager {
                 if (generation == runGeneration) {
                     isRunning = false;
                     shouldStop = false;
-                    if (MacroStateManager.getCurrentState() == MacroState.State.HARPING) {
-                        MacroStateManager.setCurrentState(MacroState.State.OFF);
-                    }
                 }
             }
         });
