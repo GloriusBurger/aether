@@ -136,7 +136,9 @@ public class HarpMacroManager {
                 
                 if (!id.equals(previousItems[i])) {
                     if (!id.equals("air") || previousItems[i] != null) {
-                        dev.aether.util.ClientUtils.sendMessage("\u00A78[Debug " + (now % 10000) + "] Slot " + i + ": " + previousItems[i] + " -> " + id);
+                        String msg = "[Debug " + (now % 10000) + "] Slot " + i + ": " + previousItems[i] + " -> " + id;
+                        dev.aether.util.ClientUtils.sendMessage("\u00A78" + msg);
+                        dev.aether.Aether.LOGGER.info(msg);
                     }
                     previousItems[i] = id;
                 }
@@ -156,7 +158,9 @@ public class HarpMacroManager {
                 // 1. Process pending scheduled clicks
                 if (scheduledClicks[clickSlotIndex] != 0 && now >= scheduledClicks[clickSlotIndex]) {
                     if (now - lastClickTime >= 50) { // Global spam prevention
-                        dev.aether.util.ClientUtils.sendMessage("\u00A7a[Prediction] Clicking string " + (i + 1));
+                        String msg = "[Prediction] Clicking string " + (i + 1);
+                        dev.aether.util.ClientUtils.sendMessage("\u00A7a" + msg);
+                        dev.aether.Aether.LOGGER.info(msg);
                         clickSlot(client, screen, clickSlotIndex);
                         scheduledClicks[clickSlotIndex] = 0; // Clear schedule
                         lastSlotClickTime[clickSlotIndex] = now;
@@ -169,7 +173,9 @@ public class HarpMacroManager {
                     if (isRow4Quartz) {
                         if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
                             if (now - lastClickTime >= 50) {
-                                dev.aether.util.ClientUtils.sendMessage("\u00A7a[Reaction] Clicking string " + (i + 1));
+                                String msg = "[Reaction] Clicking string " + (i + 1);
+                                dev.aether.util.ClientUtils.sendMessage("\u00A7a" + msg);
+                                dev.aether.Aether.LOGGER.info(msg);
                                 clickSlot(client, screen, clickSlotIndex);
                                 lastSlotClickTime[clickSlotIndex] = now;
                                 lastClickTime = now;
