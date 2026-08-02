@@ -1,17 +1,11 @@
 package dev.aether.modules.harp;
 
 import dev.aether.config.AetherConfig;
-import dev.aether.config.ConfigHelpers;
-import dev.aether.macro.MacroState;
-import dev.aether.macro.MacroStateManager;
 import dev.aether.macro.MacroWorkerThread;
 import dev.aether.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
 
 import java.util.Queue;
@@ -23,6 +17,7 @@ public class HarpMacroManager {
     private static volatile int runGeneration = 0;
     private static volatile long lastClickTime = 0;
     private static final long[] lastSlotClickTime = new long[54];
+    @SuppressWarnings("unchecked")
     private static final Queue<Long>[] scheduledClicks = new Queue[54];
     static {
         for (int i = 0; i < 54; i++) {
@@ -30,7 +25,6 @@ public class HarpMacroManager {
         }
     }
     private static final boolean[][] previousGrid = new boolean[7][4];
-    private static final String[] previousItems = new String[54];
     private static volatile String lastGuiTitle = "";
     private static final java.util.Set<String> seenItems = new java.util.concurrent.ConcurrentSkipListSet<>();
 
@@ -95,9 +89,7 @@ public class HarpMacroManager {
             }
             
             if (title.contains("Melody's Harp")) {
-                // Song selection menu - ignored
             } else if (screen.getMenu().slots.size() >= 54) {
-                // Playing a song (assuming any 54-slot chest that isn't the selection menu is the play GUI)
                 handlePlaying(client, screen);
             }
         }
@@ -112,23 +104,19 @@ public class HarpMacroManager {
             int noteSlotIndex = clickSlotIndex - 9;
             
             if (noteSlotIndex >= 0 && clickSlotIndex < screen.getMenu().slots.size()) {
-                ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
-                ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
                 int delay = AetherConfig.HARP_CLICK_DELAY.get();
 
-                // 1. Process pending scheduled clicks
                 Queue<Long> clicks = scheduledClicks[clickSlotIndex];
                 Long nextClick = clicks.peek();
                 if (nextClick != null && now >= nextClick) {
-                    if (now - lastClickTime >= 10) { // Tiny stagger to prevent packet burst rejection
+                    if (now - lastClickTime >= 10) {
                         clicks.poll();
                         clickSlot(client, screen, clickSlotIndex);
                         lastSlotClickTime[clickSlotIndex] = now;
                         lastClickTime = now;
                     }
                 }
-                
-                // 2. Track grid movement to detect notes
+
                 boolean[] currentGrid = new boolean[4];
                 for (int r = 0; r < 4; r++) {
                     int slot = CLICK_SLOTS[i] - 9 * (4 - r);
@@ -139,12 +127,10 @@ public class HarpMacroManager {
                 
                 boolean[] prevGrid = previousGrid[i];
                 if (prevGrid != null && !java.util.Arrays.equals(currentGrid, prevGrid)) {
-                    if (currentGrid[3]) { // Row 3 currently has wool
+                    if (currentGrid[3]) {
                         if (!prevGrid[3]) {
-                            // Note fell into an empty Row 3
                             clicks.add(now + delay);
                         } else if (prevGrid[2]) {
-                            // Back-to-back case: Note B just entered Row 3
                             clicks.add(now + delay);
                         }
                     }
