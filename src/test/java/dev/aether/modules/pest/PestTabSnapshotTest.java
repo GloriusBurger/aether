@@ -27,10 +27,10 @@ class PestTabSnapshotTest {
     }
 
     @Test
-    void maxPestsOverridesOrdinaryCount() {
+    void maxPestsCooldownKeepsAliveCount() {
         PestTabSnapshot snapshot =
                 PestTabSnapshot.parse(List.of("Alive: 8", "Cooldown: MAX PESTS"));
-        assertEquals(99, snapshot.aliveCount());
+        assertEquals(8, snapshot.aliveCount());
         assertEquals(999, snapshot.cooldownSeconds());
     }
 }
