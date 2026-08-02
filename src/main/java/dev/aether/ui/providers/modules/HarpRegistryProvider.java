@@ -32,43 +32,10 @@ public final class HarpRegistryProvider extends AbstractMiningRegistryProvider {
                     }
                 });
         
-        List<String> songs = Arrays.asList(
-                "Hymn to the Joy",
-                "Frere Jacques",
-                "Amazing Grace",
-                "Brahms' Lullaby",
-                "Happy Birthday to You",
-                "Greensleeves",
-                "Jeanie with the Light Brown Hair",
-                "Minuet",
-                "Joy to the World",
-                "God Rest Ye Merry, Gentlemen",
-                "La Vie en Rose",
-                "Pachelbel's Canon",
-                "Through the Campfire"
-        );
-        
-        group.add(new DropdownSetting("Song", songs,
-                () -> Math.max(0, songs.indexOf(AetherConfig.HARP_SONG.get())),
+        group.add(new SliderSetting("Click Delay", 0f, 600f,
+                () -> (float) AetherConfig.HARP_CLICK_DELAY.get(),
                 v -> {
-                    if (v >= 0 && v < songs.size()) {
-                        AetherConfig.HARP_SONG.set(songs.get(v));
-                        AetherConfig.save();
-                    }
-                }));
-
-        group.add(new SliderSetting("Click Delay Min", 0f, 600f,
-                () -> (float) AetherConfig.HARP_CLICK_DELAY_MIN.get(),
-                v -> {
-                    AetherConfig.HARP_CLICK_DELAY_MIN.set(Math.round(v));
-                    AetherConfig.save();
-                })
-                .withDecimals(0).withSuffix("ms"));
-                
-        group.add(new SliderSetting("Click Delay Max", 0f, 600f,
-                () -> (float) AetherConfig.HARP_CLICK_DELAY_MAX.get(),
-                v -> {
-                    AetherConfig.HARP_CLICK_DELAY_MAX.set(Math.round(v));
+                    AetherConfig.HARP_CLICK_DELAY.set(Math.round(v));
                     AetherConfig.save();
                 })
                 .withDecimals(0).withSuffix("ms"));
