@@ -164,7 +164,7 @@ public class HarpMacroManager {
             ClientUtils.sendMessage("\u00A7b[Harp Debug] Saw item: " + id);
         }
         
-        return id.contains("wool") || id.contains("clay") || id.contains("terracotta");
+        return id.contains("wool");
     }
 
     private static void clickSlot(Minecraft client, AbstractContainerScreen<?> screen, int slot) {
