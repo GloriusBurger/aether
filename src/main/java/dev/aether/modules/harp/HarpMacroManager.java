@@ -22,6 +22,7 @@ public class HarpMacroManager {
     private static final long[] lastSlotClickTime = new long[54];
     private static final long[] scheduledClicks = new long[54];
     private static final boolean[] blockInSlot = new boolean[54];
+    private static final String[] previousItems = new String[54];
     private static volatile String lastGuiTitle = "";
     private static final java.util.Set<String> seenItems = new java.util.concurrent.ConcurrentSkipListSet<>();
     
@@ -124,6 +125,23 @@ public class HarpMacroManager {
         // A standard approach is to detect falling blocks in the slot just above the quartz block (Row 3).
         // Or in the click block itself (Row 4). Usually, clicking when the note is in row 3 works if ping is high.
         // We will check Row 3 (slots 28-34) and Row 4 (slots 37-43) for falling items (e.g., Clay, Wool).
+        
+        long now = System.currentTimeMillis();
+        
+        // Debugger: track all items in Row 3 and Row 4
+        for (int i = 28; i <= 43; i++) {
+            if (i < screen.getMenu().slots.size()) {
+                ItemStack stack = screen.getMenu().slots.get(i).getItem();
+                String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
+                
+                if (!id.equals(previousItems[i])) {
+                    if (!id.equals("air") || previousItems[i] != null) {
+                        dev.aether.util.ClientUtils.sendMessage("\u00A78[Debug " + (now % 10000) + "] Slot " + i + ": " + previousItems[i] + " -> " + id);
+                    }
+                    previousItems[i] = id;
+                }
+            }
+        }
         
         for (int i = 0; i < 7; i++) {
             int clickSlotIndex = CLICK_SLOTS[i];
