@@ -125,10 +125,13 @@ public class HarpMacroManager {
         
         for (int i = 0; i < 7; i++) {
             int clickSlotIndex = CLICK_SLOTS[i];
-            if (clickSlotIndex < screen.getMenu().slots.size()) {
+            int noteSlotIndex = clickSlotIndex - 9; // Row 3
+            
+            if (noteSlotIndex >= 0 && clickSlotIndex < screen.getMenu().slots.size()) {
+                ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
                 ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
                 
-                if (isNoteBlock(clickStack)) {
+                if (isNoteBlock(noteStack) || isNoteBlock(clickStack)) {
                     long now = System.currentTimeMillis();
                     if (now - lastSlotClickTime[clickSlotIndex] < 150) continue; // Prevent spamming the same string
                     if (now - lastClickTime < 50) return; // Prevent spamming too many clicks globally within 50ms
