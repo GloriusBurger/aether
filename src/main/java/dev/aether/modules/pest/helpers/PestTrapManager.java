@@ -637,12 +637,16 @@ public class PestTrapManager {
         if (client == null) {
             return;
         }
-        PestClientThread.run(client, () -> {
+        boolean closed = PestClientThread.call(client, () -> {
             if (client.player != null && client.screen != null) {
                 client.player.closeContainer();
+                return true;
             }
-        });
-        MacroWorkerThread.sleep(200);
+            return false;
+        }, false);
+        if (closed && !client.isSameThread()) {
+            MacroWorkerThread.sleep(200);
+        }
     }
 
     private record TrapTarget(Vec3 eyePosition, double distance) {
