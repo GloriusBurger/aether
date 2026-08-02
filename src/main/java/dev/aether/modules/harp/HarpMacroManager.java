@@ -126,15 +126,12 @@ public class HarpMacroManager {
                 
                 // 1. Process pending scheduled clicks
                 if (scheduledClicks[clickSlotIndex] != 0 && now >= scheduledClicks[clickSlotIndex]) {
-                    if (now - lastClickTime >= 50) { // Global spam prevention
-                        String msg = "[Prediction] Clicking string " + (i + 1);
-                        dev.aether.util.ClientUtils.sendMessage("\u00A7a" + msg);
-                        dev.aether.Aether.LOGGER.info(msg);
-                        clickSlot(client, screen, clickSlotIndex);
-                        scheduledClicks[clickSlotIndex] = 0; // Clear schedule
-                        lastSlotClickTime[clickSlotIndex] = now;
-                        lastClickTime = now;
-                    }
+                    String msg = "[Prediction] Clicking string " + (i + 1);
+                    dev.aether.util.ClientUtils.sendMessage("\u00A7a" + msg);
+                    dev.aether.Aether.LOGGER.info(msg);
+                    clickSlot(client, screen, clickSlotIndex);
+                    scheduledClicks[clickSlotIndex] = 0; // Clear schedule
+                    lastSlotClickTime[clickSlotIndex] = now;
                 }
                 
                 // 2. Detect new notes and schedule them
