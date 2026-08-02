@@ -33,7 +33,6 @@ public class HarpMacroManager {
         shouldStop = false;
         int generation = ++runGeneration;
         ClientUtils.sendDebugMessage("\u00A7eStarting Harp macro...");
-        dev.aether.modules.farming.UngrabMouse.requestMacroUngrab();
         
         MacroStateManager.setCurrentState(MacroState.State.HARPING);
 
@@ -124,11 +123,11 @@ public class HarpMacroManager {
             int clickSlotIndex = CLICK_SLOTS[i];
             int noteSlotIndex = clickSlotIndex - 9; // Row 3
             
-            if (noteSlotIndex >= 0 && noteSlotIndex < screen.getMenu().slots.size() && clickSlotIndex < screen.getMenu().slots.size()) {
-                Slot noteSlot = screen.getMenu().slots.get(noteSlotIndex);
-                ItemStack noteStack = noteSlot.getItem();
+            if (noteSlotIndex >= 0 && clickSlotIndex < screen.getMenu().slots.size()) {
+                ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
+                ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
                 
-                if (isNoteBlock(noteStack)) {
+                if (isNoteBlock(noteStack) || isNoteBlock(clickStack)) {
                     // Click!
                     long now = System.currentTimeMillis();
                     if (now - lastClickTime < 50) return; // Prevent spamming too many clicks globally within 50ms
@@ -148,8 +147,16 @@ public class HarpMacroManager {
     private static boolean isNoteBlock(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return false;
         Item item = stack.getItem();
+        
+        // Exclude background elements
+        if (item == net.minecraft.world.item.Items.AIR || 
+            item == net.minecraft.world.item.Items.QUARTZ_BLOCK || 
+            item.toString().contains("glass_pane")) {
+            return false;
+        }
+        
         String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).getPath();
-        return id.contains("wool") || id.contains("clay");
+        return id.contains("wool") || id.contains("clay") || id.contains("terracotta");
     }
 
     private static void clickSlot(Minecraft client, AbstractContainerScreen<?> screen, int slot) {
