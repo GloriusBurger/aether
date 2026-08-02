@@ -1,3 +1,4 @@
+
 dev.aether.ui.providers.modules.FarmingMacroRegistryProvider
 dev.aether.ui.providers.modules.RewarpRegistryProvider
 dev.aether.ui.providers.modules.PestManagerRegistryProvider
@@ -17,6 +18,7 @@ dev.aether.ui.providers.modules.MiscellaneousRegistryProvider
 dev.aether.ui.providers.modules.AutoCarnivalRegistryProvider
 dev.aether.ui.providers.modules.HarpRegistryProvider
 dev.aether.ui.providers.visuals.HudVisualsRegistryProvider
+
 dev.aether.ui.providers.visuals.NickHiderVisualsRegistryProvider
 dev.aether.ui.providers.visuals.FreecamVisualsRegistryProvider
 dev.aether.ui.providers.visuals.FreelookVisualsRegistryProvider

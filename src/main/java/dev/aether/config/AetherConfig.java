@@ -162,8 +162,6 @@ public final class AetherConfig {
                 String json = toJsonString();
                 try {
                         com.google.gson.JsonObject obj = com.google.gson.JsonParser.parseString(json).getAsJsonObject();
-                        obj.addProperty("discordWebhookUrl", "");
-                        obj.addProperty("remoteControlBotToken", "");
                         obj.add("coopNames", new com.google.gson.JsonArray());
                         obj.addProperty("customUsername", "");
                         obj.addProperty("serverNick", "");
@@ -196,7 +194,6 @@ public final class AetherConfig {
 
         // -- AUTHENTICATION --------------------------------------------------------
 
-        public static final BooleanEntry AUTO_UPDATE = Config.bool("autoUpdate", false);
         public static final StringEntry LANGUAGE_CODE = Config.string("languageCode", "en_us");
 
         // -- PEST ------------------------------------------------------------------
@@ -664,25 +661,6 @@ public final class AetherConfig {
         public static final BooleanEntry REWARP_HIGHLIGHT_START = Config.bool("rewarpHighlightStart", true);
         public static final ListEntry<String> REWARP_POINT_PAIRS = Config.list("rewarpPointPairs",
                         Arrays.asList(RewarpPointPair.defaultConfig(0)), String.class);
-
-        // -- DISCORD ---------------------------------------------------------------
-
-        /** Persisted locally; sanitized when config profiles are exported. */
-        public static final StringEntry DISCORD_WEBHOOK_URL = Config.string("discordWebhookUrl", "");
-        public static final IntEntry DISCORD_STATUS_UPDATE_TIME = Config.integer("discordStatusUpdateTime", 5).range(1,
-                        60);
-        public static final BooleanEntry SEND_DISCORD_STATUS = Config.bool("sendDiscordStatus", false);
-
-        // -- REMOTE CONTROL --------------------------------------------------------
-
-        public static final BooleanEntry REMOTE_CONTROL_ENABLED = Config.bool("remoteControlEnabled", false);
-        /** Persisted locally; sanitized when config profiles are exported. */
-        public static final StringEntry REMOTE_CONTROL_BOT_TOKEN = Config.string("remoteControlBotToken", "");
-        public static final StringEntry REMOTE_CONTROL_GUILD_ID = Config.string("remoteControlGuildId", "");
-        public static final StringEntry REMOTE_CONTROL_CHANNEL_ID = Config.string("remoteControlChannelId", "");
-        public static final StringEntry REMOTE_CONTROL_COMMAND_PREFIX = Config.string("remoteControlCommandPrefix", "!aether");
-        /** JSON object mapping Discord channel id to the user id pinged on failsafe. */
-        public static final StringEntry REMOTE_CONTROL_PING_TARGETS = Config.string("remoteControlPingTargets", "{}");
 
         // -- PROFIT / HUD ----------------------------------------------------------
 

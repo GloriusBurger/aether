@@ -7,7 +7,6 @@ import dev.aether.macro.MacroState;
 import dev.aether.macro.MacroStateManager;
 import dev.aether.bootstrap.AetherBootstrapHooks;
 import dev.aether.modules.CropFeverManager;
-import dev.aether.modules.discord.DiscordStatusManager;
 import dev.aether.modules.farming.BedrockPlotMaker;
 import dev.aether.modules.gear.GearManager;
 import dev.aether.modules.inventorymanager.AutoSellManager;
@@ -150,7 +149,6 @@ public final class AetherAutomationTickHandler {
         MacroStateManager.periodicUpdate();
         ProfitManager.update();
         BpsTracker.tick();
-        DiscordStatusManager.update();
         Theme.tickRainbow();
         PathfindingManager.update();
         RestartManager.update();

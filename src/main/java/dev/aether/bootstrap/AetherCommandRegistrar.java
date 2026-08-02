@@ -12,7 +12,6 @@ import dev.aether.macro.MacroStateManager;
 import dev.aether.modules.ComposterManager;
 import dev.aether.modules.GreenhouseManager;
 import dev.aether.modules.SupercraftManager;
-import dev.aether.modules.discord.DiscordStatusManager;
 import dev.aether.modules.forge.ForgeManager;
 import dev.aether.modules.failsafe.FailsafeTestManager;
 import dev.aether.modules.farming.BedrockPlotMaker;
@@ -115,18 +114,7 @@ public final class AetherCommandRegistrar {
                                         ClientUtils.sendMessage("\u00A7eStopped active macro.", false);
                                         return 1;
                                     }))
-                            .then(ClientCommands.literal("status")
-                                    .executes(ctx -> {
-                                        Minecraft client = Minecraft.getInstance();
-                                        if (DiscordStatusManager.requestManualStatusUpdate()) {
-                                            ClientUtils.sendMessage("\u00A7eSending Discord webhook status update.", false);
-                                            return 1;
-                                        }
 
-                                        ClientUtils.sendMessage("\u00A7cUnable to send Discord status update. Check your webhook URL or wait for the current screenshot to finish.",
-                                                false);
-                                        return 0;
-                                    }))
                             .then(ClientCommands.literal("printscoreboard")
                                     .executes(ctx -> printScoreboard(Minecraft.getInstance())))
                             .then(ClientCommands.literal("rotate")
