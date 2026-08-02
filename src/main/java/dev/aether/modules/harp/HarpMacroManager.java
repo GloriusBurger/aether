@@ -150,11 +150,14 @@ public class HarpMacroManager {
             if (noteSlotIndex >= 0 && clickSlotIndex < screen.getMenu().slots.size()) {
                 ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
                 ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
+                long now = System.currentTimeMillis();
+                boolean isRow4Quartz = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(clickStack.getItem()).getPath().equals("quartz_block");
+                int minDelay = AetherConfig.HARP_CLICK_DELAY_MIN.get();
                 
                 // 1. Process pending scheduled clicks
                 if (scheduledClicks[clickSlotIndex] != 0 && now >= scheduledClicks[clickSlotIndex]) {
                     if (now - lastClickTime >= 50) { // Global spam prevention
-                        dev.aether.util.ClientUtils.sendMessage("\u00A7aClicking string " + (i + 1) + " (Slot " + clickSlotIndex + ")");
+                        dev.aether.util.ClientUtils.sendMessage("\u00A7a[Prediction] Clicking string " + (i + 1));
                         clickSlot(client, screen, clickSlotIndex);
                         scheduledClicks[clickSlotIndex] = 0; // Clear schedule
                         lastSlotClickTime[clickSlotIndex] = now;
@@ -162,19 +165,35 @@ public class HarpMacroManager {
                     }
                 }
                 
-                // 2. Detect new notes and schedule them
-                if (isNoteBlock(noteStack) || isNoteBlock(clickStack)) {
-                    if (!blockInSlot[clickSlotIndex]) {
-                        blockInSlot[clickSlotIndex] = true;
-                        
-                        // Schedule only if not clicked recently (anti-spam)
+                if (minDelay == 0) {
+                    // --- REACTION MODE ---
+                    if (isRow4Quartz) {
                         if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
-                            int delay = ConfigHelpers.getRandomizedDelay(AetherConfig.HARP_CLICK_DELAY_MIN.get(), AetherConfig.HARP_CLICK_DELAY_MAX.get());
-                            scheduledClicks[clickSlotIndex] = now + delay;
+                            if (now - lastClickTime >= 50) {
+                                dev.aether.util.ClientUtils.sendMessage("\u00A7a[Reaction] Clicking string " + (i + 1));
+                                clickSlot(client, screen, clickSlotIndex);
+                                lastSlotClickTime[clickSlotIndex] = now;
+                                lastClickTime = now;
+                                scheduledClicks[clickSlotIndex] = 0;
+                            }
                         }
                     }
                 } else {
-                    blockInSlot[clickSlotIndex] = false;
+                    // --- PREDICTION MODE ---
+                    // 2. Detect new notes and schedule them
+                    if (isNoteBlock(noteStack)) {
+                        if (!blockInSlot[clickSlotIndex]) {
+                            blockInSlot[clickSlotIndex] = true;
+                            
+                            // Schedule only if not clicked recently (anti-spam)
+                            if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
+                                int delay = ConfigHelpers.getRandomizedDelay(minDelay, AetherConfig.HARP_CLICK_DELAY_MAX.get());
+                                scheduledClicks[clickSlotIndex] = now + delay;
+                            }
+                        }
+                    } else {
+                        blockInSlot[clickSlotIndex] = false;
+                    }
                 }
             }
         }
