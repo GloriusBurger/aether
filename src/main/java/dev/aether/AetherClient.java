@@ -3,7 +3,6 @@ package dev.aether;
 import dev.aether.bootstrap.AetherBootstrapHooks;
 import dev.aether.config.AetherConfig;
 import dev.aether.feature.ClientFeatureBootstrap;
-import dev.aether.modules.discord.DiscordRemoteControlManager;
 import dev.aether.feature.LiveAetherBootstrapHooks;
 import dev.aether.proxy.AetherProxyManager;
 import dev.aether.renderer.AetherRenderQueue;
@@ -18,9 +17,6 @@ public class AetherClient implements ClientModInitializer {
         AetherProxyManager.init();
         AetherBootstrapHooks.install(new LiveAetherBootstrapHooks());
         ClientFeatureBootstrap.initialize();
-        DiscordRemoteControlManager.restartFromConfig();
-
-        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> DiscordRemoteControlManager.shutdown());
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> ClientFeatureBootstrap.shutdown());
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> AetherConfig.flush());
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {

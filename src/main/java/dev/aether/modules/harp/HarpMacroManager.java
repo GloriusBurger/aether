@@ -14,19 +14,26 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
 
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 public class HarpMacroManager {
     private static volatile boolean isRunning = false;
     private static volatile boolean shouldStop = false;
     private static volatile int runGeneration = 0;
     private static volatile long lastClickTime = 0;
     private static final long[] lastSlotClickTime = new long[54];
-    private static final long[] scheduledClicks = new long[54];
-    private static final boolean[] blockInSlot = new boolean[54];
+    private static final Queue<Long>[] scheduledClicks = new Queue[54];
+    static {
+        for (int i = 0; i < 54; i++) {
+            scheduledClicks[i] = new ConcurrentLinkedQueue<>();
+        }
+    }
+    private static final boolean[][] previousGrid = new boolean[7][4];
     private static final String[] previousItems = new String[54];
     private static volatile String lastGuiTitle = "";
     private static final java.util.Set<String> seenItems = new java.util.concurrent.ConcurrentSkipListSet<>();
-    
-    // Slots for the click targets in the Harp minigame (Row 5 - slots 37 to 43)
+
     private static final int[] CLICK_SLOTS = {37, 38, 39, 40, 41, 42, 43};
 
     public static void start(Minecraft client) {
@@ -39,6 +46,12 @@ public class HarpMacroManager {
         shouldStop = false;
         int generation = ++runGeneration;
         seenItems.clear();
+        for (Queue<Long> queue : scheduledClicks) {
+            if (queue != null) queue.clear();
+        }
+        for (int i = 0; i < 7; i++) {
+            previousGrid[i] = new boolean[4];
+        }
         ClientUtils.sendMessage("\u00A7eStarting Harp macro...");
 
         MacroWorkerThread.getInstance().submit("HarpMacro", () -> {
@@ -91,62 +104,52 @@ public class HarpMacroManager {
     }
 
     private static void handlePlaying(Minecraft client, AbstractContainerScreen<?> screen) {
-        // Look for notes in Row 3 (slots 28 to 34) or Row 4 (slots 37 to 43).
-        // A standard approach is to detect falling blocks in the slot just above the quartz block (Row 3).
-        // Or in the click block itself (Row 4). Usually, clicking when the note is in row 3 works if ping is high.
-        // We will check Row 3 (slots 28-34) and Row 4 (slots 37-43) for falling items (e.g., Clay, Wool).
         
         long now = System.currentTimeMillis();
         
-        // Debugger: track all items in Row 3 and Row 4
-        for (int i = 28; i <= 43; i++) {
-            if (i < screen.getMenu().slots.size()) {
-                ItemStack stack = screen.getMenu().slots.get(i).getItem();
-                String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
-                
-                if (!id.equals(previousItems[i])) {
-                    if (!id.equals("air") || previousItems[i] != null) {
-                        String msg = "[Debug " + (now % 10000) + "] Slot " + i + ": " + previousItems[i] + " -> " + id;
-                        dev.aether.util.ClientUtils.sendMessage("\u00A78" + msg);
-                        dev.aether.Aether.LOGGER.info(msg);
-                    }
-                    previousItems[i] = id;
-                }
-            }
-        }
-        
         for (int i = 0; i < 7; i++) {
             int clickSlotIndex = CLICK_SLOTS[i];
-            int noteSlotIndex = clickSlotIndex - 9; // Row 3
+            int noteSlotIndex = clickSlotIndex - 9;
             
             if (noteSlotIndex >= 0 && clickSlotIndex < screen.getMenu().slots.size()) {
                 ItemStack noteStack = screen.getMenu().slots.get(noteSlotIndex).getItem();
                 ItemStack clickStack = screen.getMenu().slots.get(clickSlotIndex).getItem();
                 int delay = AetherConfig.HARP_CLICK_DELAY.get();
-                
+
                 // 1. Process pending scheduled clicks
-                if (scheduledClicks[clickSlotIndex] != 0 && now >= scheduledClicks[clickSlotIndex]) {
-                    String msg = "[Prediction] Clicking string " + (i + 1);
-                    dev.aether.util.ClientUtils.sendMessage("\u00A7a" + msg);
-                    dev.aether.Aether.LOGGER.info(msg);
-                    clickSlot(client, screen, clickSlotIndex);
-                    scheduledClicks[clickSlotIndex] = 0; // Clear schedule
-                    lastSlotClickTime[clickSlotIndex] = now;
+                Queue<Long> clicks = scheduledClicks[clickSlotIndex];
+                Long nextClick = clicks.peek();
+                if (nextClick != null && now >= nextClick) {
+                    if (now - lastClickTime >= 10) { // Tiny stagger to prevent packet burst rejection
+                        clicks.poll();
+                        clickSlot(client, screen, clickSlotIndex);
+                        lastSlotClickTime[clickSlotIndex] = now;
+                        lastClickTime = now;
+                    }
                 }
                 
-                // 2. Detect new notes and schedule them
-                if (isNoteBlock(noteStack)) {
-                    if (!blockInSlot[clickSlotIndex]) {
-                        blockInSlot[clickSlotIndex] = true;
-                        
-                        // Schedule only if not clicked recently (anti-spam)
-                        if (now - lastSlotClickTime[clickSlotIndex] >= 150) {
-                            scheduledClicks[clickSlotIndex] = now + delay;
+                // 2. Track grid movement to detect notes
+                boolean[] currentGrid = new boolean[4];
+                for (int r = 0; r < 4; r++) {
+                    int slot = CLICK_SLOTS[i] - 9 * (4 - r);
+                    if (slot >= 0 && slot < screen.getMenu().slots.size()) {
+                        currentGrid[r] = isNoteBlock(screen.getMenu().slots.get(slot).getItem());
+                    }
+                }
+                
+                boolean[] prevGrid = previousGrid[i];
+                if (prevGrid != null && !java.util.Arrays.equals(currentGrid, prevGrid)) {
+                    if (currentGrid[3]) { // Row 3 currently has wool
+                        if (!prevGrid[3]) {
+                            // Note fell into an empty Row 3
+                            clicks.add(now + delay);
+                        } else if (prevGrid[2]) {
+                            // Back-to-back case: Note B just entered Row 3
+                            clicks.add(now + delay);
                         }
                     }
-                } else {
-                    blockInSlot[clickSlotIndex] = false;
                 }
+                previousGrid[i] = currentGrid;
             }
         }
     }
@@ -155,7 +158,6 @@ public class HarpMacroManager {
         if (stack == null || stack.isEmpty()) return false;
         Item item = stack.getItem();
         
-        // Exclude background elements
         if (item == net.minecraft.world.item.Items.AIR || 
             item == net.minecraft.world.item.Items.QUARTZ_BLOCK || 
             item.toString().contains("glass_pane")) {
@@ -163,10 +165,7 @@ public class HarpMacroManager {
         }
         
         String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).getPath();
-        
-        if (seenItems.add(id)) {
-            ClientUtils.sendMessage("\u00A7b[Harp Debug] Saw item: " + id);
-        }
+        seenItems.add(id);
         
         return id.contains("wool");
     }
