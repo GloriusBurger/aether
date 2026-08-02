@@ -33,6 +33,7 @@ public class HarpMacroManager {
         shouldStop = false;
         int generation = ++runGeneration;
         ClientUtils.sendDebugMessage("\u00A7eStarting Harp macro...");
+        dev.aether.modules.farming.UngrabMouse.requestMacroUngrab();
         
         MacroStateManager.setCurrentState(MacroState.State.HARPING);
 
@@ -135,7 +136,8 @@ public class HarpMacroManager {
                     int delay = ConfigHelpers.getRandomizedDelay(AetherConfig.HARP_CLICK_DELAY_MIN.get(), AetherConfig.HARP_CLICK_DELAY_MAX.get());
                     MacroWorkerThread.sleep(delay);
                     
-                    clickSlot(client, screen, clickSlotIndex); // Click the corresponding bottom slot (Row 4)
+                    dev.aether.util.ClientUtils.sendDebugMessage("\u00A7aClicking string " + (i + 1) + " (Slot " + clickSlotIndex + ")");
+                    clickSlot(client, screen, clickSlotIndex); // Click the corresponding bottom slot
                     lastClickTime = System.currentTimeMillis();
                     return; // Only process one click per tick to mimic human
                 }
@@ -146,24 +148,14 @@ public class HarpMacroManager {
     private static boolean isNoteBlock(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return false;
         Item item = stack.getItem();
-        // Notes are usually wool or clay blocks. Wait, we can just check if it's not air and not a quartz block,
-        // and not a glass pane (which is used for background).
-        if (item == Items.AIR || item == Items.QUARTZ_BLOCK || item.toString().contains("glass_pane")) {
-            return false;
-        }
-        return true;
+        String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).getPath();
+        return id.contains("wool") || id.contains("clay");
     }
 
     private static void clickSlot(Minecraft client, AbstractContainerScreen<?> screen, int slot) {
         client.execute(() -> {
-            if (client.player == null || client.gameMode == null) return;
-            client.gameMode.handleInventoryMouseClick(
-                screen.getMenu().containerId,
-                slot,
-                0, // left click
-                net.minecraft.world.inventory.ClickType.PICKUP,
-                client.player
-            );
+            if (client.player == null) return;
+            dev.aether.util.ClientUtils.performSlotClick(screen, slot, 0, net.minecraft.world.inventory.ContainerInput.PICKUP);
         });
     }
 }

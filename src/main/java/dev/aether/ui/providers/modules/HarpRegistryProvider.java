@@ -2,7 +2,7 @@ package dev.aether.ui.providers.modules;
 
 import dev.aether.config.AetherConfig;
 import dev.aether.ui.MainGUIRegistry;
-import dev.aether.ui.providers.base.AbstractModulesRegistryProvider;
+import dev.aether.ui.providers.base.AbstractMiningRegistryProvider;
 import dev.aether.ui.settings.DropdownSetting;
 import dev.aether.ui.settings.ModulesTab;
 import dev.aether.ui.settings.SettingGroup;
@@ -11,7 +11,7 @@ import dev.aether.ui.settings.SliderSetting;
 import java.util.Arrays;
 import java.util.List;
 
-public final class HarpRegistryProvider extends AbstractModulesRegistryProvider {
+public final class HarpRegistryProvider extends AbstractMiningRegistryProvider {
     public HarpRegistryProvider() {
         super(15);
     }
@@ -32,7 +32,7 @@ public final class HarpRegistryProvider extends AbstractModulesRegistryProvider 
                     }
                 });
         
-        group.add(new DropdownSetting("Song", Arrays.asList(
+        List<String> songs = Arrays.asList(
                 "Hymn to the Joy",
                 "Frere Jacques",
                 "Amazing Grace",
@@ -46,11 +46,15 @@ public final class HarpRegistryProvider extends AbstractModulesRegistryProvider 
                 "La Vie en Rose",
                 "Pachelbel's Canon",
                 "Through the Campfire"
-        ),
-                () -> AetherConfig.HARP_SONG.get(),
+        );
+        
+        group.add(new DropdownSetting("Song", songs,
+                () -> Math.max(0, songs.indexOf(AetherConfig.HARP_SONG.get())),
                 v -> {
-                    AetherConfig.HARP_SONG.set(v);
-                    AetherConfig.save();
+                    if (v >= 0 && v < songs.size()) {
+                        AetherConfig.HARP_SONG.set(songs.get(v));
+                        AetherConfig.save();
+                    }
                 }));
 
         group.add(new SliderSetting("Click Delay Min", 0, 100,
